@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Deck/Dialog_Sperg.png" type="Texture" id=1]
+[ext_resource path="res://Scene/Dialog.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 84.4393, 34.0088 )
+
+[node name="Node2D" type="Node2D"]
+
+position = Vector2( 369.001, 37.0004 )
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Region", "Transform" ]
+
+[node name="Area2D" type="Area2D" parent="Sprite" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D" index="0"]
+
+position = Vector2( -2.99702, 6.00112 )
+scale = Vector2( 5.3866, 9.61937 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+
