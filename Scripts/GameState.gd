@@ -39,8 +39,8 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc" : "Special ability: adds Temple unit",
 			"seconday" : "computer",
-			"attack" : 1,
-			"defense" : 1
+			"attack" : 2,
+			"defense" : 2
 		},
 	"2":
 		{
@@ -50,8 +50,8 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"Special ability: adds Purifier effect",
 			"seconday" : "daemon",
-			"attack":1,
-			"defense":1
+			"attack":2,
+			"defense":2
 		},
 	"3":{
 			"type":"computer",
@@ -60,8 +60,8 @@ func _ready():
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"seconday" : "daemon",
-			"attack":1,
-			"defense":1
+			"attack":2,
+			"defense":2
 		}
 	}
 	medium_deck = { 
@@ -72,8 +72,8 @@ func _ready():
 			"desc" : "... and a real hero",
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"attack":1,
-			"defense":1
+			"attack":2,
+			"defense":2
 		},
 	"2":
 		{
@@ -83,7 +83,7 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 	"3":{
 			"type":"computer",
@@ -118,8 +118,8 @@ func _ready():
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":1,
-			"defense":1
+			"attack":2,
+			"defense":2
 		}
 	}
 
@@ -132,7 +132,7 @@ func _ready():
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 		
 	"2":
@@ -143,7 +143,7 @@ func _ready():
 			"tile":"res://Assets/Deck/Hex_Sperg.png",
 			"image":"res://Assets/Deck/Dialog_Sperg.png",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 	"3":{
 			"type":"computer",
@@ -152,7 +152,7 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... cries out as it strikes you",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 	"4":{
 			"type":"computer",
@@ -161,7 +161,7 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... is not your personal army",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 	"5":{
 			"type":"computer",
@@ -170,7 +170,7 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... is a fag",
 			"attack":3,
-			"defense":1
+			"defense":2
 		},
 	"6":{
 			"type":"computer",
@@ -179,7 +179,7 @@ func _ready():
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"description":"Stop sending me mail!",
 			"attack":3,
-			"defense":1
+			"defense":2
 		}
 	}
 	special_deck = {
@@ -217,34 +217,28 @@ func _ready():
 	}
 	
 	computer_1_card = { 
-	"1": {
 			"type" : "computer",
 			"name" : "Linux_box",
 			"tile":"res://Assets/hex_computer_1.png",
 			"desc" : "",
 			"attack" : 5,
 			"defense" : 5
-		}
 	}
 	computer_2_card = { 
-	"1": {
 			"type" : "computer",
 			"name" : "Linux_box_2",
 			"tile":"res://Assets/hex_computer_2.png",
 			"desc" : "",
 			"attack" : 5,
 			"defense" : 5
-		}
 	}
 	server_card = { 
-	"1": {
 			"type" : "computer",
 			"name" : "Server",
 			"tile":"res://Assets/hex_server.png",
 			"desc" : "",
 			"attack" : 10,
 			"defense" : 5
-		}
 	}
 func _process(delta):
 	if int(board_timer.time_left) == 0:

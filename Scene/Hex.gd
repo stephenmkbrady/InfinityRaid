@@ -26,6 +26,7 @@ var hex_defense = 1
 var hex_attack = 1
 var hex_card = null
 
+
 func _ready():
 	# Subscribe all hex instances to the action buttons
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
@@ -49,6 +50,7 @@ func _ready():
 	self.get_tree().get_root().get_node("/root/GameState").connect("card_drawn", self, "_on_card_drawn")
 	self.connect("input_event",self,"_on_Area2D_input_event")
 	
+	self.connect("hex_owner_changed",self,"_on_hex_owner_changed")
 	self.connect("hex_attack_changed",self,"_on_hex_attack_changed")
 	self.connect("hex_defense_changed",self,"_on_hex_defense_changed")
 	self.connect("hex_card_changed",self,"_on_hex_card_changed")
@@ -69,43 +71,52 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 			# TODO: Only allow placement if player_name == hex_owner
 			if self.hex_owner == GameState.player_name:
 				if action == 2:
-					self.get_parent().set_texture(load("res://Assets/hex_computer_1.png"))
-					self.set_hex_card(GameState.computer_1_card)
-					print("EWW ",hex_card)
-					print("SDSD ",hex_attack)
+					card = GameState.computer_1_card
+					self.get_parent().set_texture(load(card.tile))
+					self.set_hex_card(card)
 					update_hex()
 					emit_signal("computer_1_placed", self.get_parent().get_parent().get_position_in_parent())
 				elif action == 3:
-					self.get_parent().set_texture(load("res://Assets/hex_computer_2.png"))
-					set_hex_card( GameState.computer_2_card)
+					card = GameState.computer_2_card
+					self.get_parent().set_texture(load(card.tile))
+					set_hex_card( card)
 					update_hex()
 					emit_signal("computer_2_placed", self.get_parent().get_parent().get_position_in_parent())
 					
 				elif action == 4:
-					self.get_parent().set_texture(load("res://Assets/hex_server.png"))
-					set_hex_card( GameState.server_card)
+					card = GameState.server_card
+					self.get_parent().set_texture(load(card.tile))
+					set_hex_card( card)
 					update_hex()
 					emit_signal("server_placed", self.get_parent().get_parent().get_position_in_parent())
 			
 				if card != null and card.has("type") and card["type"] == "computer":
 					if action == 5:
+						set_hex_card( card )
+						
 						self.add_child(attack_indicator_array[int(card["attack"]) - 1])
-						self.get_parent().set_texture(load("res://Assets/hex_green.png"))
+						self.get_parent().set_texture(load(card.tile)) #"res://Assets/hex_green.png"
+						
 						update_hex()
 						emit_signal("high_placed", self.get_parent().get_parent().get_position_in_parent())
 					elif action == 6:
+						set_hex_card( card )
+						
 						self.add_child(attack_indicator_array[int(card["attack"]) - 1])
-						self.get_parent().set_texture(load("res://Assets/hex_gold.png"))
+						self.get_parent().set_texture(load(card.tile)) #"res://Assets/hex_gold.png"
+						
 						update_hex()
 						emit_signal("medium_placed", self.get_parent().get_parent().get_position_in_parent())
 					elif action == 7:
+						set_hex_card( card )
 						self.add_child(attack_indicator_array[int(card["attack"]) - 1])
-						self.get_parent().set_texture(load("res://Assets/hex_red.png"))
+						self.get_parent().set_texture(load(card.tile)) #"res://Assets/hex_red.png"
 						update_hex()
 						emit_signal("low_placed", self.get_parent().get_parent().get_position_in_parent())
 					elif action == 8:
+						set_hex_card( card )
 						self.add_child(attack_indicator_array[int(card["attack"]) - 1])
-						self.get_parent().set_texture(load("res://Assets/hex_blue.png"))
+						self.get_parent().set_texture(load(card.tile)) #"res://Assets/hex_blue.png"
 						update_hex()
 						emit_signal("special_placed", self.get_parent().get_parent().get_position_in_parent())
 				# Daemons don't have attacks, just effects
@@ -134,129 +145,76 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 
 func _on_card_drawn(arg):
 	card = arg
+
 func set_hex_owner( name ):
 	hex_owner = name
+	var player_node = Node2D.new()
+	var p_sprite = Sprite.new()
+	var p_marker = load("res://Assets/hex_player_"+name+".png")
+	p_sprite.set_texture(p_marker)
+	player_node.add_child(p_sprite)
+	if self.get_child(1) != null:
+		self.get_child(1).queue_free()
+
+	self.add_child(player_node)
 	emit_signal("hex_owner_changed")
+
 func set_hex_attack( value ):
 	hex_attack = value
 	emit_signal("hex_attack_changed")
+
 func set_hex_defence( value ):
 	hex_defense = value
 	emit_signal("hex_defense_change")
+
 func set_hex_card(card):
 	hex_card = card
 	if card != null:
-		print("blleeppepe ", card.values())
-		print("SGDSGDFGSDGFDSGFSFSBSGB")
-		hex_defense = card["1"]["defense"]
-		hex_attack = card["1"]["attack"]
+		print("set_hex_card ", card.values())
+		hex_defense = card["defense"]
+		hex_attack = card["attack"]
 		emit_signal("hex_card_changed")
+
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}
 
 
 func update_hex():
-#compare tile atk to surrounding def
-#if self.atk > targethex.def sorrounding tile is owned by player, reset tile to empty
-#if if atk == def, nothing happens
-#else def=def-atk, show cracks on minus defense
-
-	# We could just check all the surrounding hex's and ignore if null node, 
-	# but will want AI to know if the hex is in the corner/edge or center.
-	var N = self.get_parent().get_parent().get_position_in_parent()
-	var row
+	# Get list of surrounding enemy hex's, add to list and do calculation
+	# Compare tile atk to surrounding def
+	# if self.atk > targethex.def sorrounding tile is owned by player, reset tile to empty
+	# if if atk == def, nothing happens
+	# else def=def-atk, show cracks on minus defense
 	var surrounding_hex_cells = []
+	var N = self.get_parent().get_parent().get_position_in_parent()
 	
-	if N < GameState.board_length:
-		row = 0
-	else:
-		row = N / GameState.board_length
+	if _is_hex_enemy(N - 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N - 1))
+	if _is_hex_enemy(N + 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N + 1))
+	if _is_hex_enemy(N + GameState.board_length + 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N + GameState.board_length + 1))
+	if _is_hex_enemy(N + GameState.board_length - 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N + GameState.board_length - 1))
+	if _is_hex_enemy(N - GameState.board_length + 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N - GameState.board_length + 1))
+	if _is_hex_enemy(N - GameState.board_length - 1) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N - GameState.board_length - 1))
+	if _is_hex_enemy(N + GameState.board_length ) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N + GameState.board_length ))
+	if _is_hex_enemy(N - GameState.board_length ) != null:
+		surrounding_hex_cells.append(_is_hex_enemy(N - GameState.board_length ))
 
-	if (N < GameState.board_length - 1 and N > 0): # Top, not including corners: N<length-1, N>0
-		print("Top: ",N)
-		#print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-		#print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-		#print("BR: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-		#print("BL: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-		var r_data = self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data()
-		if r_data["hex_data"]["hex_owner"] != GameState.player_name:
-			r_data["hex_data"]["position"] = N + 1
-			surrounding_hex_cells.append(r_data)
-		var l_data = self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data()
-		if l_data["hex_data"]["hex_owner"] != GameState.player_name:
-			l_data["hex_data"]["position"] = N + 1
-			surrounding_hex_cells.append(l_data)
-		var br_data = self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data()
-		if br_data["hex_data"]["hex_owner"] != GameState.player_name:
-			br_data["hex_data"]["position"] = N + GameState.board_length + 1
-			surrounding_hex_cells.append(br_data)
-		var bl_data = self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data()
-		if bl_data["hex_data"]["hex_owner"] != GameState.player_name:
-			bl_data["hex_data"]["position"] = N + GameState.board_length - 1
-			surrounding_hex_cells.append(bl_data)
-		print ("CELL: ", surrounding_hex_cells)
-		for cell in surrounding_hex_cells: 
-			print(self.get_hex_data()["hex_data"]["hex_attack"], " : ", cell["hex_data"]["hex_defense"])
-			if int(self.get_hex_data()["hex_data"]["hex_attack"]) > cell["hex_data"]["hex_defense"]:
-				print("child: ",cell["hex_data"]["position"])
-				self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner( GameState.player_name )
-				self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_attack( 8 )
-				self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_defence( 8 )
-				self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_card(null)
-		print ("R_CELL: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-			
-	elif (N < ( (GameState.board_length * GameState.board_height) - 1) and N > (GameState.board_length * GameState.board_height) - GameState.board_length): #Bottom
-		print("Bottom: ", N)
-		print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-		print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-		print("TR: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-		print("TL: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-		pass # Check N-1, N+1, N-length-1, N-length+1, N-length
-	elif (N == 0): # Corner top left
-		print("TL Corner: ", N)
-		print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-		print("B: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("BR: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-	elif (N == GameState.board_length - 1): # Corner top right 
-		print("TR Corner: ",N)
-		print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-		print("B: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("BL: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-	elif (N == ((GameState.board_length * GameState.board_height) - GameState.board_length )): # Corner bottom left
-		print("BL Corner: ",N)
-		print("T: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-		print("TR: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-	elif (N == (GameState.board_length * GameState.board_height ) -1 ): # Corner bottom right
-		print("BR Corner: ",N)
-		print("T: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-		print("TL: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-	elif ((GameState.board_length * row) % N == 0): # Edges
-		var right_edge = N - 1
-		print("Left Edge: ", N, " - ", GameState.board_length, " * ", row)
-		print("Right Edge: ", right_edge, " - ", GameState.board_length, " * ", row)
-		if N == right_edge:
-			print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-			print("TL: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-			print("BL: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-		else:
-			print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-			print("TR: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-			print("BR: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-		print("B: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("T: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-	elif N > GameState.board_length and N < GameState.board_height * GameState.board_length:
-		print("I: ", N)
-		print("L: ", self.get_parent().get_parent().get_parent().get_child(N-1).get_node("Sprite/Area2D").get_hex_data())
-		print("R: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
-		print("B: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("T: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length).get_node("Sprite/Area2D").get_hex_data())
-		print("TL: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-		print("TR: ", self.get_parent().get_parent().get_parent().get_child(N - GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-		print("BR: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length+1).get_node("Sprite/Area2D").get_hex_data())
-		print("BL: ", self.get_parent().get_parent().get_parent().get_child(N + GameState.board_length-1).get_node("Sprite/Area2D").get_hex_data())
-		pass
+	print ("surrounding_enemy_hex_cells: ", surrounding_hex_cells)
+	for cell in surrounding_hex_cells: 
+		print(self.get_hex_data()["hex_data"]["hex_attack"], " : ", cell["hex_data"]["hex_defense"])
+		if int(self.get_hex_data()["hex_data"]["hex_attack"]) > cell["hex_data"]["hex_defense"]:
+			print("child: ",cell["hex_data"]["position"])
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner( GameState.player_name )
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_attack( 1 )
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_defence( 1 )
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_card(null)
+	print ("R_CELL: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
 
 func _on_hex_attack_changed():
 	print("hex_atk_changed")
@@ -267,7 +225,20 @@ func _on_hex_defense_changed():
 func _on_hex_card_changed():
 	print("hex_card_changed")
 	pass
-	
+func _on_hex_owner_changed():
+	print("hex_owner_changed")
+	pass
+func _is_hex_enemy( location_in_parent ):
+	# Returns hex_data if belongs to other player
+	# Returns null if not
+	if(self.get_parent().get_parent().get_parent().get_child(location_in_parent) != null):
+		var hex_data = self.get_parent().get_parent().get_parent().get_child(location_in_parent).get_node("Sprite/Area2D").get_hex_data()
+		if hex_data["hex_data"]["hex_owner"] != GameState.player_name:
+			hex_data["hex_data"]["position"] = location_in_parent
+			return hex_data
+	else:
+		return null
+
 #TODO Combine into one callback function, might need it for daemon actions
 func _on_computer_1_pressed( arg1 ):
 	action = arg1
