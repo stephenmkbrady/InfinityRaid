@@ -23,7 +23,6 @@ signal deck_empty
 
 func _ready():
 	randomize()
-	print("mod: ", (22%11))
 	_setup_and_start_timer()
 	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
 	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
@@ -217,29 +216,35 @@ func _ready():
 		}
 	}
 	
-	computer_1_card = {
-		"type" : "computer",
-		"name" : "Linux_box",
-		"tile":"res://Assets/hex_computer_1.png",
-		"desc" : "",
-		"attack" : 5,
-		"defense" : 5
+	computer_1_card = { 
+	"1": {
+			"type" : "computer",
+			"name" : "Linux_box",
+			"tile":"res://Assets/hex_computer_1.png",
+			"desc" : "",
+			"attack" : 5,
+			"defense" : 5
+		}
 	}
-	computer_2_card = {
-		"type" : "computer",
-		"name" : "Linux_box_2",
-		"tile":"res://Assets/hex_computer_2.png",
-		"desc" : "",
-		"attack" : 5,
-		"defense" : 5
+	computer_2_card = { 
+	"1": {
+			"type" : "computer",
+			"name" : "Linux_box_2",
+			"tile":"res://Assets/hex_computer_2.png",
+			"desc" : "",
+			"attack" : 5,
+			"defense" : 5
+		}
 	}
-	server_card = {
-		"type" : "computer",
-		"name" : "Server",
-		"tile":"res://Assets/hex_server.png",
-		"desc" : "",
-		"attack" : 10,
-		"defense" : 5
+	server_card = { 
+	"1": {
+			"type" : "computer",
+			"name" : "Server",
+			"tile":"res://Assets/hex_server.png",
+			"desc" : "",
+			"attack" : 10,
+			"defense" : 5
+		}
 	}
 func _process(delta):
 	if int(board_timer.time_left) == 0:
