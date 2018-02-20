@@ -15,8 +15,10 @@ var power_time = 30
 var board_height = 8
 var board_length = 11
 var board_timer
-# effect: butthurt/buttblasted
-
+var strength_indicator_array = []
+var green_indicator = load("res://Scene/Gem.tscn")
+var yellow_indicator = load("res://Scene/Gem.tscn")
+var red_indicator = load("res://Scene/Gem.tscn")
 var card
 signal card_drawn
 signal deck_empty
@@ -24,6 +26,7 @@ signal deck_empty
 func _ready():
 	randomize()
 	_setup_and_start_timer()
+	# Connect the buttons that trigger a card to be drawn from the deck
 	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
 	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
 	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
@@ -241,11 +244,19 @@ func _ready():
 			"defense" : 5
 	}
 func _process(delta):
-	if int(board_timer.time_left) == 0:
-		#For each tile on the board, from left to right, top to bottom, update it's attack/defense/owner
-		for tile in get_tree().get_root().get_node("Node2D/Position2D").get_children():
-			pass
-			
+	pass
+
+func get_strength_indicator(value):
+	var indicator
+	if value >= 2:
+		indicator = green_indicator.instance()
+	elif value == 1:
+		indicator = yellow_indicator.instance()
+		indicator.get_child(0).set_texture(load("res://Assets/hex_gem_yellow_simple.png"))
+	elif value == 0:
+		indicator = red_indicator.instance()
+		indicator.get_child(0).set_texture(load("res://Assets/hex_gem_red_simple.png"))
+	return indicator
 
 func _on_high_pressed( arg1 ):
 	_draw_card(high_deck)
@@ -282,10 +293,10 @@ func _check_board(board_length, board_height):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():
 		var N = c.get_position_in_parent()
 		if (N < board_length - 1 and N > 0): # Top, not including corners: N<length-1, N>0
-			print("Top: ",N)			
+			print("Top: ",N)
 			pass # Check N-1, N+1, N+length-1, N+length+1, N+length
 		elif (N < ( (board_length * board_height) - 1) and N > (board_length* board_height)-board_length): #Bottom
-			print("Bottom: ",N)			
+			print("Bottom: ",N)
 			pass # Check N-1, N+1, N-length-1, N-length+1, N-length
 		elif (N == 0): # Corner top left
 			print("TL Corner: ",N)
