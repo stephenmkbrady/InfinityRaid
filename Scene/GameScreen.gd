@@ -93,20 +93,10 @@ func _generate_map(board_width, board_height):
 	for y in range(0, board_height):
 		for x in range(0, board_width):
 			var tile_node = tile.instance()
-			#var player_node = Node2D.new()
-			#var p1_sprite = Sprite.new()
-			#var p2_sprite = Sprite.new()
-
-			#p1_sprite.set_texture(p1_marker)
-			#p1_sprite.set_scale(Vector2(0.2,0.2))
-			#p2_sprite.set_texture(p2_marker)
-			#p2_sprite.set_scale(Vector2(0.2,0.2))
 			
 			if x < ((board_width/2) ):
-				#player_node.add_child(p1_sprite)
 				tile_node.get_child(0).get_child(0).set_hex_owner(GameState.player_name)
 			else:
-				#player_node.add_child(p2_sprite)
 				tile_node.get_child(0).get_child(0).set_hex_owner(GameState.opponent_name)
 			# Every second row is offset again by half the tile width to form hex pattern
 			if y%2 == 0:
@@ -115,7 +105,6 @@ func _generate_map(board_width, board_height):
 			else:
 				var tile_pos_odd = ref_pos.translated((Vector2((x * tile_width), y * tile_height)))
 				tile_node.global_translate(tile_pos_odd.get_origin())
-			#tile_node.add_child(player_node)
 			get_node("Position2D").add_child(tile_node)
 			
 			#Finally connect signals between the hex tiles and thie main GameScreen
