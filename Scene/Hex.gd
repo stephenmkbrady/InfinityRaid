@@ -27,13 +27,13 @@ var game_state
 func _ready():
 	game_state = get_node("/root/GameState")
 	# Subscribe all hex instances to the action buttons
-	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
-	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_computer_2_pressed")
-	self.get_tree().get_root().get_node("Node2D/Server").connect("action_pressed",self,"_on_server_pressed")
-	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
-	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
-	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
-	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
+	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/Server").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_action_pressed")
 	# Subscribe to root node to know when another hex instance has fired hex_selected
 	self.get_tree().get_root().get_node("Node2D").connect("action_placed",self,"_on_action_placed")
 	self.get_tree().get_root().get_node("Node2D").connect("computer_1_placed",self,"_on_computer_1_placed")
@@ -86,7 +86,7 @@ func set_hex_owner( name ):
 	hex_owner = name
 	var player_node = Node2D.new()
 	var p_sprite = Sprite.new()
-	var p_marker = load("res://Assets/hex_player_"+name+".png")
+	var p_marker = GameState.get_player_marker( hex_owner )
 	p_sprite.set_texture(p_marker)
 	player_node.add_child(p_sprite)
 	# If the player_node is on the node, replace it
@@ -179,23 +179,10 @@ func _is_hex_enemy( location_in_parent ):
 	else:
 		return null
 
-#TODO Combine into one callback function, might need it for daemon actions
-func _on_computer_1_pressed( arg1 ):
+func _on_action_pressed( arg1 ):
 	action = arg1
-func _on_computer_2_pressed( arg1 ):
-	action = arg1
-func _on_server_pressed( arg1 ):
-	action = arg1
-func _on_high_pressed( arg1 ):
-	action = arg1
-func _on_medium_pressed( arg1 ):
-	action = arg1
-func _on_low_pressed( arg1 ):
-	action = arg1
-func _on_special_pressed( arg1 ):
-	action = arg1
-	
-#TODO Combine into one callback function, might need it for daemon actions
+
+#TODO Will need it for daemon actions
 func _on_action_placed():
 	action = null
 func _on_computer_1_placed():

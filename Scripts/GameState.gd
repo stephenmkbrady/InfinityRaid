@@ -15,10 +15,10 @@ var power_time = 30
 var board_height = 8
 var board_length = 11
 var board_timer
-var strength_indicator_array = []
 var green_indicator = load("res://Scene/Gem.tscn")
 var yellow_indicator = load("res://Scene/Gem.tscn")
 var red_indicator = load("res://Scene/Gem.tscn")
+var p_marker
 var card
 signal card_drawn
 signal deck_empty
@@ -246,6 +246,9 @@ func _ready():
 func _process(delta):
 	pass
 
+func get_player_marker(name):
+	return load("res://Assets/hex_player_"+name+".png")
+	
 func get_strength_indicator(value):
 	var indicator
 	if value >= 2:
@@ -281,6 +284,7 @@ func _draw_card( deck ):
 		deck.erase(r)
 	else:
 		emit_signal("deck_empty")
+		
 
 func _setup_and_start_timer():
 	board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
