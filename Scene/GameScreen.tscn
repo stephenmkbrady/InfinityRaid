@@ -13,7 +13,7 @@
 [ext_resource path="res://Assets/button_action_low_1.png" type="Texture" id=11]
 [ext_resource path="res://Assets/button_action_random_1.png" type="Texture" id=12]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 script = ExtResource( 1 )
 
