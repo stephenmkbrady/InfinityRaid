@@ -14,7 +14,6 @@ var board_update_time = 5
 var power_time = 30 
 var board_height = 8
 var board_length = 11
-var board_timer
 var green_indicator = load("res://Scene/Gem.tscn")
 var yellow_indicator = load("res://Scene/Gem.tscn")
 var red_indicator = load("res://Scene/Gem.tscn")
@@ -25,13 +24,13 @@ signal deck_empty
 
 func _ready():
 	randomize()
-	_setup_and_start_timer()
+	#_setup_and_start_timer()
 	# Connect the buttons that trigger a card to be drawn from the deck
-	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
-	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
-	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
-	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
-	self.connect("card_drawn",self.get_tree().get_root().get_node("Node2D"), "_on_card_drawn")
+	#self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
+	#self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
+	#self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
+	#self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
+	#self.connect("card_drawn",self.get_tree().get_root().get_node("Node2D"), "_on_card_drawn")
 	
 	high_deck = {
 	"1":
@@ -284,12 +283,6 @@ func _draw_card( deck ):
 		deck.erase(r)
 	else:
 		emit_signal("deck_empty")
-		
-
-func _setup_and_start_timer():
-	board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
-	board_timer.set_wait_time(board_update_time)
-	board_timer.start()
 
 func _check_board(board_length, board_height):
 	# Describes the edges and corners and center hexes of the board.

@@ -1,6 +1,7 @@
 extends Node2D
 
 var timer
+var board_timer
 var progress_bar
 
 signal action_placed
@@ -17,6 +18,7 @@ func _ready():
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
 	_generate_map(GameState.board_length, GameState.board_height)
+	get_tree().get_root().get_node("/root/GameState").connect("card_drawn",self, "_on_card_drawn")
 
 func _process(delta):
 	progress_bar.set_value(GameState.power_time - int(timer.time_left))
@@ -133,6 +135,9 @@ func _setup_and_start_timer():
 	timer = get_node("Power_Timer")
 	timer.set_wait_time(GameState.power_time)
 	timer.start()
+	board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
+	board_timer.set_wait_time(board_update_time)
+	board_timer.start()
 
 func _set_hex_pickable( arg ):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():
