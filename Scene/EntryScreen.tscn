@@ -3,7 +3,7 @@
 [ext_resource path="res://Scene/Button.gd" type="Script" id=1]
 [ext_resource path="res://Scene/Button2.gd" type="Script" id=2]
 
-[node name="EntryNode" type="Node2D" index="0"]
+[node name="EntryNode" type="Node2D"]
 
 [node name="GridContainer" type="GridContainer" parent="." index="0"]
 
