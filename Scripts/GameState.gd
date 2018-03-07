@@ -285,14 +285,31 @@ remote func _draw_card( deck, r_id ):
 		var r = str(randi() % deck.size() + 1)
 		if deck.has(r):
 			if r_id != 1:
-				rpc_id(r_id, "_on_card_drawn", deck[r])
+				print("remote_on_card_drawn")
+				rpc_id(r_id, "remote_on_card_drawn", deck[r])
 			else:
 				emit_signal("card_drawn", deck[r])
 			deck.erase(r)
 		else:
+			print("implement empty deck condition")
 			emit_signal("deck_empty")
 	else:
 		rpc_id(1,'_draw_card', deck, r_id)
+
+func _on_card_drawn(card):
+	print("card: ", card["tile"])
+	if card.has("image"):
+		var dialog = load("res://Scene/Dialog.tscn").instance()
+		dialog.get_child(0).set_texture(load(card["image"]))
+		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
+		
+remote func remote_on_card_drawn(card):
+	print("card_remote: ", card["tile"])
+	if card.has("image"):
+		var dialog = load("res://Scene/Dialog.tscn").instance()
+		dialog.get_child(0).set_texture(load(card["image"]))
+		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
+		emit_signal("card_drawn", card)
 
 # Not using this yet
 func _check_board(board_length, board_height):
@@ -418,7 +435,6 @@ func _generate_map(board_width, board_height):
 			#Disable the hex's until unit card is drawn
 			tile_node.get_child(0).get_child(0).set_pickable(false)
 
-
 func _connect_to_action_buttons():
 	# Subscribe to the action buttons
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
@@ -495,31 +511,14 @@ func _on_special_placed(arg1):
 	_set_hex_pickable(false)
 	timer.start()
 
-func _on_hex_attack_changed():
-	pass
-func _on_hex_defense_changed():
-	pass
-
+#func _on_hex_attack_changed():
+#	pass
+#func _on_hex_defense_changed():
+#	pass
 #func _on_hex_card_changed(card, pos):
-#	print("hex_card_changed: ", pos, " - ",card["name"])
-#	for p in GameState.players:
-#		print("pl: ", p)
-#		rpc_id(p, "remote_update_hex_card", card, pos)
 	#pass
-
 #remote func remote_update_hex_card( card, pos):
-#	print("remote_update_hex_card: ", pos, " - ",card["name"])
-#	self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0).set_hex_card(get_tree().get_network_unique_id(), card)
-
-#func _on_hex_owner_changed( id, pos ):
-#	print("hex_owner_changed: ", id, " : ", pos)
-
-remote func _on_card_drawn(card):
-	print("card: ", card)
-	if card.has("image"):
-		var dialog = load("res://Scene/Dialog.tscn").instance()
-		dialog.get_child(0).set_texture(load(card["image"]))
-		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
+	#pass
 
 func _set_hex_pickable( arg ):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():

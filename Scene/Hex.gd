@@ -91,9 +91,9 @@ func set_hex_owner(id,  name, sync_remote = false ):
 		self.get_child(1).queue_free()
 	self.add_child(player_node)
 
-	var pos = self.get_parent().get_parent().get_position_in_parent()
 	#emit_signal("hex_owner_changed", name,  pos)
 	if sync_remote:
+		var pos = self.get_parent().get_parent().get_position_in_parent()
 		for p in GameState.players:
 			rpc_id(p, "remote_update_hex_owner", name, pos)
 
@@ -111,6 +111,7 @@ func set_hex_defence( value ):
 func set_hex_card(card, sync_remote = false ):
 	hex_card = card
 	if card != null:
+		print("CARD: ", hex_card["tile"])
 		self.get_parent().set_texture(load(card.tile))
 		var pos = self.get_parent().get_parent().get_position_in_parent()
 		if card.has("defense") and card.has("attack"):
@@ -164,7 +165,6 @@ func update_board():
 
 	for cell in surrounding_hex_cells: 
 		if int(self.get_hex_data()["hex_data"]["hex_attack"]) > cell["hex_data"]["hex_defense"]:
-			print("reeee")
 			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner(get_tree().get_network_unique_id(), game_state.player_name, true )
 			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_attack( 1 )
 			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_defence( 1 )
