@@ -8,10 +8,14 @@
 
 config_version=3
 
+[Debug]
+
+=false
+
 [application]
 
 config/name="InfinityRaid"
-run/main_scene="res://Scene/EntryScreen.tscn"
+run/main_scene="res://Scene/NetworkSetupScreen.tscn"
 config/icon="res://Assets/button_action_low_5.png"
 
 [autoload]
@@ -19,6 +23,10 @@ config/icon="res://Assets/button_action_low_5.png"
 global="*res://Scripts/global.gd"
 GameState="*res://Scripts/GameState.gd"
 NetCode="*res://Scripts/NetCode.gd"
+
+[debug]
+
+=false
 
 [rendering]
 

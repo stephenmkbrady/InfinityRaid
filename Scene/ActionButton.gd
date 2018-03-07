@@ -6,13 +6,14 @@ var turn_time = 30
 var timer
 
 func _ready():
-	connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_high_pressed")
-	connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_medium_pressed")
-	connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_low_pressed")
-	connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_special_pressed")
-	get_parent().connect("computer_1_placed",self,"_on_computer_1_placed")
-	get_parent().connect("computer_2_placed",self,"_on_computer_2_placed")
-	get_parent().connect("server_placed",self,"_on_server_placed")
+	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_high_pressed")
+	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_medium_pressed")
+	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_low_pressed")
+	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_special_pressed")
+	var game_state = get_tree().get_root().get_node("/root/GameState")
+	game_state.connect("computer_1_placed",self,"_on_computer_1_placed")
+	game_state.connect("computer_2_placed",self,"_on_computer_2_placed")
+	game_state.connect("server_placed",self,"_on_server_placed")
 # make action 5 - 8 buttons grey and disabled
 	timer = get_parent().get_node("Power_Timer")
 	if self.get_position_in_parent() >= 5 and self.get_position_in_parent() <= 8:

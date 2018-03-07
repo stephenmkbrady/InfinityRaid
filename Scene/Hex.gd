@@ -1,17 +1,17 @@
 extends Area2D
 
-signal computer_1_placed
-signal computer_2_placed
-signal server_placed
-signal high_placed
-signal medium_placed
-signal low_placed
-signal special_placed
+signal computer_1_placed()
+signal computer_2_placed()
+signal server_placed()
+signal high_placed()
+signal medium_placed()
+signal low_placed()
+signal special_placed()
 
-signal hex_attack_changed
-signal hex_defense_changed
-signal hex_card_changed
-signal hex_owner_changed
+signal hex_attack_changed()
+signal hex_defense_changed()
+signal hex_card_changed()
+signal hex_owner_changed()
 
 var action
 var timer
@@ -35,23 +35,21 @@ func _ready():
 	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_action_pressed")
 	# Subscribe to root node to know when another hex instance has fired hex_selected
-	self.get_tree().get_root().get_node("Node2D").connect("action_placed",self,"_on_action_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("computer_1_placed",self,"_on_computer_1_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("computer_2_placed",self,"_on_computer_2_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("server_placed",self,"_on_server_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("action_placed", self, "_on_high_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("high_placed", self, "_on_high_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("medium_placed", self, "_on_medium_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("low_placed", self, "_on_low_placed")
-	self.get_tree().get_root().get_node("Node2D").connect("special_placed", self, "_on_special_placed")
+	var game_state = get_tree().get_root().get_node("/root/GameState")
+	game_state.connect("action_placed",self,"_on_action_placed")
+	game_state.connect("computer_1_placed",self,"_on_computer_1_placed")
+	game_state.connect("computer_2_placed",self,"_on_computer_2_placed")
+	game_state.connect("server_placed",self,"_on_server_placed")
+	game_state.connect("action_placed", self, "_on_high_placed")
+	game_state.connect("high_placed", self, "_on_high_placed")
+	game_state.connect("medium_placed", self, "_on_medium_placed")
+	game_state.connect("low_placed", self, "_on_low_placed")
+	game_state.connect("special_placed", self, "_on_special_placed")
 	# Subscribe to GameState to find out 
 	self.get_tree().get_root().get_node("/root/GameState").connect("card_drawn", self, "_on_card_drawn")
 	self.connect("input_event",self,"_on_Area2D_input_event")
 	
-	self.connect("hex_owner_changed",self,"_on_hex_owner_changed")
-	self.connect("hex_attack_changed",self,"_on_hex_attack_changed")
-	self.connect("hex_defense_changed",self,"_on_hex_defense_changed")
-	self.connect("hex_card_changed",self,"_on_hex_card_changed")
+
 
 func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
@@ -74,15 +72,14 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 					emit_signal("low_placed", self.get_parent().get_parent().get_position_in_parent())
 				elif action == 8:
 					emit_signal("special_placed", self.get_parent().get_parent().get_position_in_parent())
-
-				set_hex_card( card )
+				set_hex_card( card, true )
 			else:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]You can only place programs in computers you own[/center]")
 
 func _on_card_drawn(arg):
 	card = arg
 
-func set_hex_owner( name ):
+func set_hex_owner(id,  name, sync_remote = false ):
 	hex_owner = name
 	var player_node = Node2D.new()
 	var p_sprite = Sprite.new()
@@ -93,33 +90,53 @@ func set_hex_owner( name ):
 	if self.get_child(1) != null:
 		self.get_child(1).queue_free()
 	self.add_child(player_node)
-	emit_signal("hex_owner_changed")
+
+	var pos = self.get_parent().get_parent().get_position_in_parent()
+	#emit_signal("hex_owner_changed", name,  pos)
+	if sync_remote:
+		for p in GameState.players:
+			rpc_id(p, "remote_update_hex_owner", name, pos)
+
+remote func remote_update_hex_owner(id, pos):
+	self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0).set_hex_owner(get_tree().get_network_unique_id(), id)
 
 func set_hex_attack( value ):
 	hex_attack = value
-	emit_signal("hex_attack_changed")
+	#emit_signal("hex_attack_changed")
 
 func set_hex_defence( value ):
 	hex_defense = value
-	emit_signal("hex_defense_change")
+	#emit_signal("hex_defense_changed")
 
-func set_hex_card(card):
+func set_hex_card(card, sync_remote = false ):
 	hex_card = card
 	if card != null:
 		self.get_parent().set_texture(load(card.tile))
-		print("set_hex_card ", card)
+		var pos = self.get_parent().get_parent().get_position_in_parent()
 		if card.has("defense") and card.has("attack"):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
 			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack))
-		emit_signal("hex_card_changed")
-	update_board()
+		# emit_signal("hex_card_changed", card,  self.get_parent().get_parent().get_position_in_parent())
+		if sync_remote:
+			rpc("remote_update_hex_card", card, pos)
+		update_board()
+
+remote func remote_update_hex_card(card, pos):
+	var hex_cell = self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0)
+	hex_cell.hex_card = card
+	self.get_parent().set_texture(load(card.tile))
+	if card.has("defense") and card.has("attack"):
+		hex_cell.set_hex_defence(int(card["defense"]))
+		hex_cell.set_hex_attack(int(card["attack"]))
+		hex_cell.get_parent().add_child(game_state.get_strength_indicator(int(card["attack"])))
 
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}
 
 
 func update_board():
+#	var hex_cell = self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0)
 	# Get list of surrounding enemy hex's, add to list and do calculation
 	# Compare tile atk to surrounding def
 	# if self.atk > targethex.def sorrounding tile is owned by player, reset tile to empty
@@ -145,33 +162,18 @@ func update_board():
 	if _is_hex_enemy(N - game_state.board_length ) != null:
 		surrounding_hex_cells.append(_is_hex_enemy(N - game_state.board_length ))
 
-	# print ("surrounding_enemy_hex_cells: ", surrounding_hex_cells)
 	for cell in surrounding_hex_cells: 
-		print(self.get_hex_data()["hex_data"]["hex_attack"], " : ", cell["hex_data"]["hex_defense"])
 		if int(self.get_hex_data()["hex_data"]["hex_attack"]) > cell["hex_data"]["hex_defense"]:
-			print("child: ",cell["hex_data"]["position"])
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner( game_state.player_name )
+			print("reeee")
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner(get_tree().get_network_unique_id(), game_state.player_name, true )
 			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_attack( 1 )
 			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_defence( 1 )
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_card(null)
-	print ("R_CELL: ", self.get_parent().get_parent().get_parent().get_child(N + 1).get_node("Sprite/Area2D").get_hex_data())
+			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_card(null, false)
 
-func _on_hex_attack_changed():
-	print("hex_atk_changed")
-	pass
-func _on_hex_defense_changed():
-	print("hex_def_changed")
-	pass
-func _on_hex_card_changed():
-	print("hex_card_changed")
-	pass
-func _on_hex_owner_changed():
-	print("hex_owner_changed")
-	pass
 func _is_hex_enemy( location_in_parent ):
 	# Returns hex_data if belongs to other player
 	# Returns null if not
-	if(self.get_parent().get_parent().get_parent().get_child(location_in_parent) != null):
+	if(location_in_parent >= 0 and location_in_parent < GameState.board_cell_count and self.get_parent().get_parent().get_parent().get_child(location_in_parent) != null):
 		var hex_data = self.get_parent().get_parent().get_parent().get_child(location_in_parent).get_node("Sprite/Area2D").get_hex_data()
 		if hex_data["hex_data"]["hex_owner"] != game_state.player_name:
 			hex_data["hex_data"]["position"] = location_in_parent
