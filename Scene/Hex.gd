@@ -109,7 +109,7 @@ func set_hex_card(card, sync_remote = false ):
 		if card.has("defense") and card.has("attack"):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
-			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack))
+			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack, hex_defense))
 		if sync_remote:
 			rpc("remote_update_hex_card", card, pos)
 		update_board()
@@ -121,7 +121,7 @@ remote func remote_update_hex_card(card, pos):
 	if card.has("defense") and card.has("attack"):
 		hex_cell.set_hex_defence(int(card["defense"]))
 		hex_cell.set_hex_attack(int(card["attack"]))
-		hex_cell.get_parent().add_child(game_state.get_strength_indicator(int(card["attack"])))
+		hex_cell.get_parent().add_child(game_state.get_strength_indicator(int(card["attack"]), int(card["defense"])))
 
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}

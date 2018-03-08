@@ -42,214 +42,21 @@ signal low_placed()
 
 func _ready():
 	randomize()
+	var decks = {}
+	var file = File.new()
+	file.open("res://Assets/Deck/Deck.json", file.READ)
+	var text = file.get_as_text()
+	decks = JSON.parse(text).result
+	#print(decks.result)
+	file.close()
+	
+	high_deck = decks["high_deck"]
+	medium_deck = decks["medium_deck"]
+	low_deck = decks["low_deck"]
+	computer_1_card = decks["computer_1_card"]
+	computer_2_card = decks["computer_2_card"]
+	server_card = decks["server_card"]
 
-	high_deck = {
-	"1":
-		{
-			"type" : "computer",
-			"name" : "Prophet Terry Davis",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc" : "Special ability: adds Temple unit",
-			"seconday" : "computer",
-			"attack" : 2,
-			"defense" : 2
-		},
-	"2":
-		{
-			"type":"computer",
-			"name":"The Supreme Gentleman",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Special ability: adds Purifier effect",
-			"seconday" : "daemon",
-			"attack":2,
-			"defense":2
-		},
-	"3":{
-			"type":"computer",
-			"name":"chrischan",
-			"desc":"Special ability: adds Rosechu 2 turns later via cwcville daemon",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"seconday" : "daemon",
-			"attack":2,
-			"defense":2
-		}
-	}
-	medium_deck = { 
-	"1":
-		{
-			"type" : "computer",
-			"name" : "a real human bean",
-			"desc" : "... and a real hero",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"attack":2,
-			"defense":2
-		},
-	"2":
-		{
-			"type":"computer",
-			"name":"foreign hordes",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack":3,
-			"defense":2
-		},
-	"3":{
-			"type":"computer",
-			"name":"Lolcow",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack":2,
-			"defense":2
-		},
-	"4":{
-			"type":"computer",
-			"name":"Temple OS",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack":2,
-			"defense":2
-		},
-	"5":{
-			"type":"computer",
-			"name":"trolls",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack":2,
-			"defense":2
-		},
-	"6":{
-			"type":"computer",
-			"name":"rosechu",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack":2,
-			"defense":2
-		}
-	}
-	low_deck = {
-	"1":
-		{
-			"type" : "computer",
-			"name" : "mod",
-			"desc" : "... he does it for free",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"attack":3,
-			"defense":2
-		},
-		
-	"2":
-		{
-			"type":"computer",
-			"name":"sperg",
-			"desc":"REEEEEEE",
-			"tile":"res://Assets/Deck/Hex_Sperg.png",
-			"image":"res://Assets/Deck/Dialog_Sperg.png",
-			"attack":3,
-			"defense":2
-		},
-	"3":{
-			"type":"computer",
-			"name":"The merchant",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"... cries out as it strikes you",
-			"attack":3,
-			"defense":2
-		},
-	"4":{
-			"type":"computer",
-			"name":"anon",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"... is not your personal army",
-			"attack":3,
-			"defense":2
-		},
-	"5":{
-			"type":"computer",
-			"name":"OP",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"... is a fag",
-			"attack":3,
-			"defense":2
-		},
-	"6":{
-			"type":"computer",
-			"name":"Evazephon of Yandere",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"description":"Stop sending me mail!",
-			"attack":3,
-			"defense":2
-		}
-	}
-	var special_deck = {
-	"1":
-		{
-			"type" : "daemon",
-			"name" : "The fringe wizard's smile",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc" : "Reduces defense on all computers for 2 turns"
-		},
-	"2":
-		{
-			"type":"daemon",
-			"name":"Academics, please respond!?",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Reduces attack on all computers to 0 for 2 turns"
-		},
-	"3":{
-			"type":"daemon",
-			"name":"Magical realm of the gypsy",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Consumes enemy unit, remove enemy computer of your choice"
-		},
-	"4":{
-			"type":"daemon",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"name":"This is ribrary!",
-			"desc":""
-		}
-	}
-	computer_1_card = { 
-			"type" : "computer",
-			"name" : "Linux_box",
-			"tile":"res://Assets/hex_computer_1.png",
-			"desc" : "",
-			"attack" : 5,
-			"defense" : 5
-	}
-	computer_2_card = { 
-			"type" : "computer",
-			"name" : "Linux_box_2",
-			"tile":"res://Assets/hex_computer_2.png",
-			"desc" : "",
-			"attack" : 5,
-			"defense" : 5
-	}
-	server_card = { 
-			"type" : "computer",
-			"name" : "Server",
-			"tile":"res://Assets/hex_server.png",
-			"desc" : "",
-			"attack" : 10,
-			"defense" : 5
-	}
 func _process(delta):
 	if timer != null:
 		progress_bar.set_value(power_time - int(timer.time_left))
@@ -263,14 +70,14 @@ func get_player_name():
 func get_player_marker(name):
 	return load("res://Assets/hex_player_"+name+".png")
 	
-func get_strength_indicator(value):
+func get_strength_indicator(atk, def):
 	var indicator
-	if value >= 2:
+	if atk >= 2:
 		indicator = green_indicator.instance()
-	elif value == 1:
+	elif atk == 1:
 		indicator = yellow_indicator.instance()
 		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
-	elif value == 0:
+	elif atk == 0:
 		indicator = red_indicator.instance()
 		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
 	return indicator
