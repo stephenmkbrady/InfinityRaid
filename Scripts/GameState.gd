@@ -17,9 +17,9 @@ var power_time = 30
 var board_height = 8
 var board_length = 11
 var board_cell_count = 88
-var green_indicator = load("res://Scene/Gem.tscn")
-var yellow_indicator = load("res://Scene/Gem.tscn")
-var red_indicator = load("res://Scene/Gem.tscn")
+var green_indicator = load("res://Scene/StatusIndicator.tscn")
+var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
+var red_indicator = load("res://Scene/StatusIndicator.tscn")
 var p_marker
 var card
 
@@ -269,10 +269,10 @@ func get_strength_indicator(value):
 		indicator = green_indicator.instance()
 	elif value == 1:
 		indicator = yellow_indicator.instance()
-		indicator.get_child(0).set_texture(load("res://Assets/hex_gem_yellow_simple.png"))
+		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
 	elif value == 0:
 		indicator = red_indicator.instance()
-		indicator.get_child(0).set_texture(load("res://Assets/hex_gem_red_simple.png"))
+		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
 	return indicator
 
 func _on_player_name_changed ( new_name ):

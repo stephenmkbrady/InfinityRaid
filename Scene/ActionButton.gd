@@ -18,7 +18,7 @@ func _ready():
 			self.set_visible(false)
 		
 func _pressed():
-	emit_signal("action_pressed", self.get_position_in_parent())
+	emit_signal("action_pressed", self.get_name())
 
 func _process(delta):
 # monitor timer
@@ -63,6 +63,8 @@ func _process(delta):
 			self.set_disabled(true)
 			if self.name == "High" or self.name == "Medium":
 				self.set_visible(false)
+			elif self.name == "Low":
+				self.set_visible(true)
 			
 func _on_computer_1_placed( ):
 	if self.get_position_in_parent() == 2:

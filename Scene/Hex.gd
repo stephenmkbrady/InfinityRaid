@@ -52,20 +52,20 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
 			if self.hex_owner == game_state.player_name:
-				if action == 2:
+				if action == "Computer_1":
 					card = game_state.computer_1_card
 					emit_signal("computer_1_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 3:
+				elif action == "Computer_2":
 					card = game_state.computer_2_card
 					emit_signal("computer_2_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 4:
+				elif action == "Server":
 					card = game_state.server_card
 					emit_signal("server_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 5:
+				elif action == "High":
 					emit_signal("high_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 6:
+				elif action == "Medium":
 					emit_signal("medium_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 7:
+				elif action == "Low":
 					emit_signal("low_placed", self.get_parent().get_parent().get_position_in_parent())
 				set_hex_card( card, true )
 			else:
