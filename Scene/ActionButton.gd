@@ -6,10 +6,6 @@ var turn_time = 30
 var timer
 
 func _ready():
-	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_high_pressed")
-	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_medium_pressed")
-	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_low_pressed")
-	#connect("action_pressed",get_tree().get_root().get_node("/root/GameState"),"_on_special_pressed")
 	var game_state = get_tree().get_root().get_node("/root/GameState")
 	game_state.connect("computer_1_placed",self,"_on_computer_1_placed")
 	game_state.connect("computer_2_placed",self,"_on_computer_2_placed")

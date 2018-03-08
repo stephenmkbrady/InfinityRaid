@@ -6,7 +6,6 @@ signal server_placed()
 signal high_placed()
 signal medium_placed()
 signal low_placed()
-signal special_placed()
 
 signal hex_attack_changed()
 signal hex_defense_changed()
@@ -33,7 +32,6 @@ func _ready():
 	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_action_pressed")
-	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_action_pressed")
 	# Subscribe to root node to know when another hex instance has fired hex_selected
 	var game_state = get_tree().get_root().get_node("/root/GameState")
 	game_state.connect("action_placed",self,"_on_action_placed")
@@ -44,8 +42,7 @@ func _ready():
 	game_state.connect("high_placed", self, "_on_high_placed")
 	game_state.connect("medium_placed", self, "_on_medium_placed")
 	game_state.connect("low_placed", self, "_on_low_placed")
-	game_state.connect("special_placed", self, "_on_special_placed")
-	# Subscribe to GameState to find out 
+	
 	self.get_tree().get_root().get_node("/root/GameState").connect("card_drawn", self, "_on_card_drawn")
 	self.connect("input_event",self,"_on_Area2D_input_event")
 	
@@ -70,8 +67,6 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 					emit_signal("medium_placed", self.get_parent().get_parent().get_position_in_parent())
 				elif action == 7:
 					emit_signal("low_placed", self.get_parent().get_parent().get_position_in_parent())
-				elif action == 8:
-					emit_signal("special_placed", self.get_parent().get_parent().get_position_in_parent())
 				set_hex_card( card, true )
 			else:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]You can only place programs in computers you own[/center]")
@@ -90,8 +85,7 @@ func set_hex_owner(id,  name, sync_remote = false ):
 	if self.get_child(1) != null:
 		self.get_child(1).queue_free()
 	self.add_child(player_node)
-
-	#emit_signal("hex_owner_changed", name,  pos)
+	
 	if sync_remote:
 		var pos = self.get_parent().get_parent().get_position_in_parent()
 		for p in GameState.players:
@@ -102,11 +96,9 @@ remote func remote_update_hex_owner(id, pos):
 
 func set_hex_attack( value ):
 	hex_attack = value
-	#emit_signal("hex_attack_changed")
 
 func set_hex_defence( value ):
 	hex_defense = value
-	#emit_signal("hex_defense_changed")
 
 func set_hex_card(card, sync_remote = false ):
 	hex_card = card
@@ -118,7 +110,6 @@ func set_hex_card(card, sync_remote = false ):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
 			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack))
-		# emit_signal("hex_card_changed", card,  self.get_parent().get_parent().get_position_in_parent())
 		if sync_remote:
 			rpc("remote_update_hex_card", card, pos)
 		update_board()
@@ -198,6 +189,4 @@ func _on_high_placed():
 func _on_medium_placed():
 	action = null
 func _on_low_placed():
-	action = null
-func _on_special_placed():
 	action = null

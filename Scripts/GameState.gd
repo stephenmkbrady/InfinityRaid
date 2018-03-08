@@ -3,7 +3,6 @@ extends Node
 var high_deck # Strong computers and daemons with secondary effects
 var medium_deck # Strong computers and daemons
 var low_deck # Average computers and daemons
-#var special_deck # Daemons with good or bad effects, gamble
 var computer_1_card
 var computer_2_card
 var server_card
@@ -40,7 +39,6 @@ signal server_placed()
 signal high_placed()
 signal medium_placed()
 signal low_placed()
-#signal special_placed()
 
 func _ready():
 	randomize()
@@ -475,10 +473,6 @@ func _on_low_pressed( arg1 ):
 	_draw_card(low_deck, get_tree().get_network_unique_id())
 	timer.stop()
 
-#func _on_special_pressed( arg1 ):
-	#_draw_card(special_deck, get_tree().get_network_unique_id())
-	#timer.stop()
-
 func _on_computer_1_placed(arg1):
 	emit_signal("computer_1_placed")
 	_set_hex_pickable(false)
@@ -505,20 +499,6 @@ func _on_low_placed(arg1):
 	emit_signal("low_placed")
 	_set_hex_pickable(false)
 	timer.start()
-
-#func _on_special_placed(arg1):
-#	emit_signal("special_placed")
-#	_set_hex_pickable(false)
-#	timer.start()
-
-#func _on_hex_attack_changed():
-#	pass
-#func _on_hex_defense_changed():
-#	pass
-#func _on_hex_card_changed(card, pos):
-	#pass
-#remote func remote_update_hex_card( card, pos):
-	#pass
 
 func _set_hex_pickable( arg ):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():
