@@ -3,7 +3,7 @@ extends Node
 var high_deck # Strong computers and daemons with secondary effects
 var medium_deck # Strong computers and daemons
 var low_deck # Average computers and daemons
-var special_deck # Daemons with good or bad effects, gamble
+#var special_deck # Daemons with good or bad effects, gamble
 var computer_1_card
 var computer_2_card
 var server_card
@@ -40,7 +40,7 @@ signal server_placed()
 signal high_placed()
 signal medium_placed()
 signal low_placed()
-signal special_placed()
+#signal special_placed()
 
 func _ready():
 	randomize()
@@ -196,7 +196,7 @@ func _ready():
 			"defense":2
 		}
 	}
-	special_deck = {
+	var special_deck = {
 	"1":
 		{
 			"type" : "daemon",
@@ -426,7 +426,7 @@ func _generate_map(board_width, board_height):
 			tile_node.get_child(0).get_child(0).connect("high_placed", self, "_on_high_placed")
 			tile_node.get_child(0).get_child(0).connect("medium_placed", self, "_on_medium_placed")
 			tile_node.get_child(0).get_child(0).connect("low_placed", self, "_on_low_placed")
-			tile_node.get_child(0).get_child(0).connect("special_placed", self, "_on_special_placed")
+			#tile_node.get_child(0).get_child(0).connect("special_placed", self, "_on_special_placed")
 			
 			tile_node.get_child(0).get_child(0).connect("hex_owner_changed",self,"_on_hex_owner_changed")
 			tile_node.get_child(0).get_child(0).connect("hex_attack_changed",self,"_on_hex_attack_changed")
@@ -443,7 +443,7 @@ func _connect_to_action_buttons():
 	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
 	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
 	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
-	self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
+	#self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
 	pass
 
 func _setup_and_start_timer():
@@ -475,9 +475,9 @@ func _on_low_pressed( arg1 ):
 	_draw_card(low_deck, get_tree().get_network_unique_id())
 	timer.stop()
 
-func _on_special_pressed( arg1 ):
-	_draw_card(special_deck, get_tree().get_network_unique_id())
-	timer.stop()
+#func _on_special_pressed( arg1 ):
+	#_draw_card(special_deck, get_tree().get_network_unique_id())
+	#timer.stop()
 
 func _on_computer_1_placed(arg1):
 	emit_signal("computer_1_placed")
@@ -506,10 +506,10 @@ func _on_low_placed(arg1):
 	_set_hex_pickable(false)
 	timer.start()
 
-func _on_special_placed(arg1):
-	emit_signal("special_placed")
-	_set_hex_pickable(false)
-	timer.start()
+#func _on_special_placed(arg1):
+#	emit_signal("special_placed")
+#	_set_hex_pickable(false)
+#	timer.start()
 
 #func _on_hex_attack_changed():
 #	pass

@@ -7,10 +7,10 @@ path="res://.import/hex_player_2.png-4700fa26566a1d5a3a5d1425121755e8.stex"
 [deps]
 
 source_file="res://Assets/hex_player_2.png"
-source_md5="a612a4dd2027ea636cbbc751046d0fb2"
+source_md5="f21b49614e6b6ec20265f44dfa763ea3"
 
 dest_files=[ "res://.import/hex_player_2.png-4700fa26566a1d5a3a5d1425121755e8.stex" ]
-dest_md5="34071a907072629ed1431943070d9496"
+dest_md5="60fa3bbc4abc994c2014e58da47121d6"
 
 [params]
 

@@ -8,8 +8,6 @@
 
 config_version=3
 
-[Debug]
-
 =false
 
 [application]
@@ -24,11 +22,11 @@ global="*res://Scripts/global.gd"
 GameState="*res://Scripts/GameState.gd"
 NetCode="*res://Scripts/NetCode.gd"
 
-[debug]
+[backgrou]
 
 =false
 
 [rendering]
 
-environment/default_clear_color=Color( 0.114136, 0.203829, 0.34375, 1 )
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"

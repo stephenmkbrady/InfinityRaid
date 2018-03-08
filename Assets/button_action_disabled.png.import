@@ -7,10 +7,10 @@ path="res://.import/button_action_disabled.png-bf9878568a30bf77d586b2b1c6cda33c.
 [deps]
 
 source_file="res://Assets/button_action_disabled.png"
-source_md5="4ab1820134727dc1e814bd3bdda84147"
+source_md5="0418680679736303697026ec05501fbf"
 
 dest_files=[ "res://.import/button_action_disabled.png-bf9878568a30bf77d586b2b1c6cda33c.stex" ]
-dest_md5="9b2fc4a7505d91506cd904f0070bc20a"
+dest_md5="01139e1280e3f0cfb5f08ff94316b577"
 
 [params]
 

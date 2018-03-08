@@ -7,10 +7,10 @@ path="res://.import/progressbar_under.png-14efff81b348cb4ba7389ae739c93324.stex"
 [deps]
 
 source_file="res://Assets/progressbar_under.png"
-source_md5="f3c11dafc4343b169a8ed6985a333843"
+source_md5="322f23c45e1a07094b1613c0c7fa5264"
 
 dest_files=[ "res://.import/progressbar_under.png-14efff81b348cb4ba7389ae739c93324.stex" ]
-dest_md5="dc622f28bec9019563b5f41a62b87677"
+dest_md5="00e8cc1eea3957c243c78b22cd1cb6ad"
 
 [params]
 

@@ -6,7 +6,7 @@
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
-points = PoolVector2Array( 8.5, -5, 8.6, 5, 0.3, 9.9, -8.64, 5, -8.6, -5, 0, -10.3 )
+points = PoolVector2Array( 8.5, -5, 8.5, 5, 0, 10, -8.64, 4.5, -8.64, -4.5, 0, -10 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -30,8 +30,8 @@ _sections_unfolded = [ "Pickable" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D" index="0"]
 
-position = Vector2( -0.202838, 13.9055 )
-scale = Vector2( 21.5223, 19.1653 )
+position = Vector2( -0.159369, 0.962896 )
+scale = Vector2( 19.7129, 18.4839 )
 shape = SubResource( 1 )
 
 
