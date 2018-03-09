@@ -22,7 +22,6 @@ func _ready():
 
 func _process(delta):
 	if not get_node("VideoPlayer").is_playing() and not is_game_running:
-		print("play")
 		get_node("VideoPlayer").play()
 func _on_ClientJoinButton_pressed():
 	print("client mode")

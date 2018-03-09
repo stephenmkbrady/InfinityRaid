@@ -16,7 +16,7 @@ var board_update_time = 5
 var power_time = 90 #30 (30 15 15)
 var board_height = 10
 var board_length = 12
-var board_cell_count = 88
+var board_cell_count = board_height * board_length
 var green_indicator = load("res://Scene/StatusIndicator.tscn")
 var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
 var red_indicator = load("res://Scene/StatusIndicator.tscn")
@@ -270,17 +270,29 @@ func _on_low_pressed( arg1 ):
 func _on_computer_1_placed(arg1):
 	emit_signal("computer_1_placed")
 	power_time = power_time - 15
+	timer.stop()
+	timer.set_wait_time(power_time)
+	print("TIMER: ", timer.get_wait_time())
 	_set_hex_pickable(false)
+	timer.start()
 
 func _on_computer_2_placed(arg1):
 	emit_signal("computer_2_placed")
 	power_time = power_time - 15
+	timer.stop()
+	timer.set_wait_time(power_time)
+	print("TIMER: ", timer.get_wait_time())
 	_set_hex_pickable(false)
+	timer.start()
+
 
 func _on_server_placed(arg1):
 	emit_signal("server_placed")
 	power_time = power_time - 30
+	timer.stop()
+	timer.set_wait_time(power_time)
 	_set_hex_pickable(false)
+	timer.start()
 
 func _on_high_placed(arg1):
 	emit_signal("high_placed")

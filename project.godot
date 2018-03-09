@@ -10,7 +10,7 @@ config_version=3
 
 [application]
 
-config/name="InfinityRaid"
+config/name="InfiniNet"
 run/main_scene="res://Scene/NetworkSetupScreen.tscn"
 boot_splash/image="res://loadscreen.png"
 boot_splash/fullsize=false

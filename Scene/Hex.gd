@@ -13,7 +13,6 @@ signal hex_card_changed()
 signal hex_owner_changed()
 
 var action
-var timer
 var card = null
 
 var hex_owner
@@ -86,8 +85,11 @@ func set_hex_owner(id,  name, sync_remote = false ):
 	p_sprite.set_texture(p_marker)
 	player_node.add_child(p_sprite)
 	# If the player_node is on the node, replace it
-	if self.get_child(1) != null:
-		self.get_child(1).queue_free()
+	# TODO: reproduce and bug if not already: has_node() only works for child(0) and doesn't return true for child(1)
+	for c in self.get_children():
+		if c.get_name().begins_with("@"):
+			if self.get_child(1) != null:
+				self.get_child(1).queue_free()
 	self.add_child(player_node)
 	
 	if sync_remote:
@@ -107,7 +109,7 @@ func set_hex_defence( value ):
 func set_hex_card(card, sync_remote = false ):
 	hex_card = card
 	if card != null:
-		print("CARD: ", hex_card["tile"])
+		set_hex_owner(get_tree().get_network_unique_id(), GameState.player_name, true)
 		self.get_parent().set_texture(load(card.tile))
 		var pos = self.get_parent().get_parent().get_position_in_parent()
 		if card.has("defense") and card.has("attack"):
