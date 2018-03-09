@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex_gem_green.png-4ecb498385b61a2f9f0deff6a36e9a0f.stex"
+path="res://.import/hex_computer_1_hover.png-e8e7b3ab304e90c3b7d9ec7b1fba558e.stex"
 
 [deps]
 
-source_file="res://Assets/hex_gem_green.png"
-source_md5="b98d040134fac8ae37a801e9cae2da1e"
+source_file="res://Assets/hex_computer_1_hover.png"
+source_md5="0602a6b369fd8fc18a6ec1716237accc"
 
-dest_files=[ "res://.import/hex_gem_green.png-4ecb498385b61a2f9f0deff6a36e9a0f.stex" ]
-dest_md5="3270b0fe60dba732bdd235ed7629fedf"
+dest_files=[ "res://.import/hex_computer_1_hover.png-e8e7b3ab304e90c3b7d9ec7b1fba558e.stex" ]
+dest_md5="34b913c1d8687261c832301e6619e9f3"
 
 [params]
 

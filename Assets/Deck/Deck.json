@@ -26,7 +26,7 @@
 			"type":"computer",
 			"name":"chrischan",
 			"desc":"Special ability: adds Rosechu 2 turns later via cwcville daemon",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
+			"tile":"res://Assets/Deck/Hex_Chrischan.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"seconday" : "daemon",
 			"attack":2,

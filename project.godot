@@ -8,12 +8,12 @@
 
 config_version=3
 
-=false
-
 [application]
 
 config/name="InfinityRaid"
 run/main_scene="res://Scene/NetworkSetupScreen.tscn"
+boot_splash/image="res://loadscreen.png"
+boot_splash/fullsize=false
 config/icon="res://icon.png"
 
 [autoload]
@@ -21,10 +21,6 @@ config/icon="res://icon.png"
 global="*res://Scripts/global.gd"
 GameState="*res://Scripts/GameState.gd"
 NetCode="*res://Scripts/NetCode.gd"
-
-[backgrou]
-
-=false
 
 [rendering]
 

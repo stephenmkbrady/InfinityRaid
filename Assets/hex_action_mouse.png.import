@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex_gem_red.png-5ac110f65a924c3f09688ac14609eebf.stex"
+path="res://.import/hex_action_mouse.png-dbd77fe88b843c99a405e2a6b47ee8e1.stex"
 
 [deps]
 
-source_file="res://Assets/hex_gem_red.png"
-source_md5="391340daa4f5fc9adcd08169e919fbb6"
+source_file="res://Assets/hex_action_mouse.png"
+source_md5="fa8032bd2b659324651f2c95444e08be"
 
-dest_files=[ "res://.import/hex_gem_red.png-5ac110f65a924c3f09688ac14609eebf.stex" ]
-dest_md5="6501b2343ee9a4d4971422dceecc2270"
+dest_files=[ "res://.import/hex_action_mouse.png-dbd77fe88b843c99a405e2a6b47ee8e1.stex" ]
+dest_md5="d39b6320793e35d2b3e874c04f1c4766"
 
 [params]
 

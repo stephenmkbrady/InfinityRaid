@@ -47,7 +47,6 @@ func _ready():
 	file.open("res://Assets/Deck/Deck.json", file.READ)
 	var text = file.get_as_text()
 	decks = JSON.parse(text).result
-	#print(decks.result)
 	file.close()
 	
 	high_deck = decks["high_deck"]
@@ -116,47 +115,13 @@ remote func remote_on_card_drawn(card):
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
 		emit_signal("card_drawn", card)
 
-# Not using this yet
-func _check_board(board_length, board_height):
-	# Describes the edges and corners and center hexes of the board.
-	var row = 0
-	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():
-		var N = c.get_position_in_parent()
-		if (N < board_length - 1 and N > 0): # Top, not including corners: N<length-1, N>0
-			print("Top: ",N)
-			pass # Check N-1, N+1, N+length-1, N+length+1, N+length
-		elif (N < ( (board_length * board_height) - 1) and N > (board_length* board_height)-board_length): #Bottom
-			print("Bottom: ",N)
-			pass # Check N-1, N+1, N-length-1, N-length+1, N-length
-		elif (N == 0): # Corner top left
-			print("TL Corner: ",N)
-			pass # Check N+1, N+lenght, N+length+1
-		elif (N == board_length - 1): # Corner top right 
-			print("TR Corner: ",N) #10
-			pass # Check N -1, N+length, N+length -1
-		elif (N == ((board_length * board_height) - board_length )): # Corner bottom left #77
-			print("BL Corner: ",N)
-			pass # Check N+1, N-lenght, N-length+1
-		elif (N == (board_length * board_height ) -1 ): # Corner bottom right #87
-			print("BR Corner: ",N)
-			pass # Check N-1, N-lenght, N-length-1
-		elif ((board_length * row) % N == 0) :
-			print("Left Edge: ", N, " - ", board_length, " * ", row)
-			print("Right Edge: ", N-1, " - ", board_length, " * ", row)
-			#pass # Check N-1, N+length, N-length, N+length-1, N-length-1 
-		else:
-			print("I: ", N)
-			pass
-		if(N != 0 and (board_length * row) % N == 0):
-			row = row + 1
-
 remote func pre_start_game():
 	# Change scene
 	var world = load("res://Scene/GameScreen.tscn").instance()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("lobby").hide()
 
-	progress_bar = get_tree().get_root().get_node("Node2D/TextureProgress")
+	progress_bar = get_tree().get_root().get_node("Node2D/ActionButtons/TextureProgress")
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
 	_generate_map(board_length, board_height)
@@ -245,9 +210,9 @@ func _connect_to_action_buttons():
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
 	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_computer_2_pressed")
 	self.get_tree().get_root().get_node("Node2D/Server").connect("action_pressed",self,"_on_server_pressed")
-	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_high_pressed")
-	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_medium_pressed")
-	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_low_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/High").connect("action_pressed",self,"_on_high_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Medium").connect("action_pressed",self,"_on_medium_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Low").connect("action_pressed",self,"_on_low_pressed")
 	#self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
 	pass
 

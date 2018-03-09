@@ -5,7 +5,11 @@ var player_name = "2"
 var server_ip = "127.0.0.1"
 signal player_name_changed()
 
+var mouse_cursor
+
 func _ready():
+	mouse_cursor = load("res://Assets/mouse.png")
+	Input.set_custom_mouse_cursor(mouse_cursor)
 	net_code = self.get_tree().get_root().get_node("/root/NetCode")
 	net_code.connect("connection_failed", self, "_on_connection_failed")
 	net_code.connect("connection_succeeded", self, "_on_connection_success")

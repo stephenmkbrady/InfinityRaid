@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex_gem_red_simple.png-418f8793b60514c6e4bce271a8e8eaec.stex"
+path="res://.import/mouse.png-66da426a73d7a7e2fd85393269b189ec.stex"
 
 [deps]
 
-source_file="res://Assets/hex_gem_red_simple.png"
-source_md5="8f2e076898afbfc2293bb6d38bec343c"
+source_file="res://Assets/mouse.png"
+source_md5="0b61a2da03030ce1f288073947d7ed8a"
 
-dest_files=[ "res://.import/hex_gem_red_simple.png-418f8793b60514c6e4bce271a8e8eaec.stex" ]
-dest_md5="f6412be3c993ad5a01c2ebf8a9eafbfb"
+dest_files=[ "res://.import/mouse.png-66da426a73d7a7e2fd85393269b189ec.stex" ]
+dest_md5="d25b2e9ea3e18f2656ec82d5d38f68ce"
 
 [params]
 

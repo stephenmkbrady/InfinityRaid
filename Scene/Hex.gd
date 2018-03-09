@@ -29,9 +29,9 @@ func _ready():
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Server").connect("action_pressed",self,"_on_action_pressed")
-	self.get_tree().get_root().get_node("Node2D/High").connect("action_pressed",self,"_on_action_pressed")
-	self.get_tree().get_root().get_node("Node2D/Medium").connect("action_pressed",self,"_on_action_pressed")
-	self.get_tree().get_root().get_node("Node2D/Low").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/High").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Medium").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Low").connect("action_pressed",self,"_on_action_pressed")
 	# Subscribe to root node to know when another hex instance has fired hex_selected
 	var game_state = get_tree().get_root().get_node("/root/GameState")
 	game_state.connect("action_placed",self,"_on_action_placed")
