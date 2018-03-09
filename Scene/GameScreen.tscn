@@ -5,7 +5,7 @@
 [ext_resource path="res://Assets/video/background.webm" type="VideoStream" id=3]
 [ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=4]
 [ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=5]
-[ext_resource path="res://Assets/hex_empty.png" type="Texture" id=6]
+[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=6]
 [ext_resource path="res://Scene/ActionButton.gd" type="Script" id=7]
 [ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=8]
 [ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=9]
@@ -21,6 +21,8 @@
 [node name="Node2D" type="Node2D" index="0"]
 
 [node name="audio" type="Node2D" parent="." index="0"]
+
+editor/display_folded = true
 
 [node name="select_action" type="AudioStreamPlayer" parent="audio" index="0"]
 
@@ -65,7 +67,7 @@ _sections_unfolded = [ "Material", "Mouse", "Size Flags", "Visibility" ]
 
 [node name="Position2D" type="Position2D" parent="." index="2"]
 
-position = Vector2( 120.807, 22.212 )
+position = Vector2( 81.6159, 22.212 )
 scale = Vector2( 0.93506, 1 )
 
 [node name="Computer_1" type="TextureButton" parent="." index="3"]
@@ -150,8 +152,6 @@ script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="ActionButtons" type="Node2D" parent="." index="6"]
-
-editor/display_folded = true
 
 [node name="TextureProgress" type="TextureProgress" parent="ActionButtons" index="0"]
 
@@ -261,7 +261,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 17 )
-texture_disabled = ExtResource( 15 )
+texture_disabled = ExtResource( 6 )
 script = ExtResource( 7 )
 _sections_unfolded = [ "Textures" ]
 

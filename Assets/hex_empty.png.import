@@ -7,10 +7,10 @@ path="res://.import/hex_empty.png-08f6044d919613078420ddea268177de.stex"
 [deps]
 
 source_file="res://Assets/hex_empty.png"
-source_md5="3917f4f575433a0db8c34cbd6bf08b10"
+source_md5="b27bdd29571e3762dcc0aa4636027519"
 
 dest_files=[ "res://.import/hex_empty.png-08f6044d919613078420ddea268177de.stex" ]
-dest_md5="a92de72f96e4721eb3802894324bd7ab"
+dest_md5="c46ee4518338a11ed78ff11391781060"
 
 [params]
 

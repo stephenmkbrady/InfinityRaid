@@ -14,8 +14,8 @@ var players = {}
 
 var board_update_time = 5
 var power_time = 30 
-var board_height = 8
-var board_length = 11
+var board_height = 10
+var board_length = 12
 var board_cell_count = 88
 var green_indicator = load("res://Scene/StatusIndicator.tscn")
 var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
@@ -172,20 +172,36 @@ func end_game():
 
 func _generate_map(board_width, board_height):
 	var ref_pos = self.get_tree().get_root().get_node("Node2D/Position2D").get_global_transform()
-	var tile_width = 80
-	var tile_height = 60
+	var tile_width = 77
+	var tile_height = 58
 	var tile = load("res://Scene/Hex.tscn")
 	var p1_marker = load("res://Assets/hex_player_1.png")
 	var p2_marker = load("res://Assets/hex_player_2.png")
-	
+ 	
 	for y in range(0, board_height):
 		for x in range(0, board_width):
 			var tile_node = tile.instance()
-			if x < ((board_width/2) ):
-				tile_node.get_child(0).get_child(0).set_hex_owner("1", "1")
-			else:
-				tile_node.get_child(0).get_child(0).set_hex_owner("2", "2")
-			# Every second row is offset again by half the tile width to form hex pattern
+			
+			if y == 0: 
+				if x == 0:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_top_left.png"))
+				elif x == board_length-1:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_top_right.png"))
+				else:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_top.png"))
+			elif y == board_height - 1:
+				if x == 0:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_bottom_left.png"))
+				elif x == board_length - 1:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_bottom_right.png"))
+				else:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_bottom.png"))
+			elif y > 0 and y < board_height:
+				if x == 0 and y%2 != 0:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_left.png"))
+				elif x == board_length - 1 and y%2 == 0:
+					tile_node.get_node("Sprite").set_texture(load("res://Assets/hex_grid_right.png"))
+				
 			if y%2 == 0:
 				var tile_pos_even = ref_pos.translated((Vector2((x * tile_width + (tile_width/2)), (y * tile_height))))
 				tile_node.global_translate(tile_pos_even.get_origin())
@@ -209,7 +225,8 @@ func _generate_map(board_width, board_height):
 			tile_node.get_child(0).get_child(0).connect("hex_card_changed",self,"_on_hex_card_changed")
 			#Disable the hex's until unit card is drawn
 			tile_node.get_child(0).get_child(0).set_pickable(false)
-
+	 #_draw_border()
+	
 func _connect_to_action_buttons():
 	# Subscribe to the action buttons
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")

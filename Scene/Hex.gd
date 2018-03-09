@@ -54,7 +54,7 @@ func _ready():
 func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
-			if self.hex_owner == game_state.player_name:
+			if self.hex_owner == game_state.player_name or self.hex_owner == null:
 				snd_drop_action.play()
 				if action == "Computer_1":
 					card = game_state.computer_1_card
