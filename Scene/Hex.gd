@@ -21,12 +21,13 @@ var hex_attack = 1
 var hex_card = null
 
 var snd_drop_action
-
+var tile_tex
 var game_state
 
 func _ready():
 	snd_drop_action = get_tree().get_root().get_node("Node2D/audio/drop_action")
 	game_state = get_node("/root/GameState")
+	tile_tex = self.get_parent().get_texture()
 	# Subscribe all hex instances to the action buttons
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_action_pressed")
 	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_action_pressed")
@@ -119,6 +120,8 @@ func set_hex_card(card, sync_remote = false ):
 		if sync_remote:
 			rpc("remote_update_hex_card", card, pos)
 		update_board()
+	else: 
+		self.get_parent().set_texture(self.tile_tex)
 
 remote func remote_update_hex_card(card, pos):
 	var hex_cell = self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0)
