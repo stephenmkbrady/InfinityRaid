@@ -1,5 +1,5 @@
 extends Node2D
-
+var is_game_running = false
 var net_code
 var player_name = "2"
 var server_ip = "127.0.0.1"
@@ -8,6 +8,7 @@ signal player_name_changed()
 var mouse_cursor
 
 func _ready():
+	get_node("VideoPlayer").play()
 	mouse_cursor = load("res://Assets/mouse.png")
 	Input.set_custom_mouse_cursor(mouse_cursor)
 	net_code = self.get_tree().get_root().get_node("/root/NetCode")
@@ -19,6 +20,10 @@ func _ready():
 	self.connect("player_name_changed", GameState, "_on_player_name_changed")
 	emit_signal("player_name_changed", player_name)
 
+func _process(delta):
+	if not get_node("VideoPlayer").is_playing() and not is_game_running:
+		print("play")
+		get_node("VideoPlayer").play()
 func _on_ClientJoinButton_pressed():
 	print("client mode")
 	net_code.join_game(server_ip, "2")
@@ -56,6 +61,7 @@ func _on_connection_failed():
 
 func _on_game_ended():
 	show()
+	is_game_running= false
 	get_node("connect").show()
 	get_node("players").hide()
 	get_node("connect/host").disabled=false
@@ -77,4 +83,6 @@ func refresh_lobby():
 	get_node("players/start").disabled=not get_tree().is_network_server()
 
 func _on_start_pressed():
+	get_node("VideoPlayer").stop()
+	is_game_running= true
 	GameState.begin_game()

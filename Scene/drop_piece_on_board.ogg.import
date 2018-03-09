@@ -1,0 +1,18 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/drop_piece_on_board.ogg-22b338468812f068f465133289e0d454.oggstr"
+
+[deps]
+
+source_file="res://Scene/drop_piece_on_board.ogg"
+source_md5="9799d2cfa34e1244f9b09afdd7d010d5"
+
+dest_files=[ "res://.import/drop_piece_on_board.ogg-22b338468812f068f465133289e0d454.oggstr" ]
+dest_md5="e311494298afbffe6177f8cda2b61789"
+
+[params]
+
+loop=true
+loop_offset=0

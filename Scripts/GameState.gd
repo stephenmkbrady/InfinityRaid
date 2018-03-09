@@ -28,7 +28,7 @@ signal deck_empty()
 signal game_ended()
 signal game_error(what)
 
-
+var background_video 
 var timer
 var board_timer
 var progress_bar
@@ -59,7 +59,9 @@ func _ready():
 func _process(delta):
 	if timer != null:
 		progress_bar.set_value(power_time - int(timer.time_left))
-	
+	if background_video != null and not background_video.is_playing():
+		background_video.play()
+
 func get_player_list():
 	return players.values()
 
@@ -122,6 +124,9 @@ remote func pre_start_game():
 	get_tree().get_root().get_node("lobby").hide()
 
 	progress_bar = get_tree().get_root().get_node("Node2D/ActionButtons/TextureProgress")
+	background_video = get_tree().get_root().get_node("Node2D/VideoPlayer")
+	background_video.play()
+
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
 	_generate_map(board_length, board_height)

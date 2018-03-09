@@ -21,9 +21,12 @@ var hex_defense = 1
 var hex_attack = 1
 var hex_card = null
 
+var snd_drop_action
+
 var game_state
 
 func _ready():
+	snd_drop_action = get_tree().get_root().get_node("Node2D/audio/drop_action")
 	game_state = get_node("/root/GameState")
 	# Subscribe all hex instances to the action buttons
 	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_action_pressed")
@@ -52,6 +55,7 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
 			if self.hex_owner == game_state.player_name:
+				snd_drop_action.play()
 				if action == "Computer_1":
 					card = game_state.computer_1_card
 					emit_signal("computer_1_placed", self.get_parent().get_parent().get_position_in_parent())

@@ -4,10 +4,13 @@ signal action_pressed
 
 var turn_time = 30
 var timer
+var snd_select_action
 
 var mouse_cursor
 
 func _ready():
+	snd_select_action = get_tree().get_root().get_node("Node2D/audio/select_action")
+	
 	mouse_cursor = load("res://Assets/mouse.png")
 	var game_state = get_tree().get_root().get_node("/root/GameState")
 	game_state.connect("computer_1_placed",self,"_on_computer_1_placed")
@@ -27,6 +30,7 @@ func _ready():
 		
 func _pressed():
 	self.set_disabled(true)
+	snd_select_action.play()
 	var tex
 	if self.get_name() == "Computer_1":
 		tex = load("res://Assets/hex_computer_1_mouse.png")

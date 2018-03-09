@@ -1,28 +1,74 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=1]
-[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=2]
-[ext_resource path="res://Assets/hex_empty.png" type="Texture" id=3]
-[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=4]
-[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=5]
-[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=6]
-[ext_resource path="res://Assets/hex_server.png" type="Texture" id=7]
-[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=8]
-[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=9]
-[ext_resource path="res://Assets/progressbar.png" type="Texture" id=10]
-[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=11]
-[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=12]
-[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=13]
-[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=14]
+[ext_resource path="res://Assets/audio/select_action.ogg" type="AudioStream" id=1]
+[ext_resource path="res://Assets/audio/drop_piece_on_board.ogg" type="AudioStream" id=2]
+[ext_resource path="res://Assets/video/background.webm" type="VideoStream" id=3]
+[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=4]
+[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=5]
+[ext_resource path="res://Assets/hex_empty.png" type="Texture" id=6]
+[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=7]
+[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=8]
+[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=9]
+[ext_resource path="res://Assets/hex_server.png" type="Texture" id=10]
+[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=11]
+[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=12]
+[ext_resource path="res://Assets/progressbar.png" type="Texture" id=13]
+[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=14]
+[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=15]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=16]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=17]
 
 [node name="Node2D" type="Node2D" index="0"]
 
-[node name="Position2D" type="Position2D" parent="." index="0"]
+[node name="audio" type="Node2D" parent="." index="0"]
+
+[node name="select_action" type="AudioStreamPlayer" parent="audio" index="0"]
+
+stream = ExtResource( 1 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="drop_action" type="AudioStreamPlayer" parent="audio" index="1"]
+
+stream = ExtResource( 2 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="VideoPlayer" type="VideoPlayer" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1.0
+margin_top = -1.0
+margin_right = 1025.0
+margin_bottom = 605.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+audio_track = 0
+stream = ExtResource( 3 )
+volume_db = 0.0
+autoplay = true
+paused = false
+expand = true
+buffering_msec = 500
+bus = "Master"
+_sections_unfolded = [ "Material", "Mouse", "Size Flags", "Visibility" ]
+
+[node name="Position2D" type="Position2D" parent="." index="2"]
 
 position = Vector2( 120.807, 22.212 )
 scale = Vector2( 0.93506, 1 )
 
-[node name="Computer_1" type="TextureButton" parent="." index="1"]
+[node name="Computer_1" type="TextureButton" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -43,13 +89,13 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 1 )
-texture_hover = ExtResource( 2 )
-texture_disabled = ExtResource( 3 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 5 )
+texture_disabled = ExtResource( 6 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="Computer_2" type="TextureButton" parent="." index="2"]
+[node name="Computer_2" type="TextureButton" parent="." index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -70,13 +116,13 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
-texture_disabled = ExtResource( 3 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 8 )
+texture_hover = ExtResource( 9 )
+texture_disabled = ExtResource( 6 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="Server" type="TextureButton" parent="." index="3"]
+[node name="Server" type="TextureButton" parent="." index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -97,13 +143,15 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 7 )
-texture_hover = ExtResource( 8 )
-texture_disabled = ExtResource( 3 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 10 )
+texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 6 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="ActionButtons" type="Node2D" parent="." index="4"]
+[node name="ActionButtons" type="Node2D" parent="." index="6"]
+
+editor/display_folded = true
 
 [node name="TextureProgress" type="TextureProgress" parent="ActionButtons" index="0"]
 
@@ -129,9 +177,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 9 )
+texture_under = ExtResource( 12 )
 texture_over = null
-texture_progress = ExtResource( 10 )
+texture_progress = ExtResource( 13 )
 fill_mode = 3
 radial_initial_angle = 45.0
 radial_fill_degrees = 360.0
@@ -160,9 +208,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 11 )
-texture_disabled = ExtResource( 12 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 14 )
+texture_disabled = ExtResource( 15 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures" ]
 
 [node name="Medium" type="TextureButton" parent="ActionButtons" index="2"]
@@ -186,9 +234,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 13 )
-texture_disabled = ExtResource( 12 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 16 )
+texture_disabled = ExtResource( 15 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="Low" type="TextureButton" parent="ActionButtons" index="3"]
@@ -212,12 +260,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 14 )
-texture_disabled = ExtResource( 12 )
-script = ExtResource( 4 )
+texture_normal = ExtResource( 17 )
+texture_disabled = ExtResource( 15 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Textures" ]
 
-[node name="InfoText" type="RichTextLabel" parent="." index="5"]
+[node name="InfoText" type="RichTextLabel" parent="." index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -246,14 +294,14 @@ selection_enabled = false
 override_selected_font_color = false
 _sections_unfolded = [ "BBCode" ]
 
-[node name="Power_Timer" type="Timer" parent="." index="6"]
+[node name="Power_Timer" type="Timer" parent="." index="8"]
 
 process_mode = 1
 wait_time = 30.0
 one_shot = false
 autostart = false
 
-[node name="Board_Update_Timer" type="Timer" parent="." index="7"]
+[node name="Board_Update_Timer" type="Timer" parent="." index="9"]
 
 process_mode = 1
 wait_time = 5.0
@@ -261,7 +309,7 @@ one_shot = false
 autostart = false
 _sections_unfolded = [ "Pause" ]
 
-[node name="DialogPosition" type="Position2D" parent="." index="8"]
+[node name="DialogPosition" type="Position2D" parent="." index="10"]
 
 position = Vector2( 231.157, 223.102 )
 
