@@ -117,10 +117,15 @@ func set_hex_card(card, sync_remote = false ):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
 			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack, hex_defense))
+			for c in self.get_parent().get_children():
+				print("CHILDREN: ", c.get_name())
 		update_board()
 		
 	else: # Were're deleting a piece from the cell
 		self.get_parent().set_texture(self.tile_tex)
+		for c in self.get_parent().get_children():
+			if c.get_name() == "indicator":
+				self.get_parent().get_node("indicator").queue_free()
 	if sync_remote:
 		rpc("remote_update_hex_card", card, pos)
 
@@ -134,8 +139,12 @@ remote func remote_update_hex_card(card, pos):
 			hex_cell.set_hex_attack(int(card["attack"]))
 			hex_cell.get_parent().add_child(game_state.get_strength_indicator(int(card["attack"]), int(card["defense"])))
 	else: 
-		print("remote_del")
 		hex_cell.get_parent().set_texture(hex_cell.tile_tex)
+		for c in hex_cell.get_parent().get_children():
+			print("CHILD: ", c.get_name())
+			if c.get_name() == "indicator":
+				print("remote_idicator")
+				hex_cell.get_parent().get_node("indicator").queue_free()
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}
 

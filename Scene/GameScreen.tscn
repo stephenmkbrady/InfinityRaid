@@ -18,7 +18,7 @@
 [ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=16]
 [ext_resource path="res://Assets/button_action_low.png" type="Texture" id=17]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 [node name="audio" type="Node2D" parent="." index="0"]
 
