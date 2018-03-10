@@ -117,12 +117,11 @@ func set_hex_card(card, sync_remote = false ):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
 			self.get_parent().add_child(game_state.get_strength_indicator(hex_attack, hex_defense))
-			for c in self.get_parent().get_children():
-				print("CHILDREN: ", c.get_name())
 		update_board()
-		
-	else: # Were're deleting a piece from the cell
+	else: # Were're deleting a game piece from the cell
 		self.get_parent().set_texture(self.tile_tex)
+		hex_defense = 1
+		hex_attack = 1
 		for c in self.get_parent().get_children():
 			if c.get_name() == "indicator":
 				self.get_parent().get_node("indicator").queue_free()
@@ -141,10 +140,11 @@ remote func remote_update_hex_card(card, pos):
 	else: 
 		hex_cell.get_parent().set_texture(hex_cell.tile_tex)
 		for c in hex_cell.get_parent().get_children():
-			print("CHILD: ", c.get_name())
 			if c.get_name() == "indicator":
-				print("remote_idicator")
 				hex_cell.get_parent().get_node("indicator").queue_free()
+		hex_cell.set_hex_defence(1)
+		hex_cell.set_hex_attack(1)
+
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}
 
@@ -177,11 +177,15 @@ func update_board():
 		surrounding_hex_cells.append(_is_hex_enemy(N - game_state.board_length ))
 
 	for cell in surrounding_hex_cells: 
-		if int(self.get_hex_data()["hex_data"]["hex_attack"]) > cell["hex_data"]["hex_defense"]:
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_owner(get_tree().get_network_unique_id(), game_state.player_name, true )
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_attack( 1 )
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_defence( 1 )
-			self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D").set_hex_card(null, true)
+		var enemy_cell_instance  = self.get_parent().get_parent().get_parent().get_child(cell["hex_data"]["position"]).get_node("Sprite/Area2D")
+		
+		if self.get_hex_data()["hex_data"]["hex_attack"] > cell["hex_data"]["hex_defense"]:
+			enemy_cell_instance.set_hex_owner(get_tree().get_network_unique_id(), game_state.player_name, true )
+			enemy_cell_instance.set_hex_attack( 1 )
+			enemy_cell_instance.set_hex_defence( 1 )
+			enemy_cell_instance.set_hex_card(null, true)
+		elif self.get_hex_data()["hex_data"]["hex_attack"] <= cell["hex_data"]["hex_defense"]:
+			enemy_cell_instance.set_hex_defence(cell["hex_data"]["hex_defense"] - self.get_hex_data()["hex_data"]["hex_attack"])
 
 func _is_hex_enemy( location_in_parent ):
 	# Returns hex_data if belongs to other player
