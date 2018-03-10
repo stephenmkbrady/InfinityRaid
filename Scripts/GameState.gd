@@ -204,10 +204,10 @@ func _generate_map(board_width, board_height):
 				
 			if y%2 == 0:
 				var tile_pos_even = ref_pos.translated((Vector2((x * tile_width + (tile_width/2)), (y * tile_height))))
-				tile_node.global_translate(tile_pos_even.get_origin())
+				tile_node.translate(tile_pos_even.get_origin())
 			else:
 				var tile_pos_odd = ref_pos.translated((Vector2((x * tile_width), y * tile_height)))
-				tile_node.global_translate(tile_pos_odd.get_origin())
+				tile_node.translate(tile_pos_odd.get_origin())
 			self.get_tree().get_root().get_node("Node2D/Position2D").add_child(tile_node)
 			#Finally connect signals between the hex tiles and thie main GameScreen
 			tile_node.get_child(0).get_child(0).connect("computer_1_placed", self, "_on_computer_1_placed")
