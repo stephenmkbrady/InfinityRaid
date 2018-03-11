@@ -3,6 +3,7 @@ extends Node
 var high_deck # Strong computers and daemons with secondary effects
 var medium_deck # Strong computers and daemons
 var low_deck # Average computers and daemons
+var decks = {}
 var computer_1_card
 var computer_2_card
 var server_card
@@ -13,7 +14,7 @@ var player_name = "1"
 var players = {}
 
 var board_update_time = 5
-var power_time = 90 #30 (30 15 15)
+var power_time = 90 
 var board_height = 10
 var board_length = 12
 var board_cell_count = board_height * board_length
@@ -32,29 +33,28 @@ var background_video
 var timer
 var board_timer
 var progress_bar
-signal action_placed()
-signal computer_1_placed()
-signal computer_2_placed()
-signal server_placed()
-signal high_placed()
-signal medium_placed()
-signal low_placed()
+signal Computer_1_placed()
+signal Computer_2_placed()
+signal Server_placed()
+signal High_placed()
+signal Medium_placed()
+signal Low_placed()
 
 func _ready():
 	randomize()
-	var decks = {}
+	decks = {}
 	var file = File.new()
 	file.open("res://Assets/Deck/Deck.json", file.READ)
 	var text = file.get_as_text()
 	decks = JSON.parse(text).result
 	file.close()
 	
-	high_deck = decks["high_deck"]
-	medium_deck = decks["medium_deck"]
-	low_deck = decks["low_deck"]
-	computer_1_card = decks["computer_1_card"]
-	computer_2_card = decks["computer_2_card"]
-	server_card = decks["server_card"]
+	high_deck = decks["High_deck"]
+	medium_deck = decks["Medium_deck"]
+	low_deck = decks["Low_deck"]
+	computer_1_card = decks["Computer_1_card"]
+	computer_2_card = decks["Computer_2_card"]
+	server_card = decks["Server_card"]
 
 func _process(delta):
 	if timer != null:
@@ -123,10 +123,12 @@ remote func pre_start_game():
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("lobby").hide()
 
-	progress_bar = get_tree().get_root().get_node("Node2D/ActionButtons/TextureProgress")
+	progress_bar = get_tree().get_root().get_node("Node2D/TextureProgress")
 	background_video = get_tree().get_root().get_node("Node2D/VideoPlayer")
 	background_video.play()
-
+	
+	
+	get_tree().get_root().get_node("Node2D/player_logo").set_texture(load("res://Assets/player_"+ player_name +"_logo.png"))
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
 	_generate_map(board_length, board_height)
@@ -210,14 +212,13 @@ func _generate_map(board_width, board_height):
 				tile_node.translate(tile_pos_odd.get_origin())
 			self.get_tree().get_root().get_node("Node2D/Position2D").add_child(tile_node)
 			#Finally connect signals between the hex tiles and thie main GameScreen
-			tile_node.get_child(0).get_child(0).connect("computer_1_placed", self, "_on_computer_1_placed")
-			tile_node.get_child(0).get_child(0).connect("computer_2_placed", self, "_on_computer_2_placed")
-			tile_node.get_child(0).get_child(0).connect("server_placed", self, "_on_server_placed")
+			tile_node.get_child(0).get_child(0).connect("Computer_1_placed", self, "_on_computer_1_placed")
+			tile_node.get_child(0).get_child(0).connect("Computer_2_placed", self, "_on_computer_2_placed")
+			tile_node.get_child(0).get_child(0).connect("Server_placed", self, "_on_server_placed")
 			
-			tile_node.get_child(0).get_child(0).connect("high_placed", self, "_on_high_placed")
-			tile_node.get_child(0).get_child(0).connect("medium_placed", self, "_on_medium_placed")
-			tile_node.get_child(0).get_child(0).connect("low_placed", self, "_on_low_placed")
-			#tile_node.get_child(0).get_child(0).connect("special_placed", self, "_on_special_placed")
+			tile_node.get_child(0).get_child(0).connect("High_placed", self, "_on_high_placed")
+			tile_node.get_child(0).get_child(0).connect("Medium_placed", self, "_on_medium_placed")
+			tile_node.get_child(0).get_child(0).connect("Low_placed", self, "_on_low_placed")
 			
 			tile_node.get_child(0).get_child(0).connect("hex_owner_changed",self,"_on_hex_owner_changed")
 			tile_node.get_child(0).get_child(0).connect("hex_attack_changed",self,"_on_hex_attack_changed")
@@ -229,14 +230,12 @@ func _generate_map(board_width, board_height):
 	
 func _connect_to_action_buttons():
 	# Subscribe to the action buttons
-	self.get_tree().get_root().get_node("Node2D/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
-	self.get_tree().get_root().get_node("Node2D/Computer_2").connect("action_pressed",self,"_on_computer_2_pressed")
-	self.get_tree().get_root().get_node("Node2D/Server").connect("action_pressed",self,"_on_server_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Computer_1").connect("action_pressed",self,"_on_computer_1_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Computer_2").connect("action_pressed",self,"_on_computer_2_pressed")
+	self.get_tree().get_root().get_node("Node2D/ActionButtons/Server").connect("action_pressed",self,"_on_server_pressed")
 	self.get_tree().get_root().get_node("Node2D/ActionButtons/High").connect("action_pressed",self,"_on_high_pressed")
 	self.get_tree().get_root().get_node("Node2D/ActionButtons/Medium").connect("action_pressed",self,"_on_medium_pressed")
 	self.get_tree().get_root().get_node("Node2D/ActionButtons/Low").connect("action_pressed",self,"_on_low_pressed")
-	#self.get_tree().get_root().get_node("Node2D/Special").connect("action_pressed",self,"_on_special_pressed")
-	pass
 
 func _setup_and_start_timer():
 	timer = self.get_tree().get_root().get_node("Node2D/Power_Timer")
@@ -268,7 +267,7 @@ func _on_low_pressed( arg1 ):
 	timer.stop()
 
 func _on_computer_1_placed(arg1):
-	emit_signal("computer_1_placed")
+	emit_signal("Computer_1_placed")
 	power_time = power_time - 15
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -277,7 +276,7 @@ func _on_computer_1_placed(arg1):
 	timer.start()
 
 func _on_computer_2_placed(arg1):
-	emit_signal("computer_2_placed")
+	emit_signal("Computer_2_placed")
 	power_time = power_time - 15
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -287,7 +286,7 @@ func _on_computer_2_placed(arg1):
 
 
 func _on_server_placed(arg1):
-	emit_signal("server_placed")
+	emit_signal("Server_placed")
 	power_time = power_time - 30
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -295,17 +294,17 @@ func _on_server_placed(arg1):
 	timer.start()
 
 func _on_high_placed(arg1):
-	emit_signal("high_placed")
+	emit_signal("High_placed")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_medium_placed(arg1):
-	emit_signal("medium_placed")
+	emit_signal("Medium_placed")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_low_placed(arg1):
-	emit_signal("low_placed")
+	emit_signal("Low_placed")
 	_set_hex_pickable(false)
 	timer.start()
 

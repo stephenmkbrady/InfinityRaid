@@ -1,5 +1,5 @@
 {
-	"high_deck" : {
+	"High_deck" : {
 	"1":
 		{
 			"type" : "computer",
@@ -33,7 +33,7 @@
 			"defense":2
 		}
 	},
-	"medium_deck" : { 
+	"Medium_deck" : { 
 	"1":
 		{
 			"type" : "computer",
@@ -91,7 +91,7 @@
 			"defense":2
 		}
 	},
-	"low_deck" : {
+	"Low_deck" : {
 	"1":
 		{
 			"type" : "computer",
@@ -150,7 +150,7 @@
 			"defense":2
 		}
 	},
-	"special_deck" : {
+	"Special_deck" : {
 	"2":
 		{
 			"type":"daemon",
@@ -174,7 +174,7 @@
 			"desc":""
 		}
 	},
-	"computer_1_card" : { 
+	"Computer_1_card" : { 
 			"type" : "computer",
 			"name" : "Linux_box",
 			"tile":"res://Assets/hex_computer_1.png",
@@ -182,7 +182,7 @@
 			"attack" : 5,
 			"defense" : 5
 	},
-	"computer_2_card" : { 
+	"Computer_2_card" : { 
 			"type" : "computer",
 			"name" : "Linux_box_2",
 			"tile":"res://Assets/hex_computer_2.png",
@@ -190,7 +190,7 @@
 			"attack" : 5,
 			"defense" : 5
 	},
-	"server_card" : { 
+	"Server_card" : { 
 			"type" : "computer",
 			"name" : "Server",
 			"tile":"res://Assets/hex_server.png",

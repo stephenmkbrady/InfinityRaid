@@ -1,22 +1,23 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Assets/audio/select_action.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Assets/audio/drop_piece_on_board.ogg" type="AudioStream" id=2]
 [ext_resource path="res://Assets/video/background.webm" type="VideoStream" id=3]
-[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=4]
-[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=5]
-[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=6]
-[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=7]
-[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=8]
-[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=9]
-[ext_resource path="res://Assets/hex_server.png" type="Texture" id=10]
-[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=11]
-[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=12]
-[ext_resource path="res://Assets/progressbar.png" type="Texture" id=13]
-[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=14]
-[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=15]
-[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=16]
-[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=17]
+[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=4]
+[ext_resource path="res://Assets/progressbar.png" type="Texture" id=5]
+[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=6]
+[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=7]
+[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=8]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=9]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=10]
+[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=11]
+[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=12]
+[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=13]
+[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=14]
+[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=15]
+[ext_resource path="res://Assets/hex_server.png" type="Texture" id=16]
+[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=17]
+[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=18]
 
 [node name="Node2D" type="Node2D"]
 
@@ -70,90 +71,7 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", 
 position = Vector2( 81.6159, 22.212 )
 scale = Vector2( 0.93506, 1 )
 
-[node name="Computer_1" type="TextureButton" parent="." index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 8.0
-margin_top = 132.0
-margin_right = 375.0
-margin_bottom = 537.0
-rect_scale = Vector2( 0.2, 0.2 )
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 4 )
-texture_hover = ExtResource( 5 )
-texture_disabled = ExtResource( 6 )
-script = ExtResource( 7 )
-_sections_unfolded = [ "Rect", "Textures" ]
-
-[node name="Computer_2" type="TextureButton" parent="." index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = 210.0
-margin_right = 407.0
-margin_bottom = 612.0
-rect_scale = Vector2( 0.2, 0.2 )
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 8 )
-texture_hover = ExtResource( 9 )
-texture_disabled = ExtResource( 6 )
-script = ExtResource( 7 )
-_sections_unfolded = [ "Rect", "Textures" ]
-
-[node name="Server" type="TextureButton" parent="." index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = 49.0
-margin_right = 376.0
-margin_bottom = 453.0
-rect_scale = Vector2( 0.2, 0.2 )
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 10 )
-texture_hover = ExtResource( 11 )
-texture_disabled = ExtResource( 6 )
-script = ExtResource( 7 )
-_sections_unfolded = [ "Rect", "Textures" ]
-
-[node name="ActionButtons" type="Node2D" parent="." index="6"]
-
-[node name="TextureProgress" type="TextureProgress" parent="ActionButtons" index="0"]
+[node name="TextureProgress" type="TextureProgress" parent="." index="3"]
 
 show_behind_parent = true
 anchor_left = 0.0
@@ -177,9 +95,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 12 )
+texture_under = ExtResource( 4 )
 texture_over = null
-texture_progress = ExtResource( 13 )
+texture_progress = ExtResource( 5 )
 fill_mode = 3
 radial_initial_angle = 45.0
 radial_fill_degrees = 360.0
@@ -187,7 +105,9 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Grow Direction", "Margin", "Radial Fill", "Rect", "Textures", "Theme", "Visibility" ]
 
-[node name="High" type="TextureButton" parent="ActionButtons" index="1"]
+[node name="ActionButtons" type="Node2D" parent="." index="4"]
+
+[node name="High" type="TextureButton" parent="ActionButtons" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -204,68 +124,149 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 6 )
+texture_disabled = ExtResource( 7 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures" ]
+
+[node name="Medium" type="TextureButton" parent="ActionButtons" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 289.0
+margin_right = 367.0
+margin_bottom = 685.0
+rect_scale = Vector2( 0.2, 0.2 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 9 )
+texture_disabled = ExtResource( 7 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="Low" type="TextureButton" parent="ActionButtons" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 289.0
+margin_right = 367.0
+margin_bottom = 685.0
+rect_scale = Vector2( 0.2, 0.2 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 10 )
+texture_disabled = ExtResource( 11 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Textures" ]
+
+[node name="Computer_1" type="TextureButton" parent="ActionButtons" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_top = 132.0
+margin_right = 375.0
+margin_bottom = 537.0
+rect_scale = Vector2( 0.2, 0.2 )
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 12 )
+texture_hover = ExtResource( 13 )
+texture_disabled = ExtResource( 11 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="Computer_2" type="TextureButton" parent="ActionButtons" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 210.0
+margin_right = 407.0
+margin_bottom = 612.0
+rect_scale = Vector2( 0.2, 0.2 )
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 14 )
-texture_disabled = ExtResource( 15 )
-script = ExtResource( 7 )
-_sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures" ]
+texture_hover = ExtResource( 15 )
+texture_disabled = ExtResource( 11 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="Medium" type="TextureButton" parent="ActionButtons" index="2"]
+[node name="Server" type="TextureButton" parent="ActionButtons" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
-margin_top = 289.0
-margin_right = 367.0
-margin_bottom = 685.0
+margin_top = 49.0
+margin_right = 376.0
+margin_bottom = 453.0
 rect_scale = Vector2( 0.2, 0.2 )
 rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-disabled = true
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 16 )
-texture_disabled = ExtResource( 15 )
-script = ExtResource( 7 )
+texture_hover = ExtResource( 17 )
+texture_disabled = ExtResource( 11 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="Low" type="TextureButton" parent="ActionButtons" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = 289.0
-margin_right = 367.0
-margin_bottom = 685.0
-rect_scale = Vector2( 0.2, 0.2 )
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-disabled = true
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 17 )
-texture_disabled = ExtResource( 6 )
-script = ExtResource( 7 )
-_sections_unfolded = [ "Textures" ]
-
-[node name="InfoText" type="RichTextLabel" parent="." index="7"]
+[node name="InfoText" type="RichTextLabel" parent="." index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -294,14 +295,14 @@ selection_enabled = false
 override_selected_font_color = false
 _sections_unfolded = [ "BBCode" ]
 
-[node name="Power_Timer" type="Timer" parent="." index="8"]
+[node name="Power_Timer" type="Timer" parent="." index="6"]
 
 process_mode = 1
 wait_time = 90.0
 one_shot = false
 autostart = false
 
-[node name="Board_Update_Timer" type="Timer" parent="." index="9"]
+[node name="Board_Update_Timer" type="Timer" parent="." index="7"]
 
 process_mode = 1
 wait_time = 5.0
@@ -309,8 +310,36 @@ one_shot = false
 autostart = false
 _sections_unfolded = [ "Pause" ]
 
-[node name="DialogPosition" type="Position2D" parent="." index="10"]
+[node name="DialogPosition" type="Position2D" parent="." index="8"]
 
 position = Vector2( 231.157, 223.102 )
+
+[node name="player_logo" type="Sprite" parent="." index="9"]
+
+position = Vector2( 36.5255, 559.192 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 18 )
+_sections_unfolded = [ "Material", "Region", "Transform", "Visibility" ]
+
+[node name="debug_info" type="Label" parent="." index="10"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 6.0
+margin_top = 374.0
+margin_right = 281.0
+margin_bottom = 526.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

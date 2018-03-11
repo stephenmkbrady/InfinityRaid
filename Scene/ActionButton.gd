@@ -12,12 +12,12 @@ func _ready():
 	
 	mouse_cursor = load("res://Assets/mouse.png")
 	var game_state = get_tree().get_root().get_node("/root/GameState")
-	game_state.connect("computer_1_placed",self,"_on_action_placed")
-	game_state.connect("computer_2_placed",self,"_on_action_placed")
-	game_state.connect("server_placed",self,"_on_action_placed")
-	game_state.connect("high_placed",self,"_on_action_placed")
-	game_state.connect("medium_placed",self,"_on_action_placed")
-	game_state.connect("low_placed",self,"_on_action_placed")
+	game_state.connect("Computer_1_placed",self,"_on_action_placed")
+	game_state.connect("Computer_2_placed",self,"_on_action_placed")
+	game_state.connect("Server_placed",self,"_on_action_placed")
+	game_state.connect("High_placed",self,"_on_action_placed")
+	game_state.connect("Medium_placed",self,"_on_action_placed")
+	game_state.connect("Low_placed",self,"_on_action_placed")
 # make action 5 - 8 buttons grey and disabled
 	timer = get_tree().get_root().get_node("Node2D/Power_Timer")
 	if self.name == "Low" or self.name == "High" or self.name == "Medium":
