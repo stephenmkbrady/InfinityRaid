@@ -73,14 +73,36 @@ func get_player_marker(name):
 	
 func get_strength_indicator(atk, def):
 	var indicator
-	if atk >= 2:
+	if def >= 3:
 		indicator = green_indicator.instance()
-	elif atk == 1:
+		if atk >=3:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_3.png"))
+		elif atk == 2:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
+		elif atk == 1:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
+		else:
+			return null
+	elif def == 2:
 		indicator = yellow_indicator.instance()
-		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
-	elif atk == 0:
+		if atk >=3:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_3.png"))
+		elif atk == 2:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_2.png"))
+		elif atk == 1:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_1.png"))
+		else:
+			return null
+	elif def == 1:
 		indicator = red_indicator.instance()
-		indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
+		if atk >=3:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_3.png"))
+		elif atk == 2:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_2.png"))
+		elif atk == 1:
+			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_1.png"))
+		else:
+			return null
 	return indicator
 
 func _on_player_name_changed ( new_name ):
@@ -271,7 +293,6 @@ func _on_computer_1_placed(arg1):
 	power_time = power_time - 15
 	timer.stop()
 	timer.set_wait_time(power_time)
-	print("TIMER: ", timer.get_wait_time())
 	_set_hex_pickable(false)
 	timer.start()
 
@@ -280,7 +301,6 @@ func _on_computer_2_placed(arg1):
 	power_time = power_time - 15
 	timer.stop()
 	timer.set_wait_time(power_time)
-	print("TIMER: ", timer.get_wait_time())
 	_set_hex_pickable(false)
 	timer.start()
 

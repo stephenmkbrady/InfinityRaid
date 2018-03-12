@@ -8,13 +8,15 @@
 custom_solver_bias = 0.0
 points = PoolVector2Array( 8.5, -5, 8.5, 5, 0, 10, -8.64, 4.5, -8.64, -4.5, 0, -10 )
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
+
+_sections_unfolded = [ "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Area2D" type="Area2D" parent="Sprite" index="0"]
 

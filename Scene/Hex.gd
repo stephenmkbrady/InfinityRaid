@@ -22,8 +22,10 @@ var hex_card = null
 
 var snd_drop_action
 var tile_tex
+var tile_effect 
 
 func _ready():
+	tile_effect = load("res://Scene/node_effect.tscn")
 	snd_drop_action = get_tree().get_root().get_node("Node2D/audio/drop_action")
 	tile_tex = self.get_parent().get_texture() 
 
@@ -48,7 +50,6 @@ func _ready():
 func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
-			get_tree().get_root().get_node("Node2D/debug_info").set_text(str(get_hex_data()))
 			# If the hex is owned by current player or not owned then it's ok to place a piece
 			if self.hex_owner == GameState.player_name or self.hex_owner == null:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center][/center]")
@@ -57,9 +58,21 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 					card = GameState.decks[action + "_card"]
 				#print ("CARD__ ", GameState.decks[action + "_card"])
 				set_hex_card( card, true )
+				
+				self.get_parent().get_parent().add_child(tile_effect.instance())
+				self.get_parent().get_parent().get_node("effect").set_z_index(5)
+				self.get_parent().get_parent().get_node("effect").get_node("pulse").play()
+				self.get_parent().get_parent().get_node("effect").get_node("spark").play()
+				rpc("remote_play_effect", self.get_parent().get_parent().get_position_in_parent(), ["pulse", "spark"])
 				emit_signal(action + "_placed", self.get_parent().get_parent().get_position_in_parent())
 			else:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]You can only place programs in computers you own[/center]")
+
+remote func remote_play_effect(pos, effects):
+	get_tree().get_root().get_node("Node2D/Position2D").get_child(pos).add_child(tile_effect.instance())
+	get_tree().get_root().get_node("Node2D/Position2D").get_child(pos).get_node("effect").set_z_index(5)
+	for effect in effects:
+		get_tree().get_root().get_node("Node2D/Position2D").get_child(pos).get_node("effect").get_node(effect).play()
 
 func _on_card_drawn(arg):
 	card = arg
@@ -93,12 +106,15 @@ func set_hex_attack( value ):
 func set_hex_defense( value ):
 	hex_defense = value
 
-remote func remote_set_hex_defense(pos, value):
-	var hex_instance  = self.get_parent().get_parent().get_parent().get_child(pos).get_node("Sprite/Area2D")
-	
-	print("remote_hex_atk_pos: ", str(hex_instance.get_parent().get_name()))
-	hex_instance.set_hex_defense(value)
-	print("remote_hex_atk_after: ", hex_instance.get_hex_data())
+remote func remote_set_hex_defense(data):
+	#var hex_instance  = self.get_parent().get_parent().get_parent().get_child(pos).get_node("Sprite/Area2D")
+	self.set_hex_defense(data["hex_data"]["hex_defense"])
+	for c in self.get_parent().get_children():
+		if c.get_name() == "indicator":
+			self.get_parent().get_node("indicator").queue_free()
+	var indicator = GameState.get_strength_indicator( data["hex_data"]["hex_attack"], data["hex_data"]["hex_defense"])
+	if indicator != null:
+		self.get_parent().add_child(indicator)
 
 func set_hex_card(card, sync_remote = false ):
 	hex_card = card
@@ -106,6 +122,7 @@ func set_hex_card(card, sync_remote = false ):
 	if card != null:
 		set_hex_owner(get_tree().get_network_unique_id(), GameState.player_name, true)
 		self.get_parent().set_texture(load(card.tile))
+		self.get_parent().set_z_index(6)
 		if card.has("defense") and card.has("attack"):
 			hex_defense = int(card["defense"])
 			hex_attack = int(card["attack"])
@@ -115,28 +132,34 @@ func set_hex_card(card, sync_remote = false ):
 		self.get_parent().set_texture(self.tile_tex)
 		hex_defense = 1
 		hex_attack = 1
+		for c in self.get_parent().get_parent().get_children():
+			if c.get_name() == "effect":
+				self.get_parent().get_parent().get_node("effect").queue_free()
 		for c in self.get_parent().get_children():
 			if c.get_name() == "indicator":
 				self.get_parent().get_node("indicator").queue_free()
 	if sync_remote:
-		rpc("remote_update_hex_card", card, pos)
+		rpc("remote_update_hex_card", card)
 
-remote func remote_update_hex_card(card, pos):
-	var hex_cell = self.get_tree().get_root().get_node('Node2D/Position2D').get_child(pos).get_child(0).get_child(0)
+remote func remote_update_hex_card(card):
 	if card != null:
-		hex_cell.hex_card = card
+		self.hex_card = card
 		self.get_parent().set_texture(load(card.tile))
+		self.get_parent().set_z_index(6)
 		if card.has("defense") and card.has("attack"):
-			hex_cell.set_hex_defense(int(card["defense"]))
-			hex_cell.set_hex_attack(int(card["attack"]))
-			hex_cell.get_parent().add_child(GameState.get_strength_indicator(int(card["attack"]), int(card["defense"])))
+			self.set_hex_defense(int(card["defense"]))
+			self.set_hex_attack(int(card["attack"]))
+			self.get_parent().add_child(GameState.get_strength_indicator(int(card["attack"]), int(card["defense"])))
 	else: 
-		hex_cell.get_parent().set_texture(hex_cell.tile_tex)
-		for c in hex_cell.get_parent().get_children():
+		self.get_parent().set_texture(self.tile_tex)
+		for c in self.get_parent().get_parent().get_children():
+			if c.get_name() == "effect":
+				self.get_parent().get_parent().get_node("effect").queue_free()
+		for c in self.get_parent().get_children():
 			if c.get_name() == "indicator":
-				hex_cell.get_parent().get_node("indicator").queue_free()
-		hex_cell.set_hex_defense(1)
-		hex_cell.set_hex_attack(1)
+				self.get_parent().get_node("indicator").queue_free()
+		self.set_hex_defense(1)
+		self.set_hex_attack(1)
 
 func get_hex_data():
 	return {"hex_data":{"hex_card":hex_card, "hex_attack":hex_attack, "hex_defense":hex_defense, "hex_owner":hex_owner}}
@@ -157,15 +180,27 @@ func attack_enemies(positions):
 			surrounding_enemies.append(_is_hex_enemy(p))
 	
 	for enemy in surrounding_enemies: 
-		var enemy_instance  = self.get_parent().get_parent().get_parent().get_child(enemy["hex_data"]["position"]).get_node("Sprite/Area2D")
-		if self.get_hex_data()["hex_data"]["hex_attack"] > enemy["hex_data"]["hex_defense"]:
+		var enemy_instance  = self.get_tree().get_root().get_node('Node2D/Position2D').get_child(enemy["hex_data"]["position"]).get_node("Sprite/Area2D")
+		print("self - atk: ", self.get_hex_data()["hex_data"]["hex_attack"], " | enemy - atk: ", enemy["hex_data"]["hex_attack"])
+		print("self - def: ", self.get_hex_data()["hex_data"]["hex_defense"], " | enemy - def: ", enemy["hex_data"]["hex_defense"])
+
+		if self.get_hex_data()["hex_data"]["hex_attack"] >= enemy["hex_data"]["hex_defense"]:
 			enemy_instance.set_hex_owner(get_tree().get_network_unique_id(), GameState.player_name, true )
 			enemy_instance.set_hex_attack( 1 )
 			enemy_instance.set_hex_defense( 1 )
 			enemy_instance.set_hex_card(null, true)
-		elif self.get_hex_data()["hex_data"]["hex_attack"] <= enemy["hex_data"]["hex_defense"]:
+		elif self.get_hex_data()["hex_data"]["hex_attack"] < enemy["hex_data"]["hex_defense"]:
+			enemy["hex_data"]["hex_defense"] = enemy["hex_data"]["hex_defense"] - self.get_hex_data()["hex_data"]["hex_attack"]
 			enemy_instance.set_hex_defense(enemy["hex_data"]["hex_defense"] - self.get_hex_data()["hex_data"]["hex_attack"])
-			rpc("remote_set_hex_defense", enemy["hex_data"]["position"], enemy["hex_data"]["hex_defense"] - self.get_hex_data()["hex_data"]["hex_attack"])
+			
+			for c in enemy_instance.get_parent().get_children():
+				if c.get_name() == "indicator":
+					enemy_instance.get_parent().get_node("indicator").queue_free()
+			var indicator = GameState.get_strength_indicator( enemy["hex_data"]["hex_attack"], enemy["hex_data"]["hex_defense"])
+			if indicator:
+				enemy_instance.get_parent().add_child(indicator)
+			
+			rpc("remote_set_hex_defense", enemy) #enemy["hex_data"]["position"],
 
 func _is_hex_enemy( location_in_parent ):
 	# Returns hex_data if belongs to other player

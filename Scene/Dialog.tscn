@@ -15,8 +15,9 @@ position = Vector2( 369.001, 37.0004 )
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 scale = Vector2( 0.8, 0.8 )
+z_index = 10
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Region", "Transform" ]
+_sections_unfolded = [ "Region", "Transform", "Z Index" ]
 
 [node name="Area2D" type="Area2D" parent="Sprite" index="0"]
 

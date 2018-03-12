@@ -24,5 +24,11 @@ NetCode="*res://Scripts/NetCode.gd"
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/2d/use_pixel_snap=true
+quality/filters/use_nearest_mipmap_filter=true
+quality/filters/anisotropic_filter_level=2
+quality/voxel_cone_tracing/high_quality=false
 environment/default_clear_color=Color( 0, 0, 0, 1 )
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
