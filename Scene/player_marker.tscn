@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Assets/hex_barcode_green_3.png" type="Texture" id=1]
+[ext_resource path="res://Assets/hex_player_1.png" type="Texture" id=1]
 
-[node name="indicator" type="Node2D" index="0"]
+[node name="player_marker" type="Node2D"]
 
 z_index = 7
 _sections_unfolded = [ "Z Index" ]
@@ -11,6 +11,6 @@ _sections_unfolded = [ "Z Index" ]
 
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Z Index" ]
 
 

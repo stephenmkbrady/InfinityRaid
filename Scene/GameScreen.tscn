@@ -19,7 +19,7 @@
 [ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=17]
 [ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=18]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 _sections_unfolded = [ "Z Index" ]
 
