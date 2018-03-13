@@ -16,5 +16,9 @@ func _on_pulse_animation_finished():
 
 
 func _on_spark_animation_finished():
-	#self.queue_free()
+	self.queue_free()
 	pass # replace with function body
+
+
+func _on_death_animation_finished():
+	self.queue_free() # replace with function body

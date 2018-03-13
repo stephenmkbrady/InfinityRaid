@@ -22,12 +22,17 @@ global="*res://Scripts/global.gd"
 GameState="*res://Scripts/GameState.gd"
 NetCode="*res://Scripts/NetCode.gd"
 
+[display]
+
+window/stretch/aspect="expand"
+
 [rendering]
 
 quality/intended_usage/framebuffer_allocation=0
 quality/2d/use_pixel_snap=true
 quality/filters/use_nearest_mipmap_filter=true
 quality/filters/anisotropic_filter_level=2
+quality/subsurface_scattering/quality=0
 quality/voxel_cone_tracing/high_quality=false
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 quality/depth/hdr=false

@@ -1,0 +1,17 @@
+[remap]
+
+importer="Webm"
+type="VideoStreamWebm"
+path="res://.import/background2.webm-f0aa82348950e240a67869b5eb0ad86d.webmstr"
+
+[deps]
+
+source_file="res://Assets/video/background2.webm"
+source_md5="b7b3bbc235b7e0ce9ceab933f17e4f00"
+
+dest_files=[ "res://.import/background2.webm-f0aa82348950e240a67869b5eb0ad86d.webmstr" ]
+dest_md5="d1fa0ec59a42e82726f9fee9b32a1a50"
+
+[params]
+
+loop=true

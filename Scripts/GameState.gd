@@ -147,9 +147,6 @@ remote func pre_start_game():
 
 	progress_bar = get_tree().get_root().get_node("Node2D/TextureProgress")
 	background_video = get_tree().get_root().get_node("Node2D/VideoPlayer")
-	background_video.play()
-	
-	
 	get_tree().get_root().get_node("Node2D/player_logo").set_texture(load("res://Assets/player_"+ player_name +"_logo.png"))
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
