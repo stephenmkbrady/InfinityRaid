@@ -11,13 +11,12 @@ func _ready():
 	snd_select_action = get_tree().get_root().get_node("Node2D/audio/select_action")
 	
 	mouse_cursor = load("res://Assets/mouse.png")
-	var game_state = get_tree().get_root().get_node("/root/GameState")
-	game_state.connect("Computer_1_placed",self,"_on_action_placed")
-	game_state.connect("Computer_2_placed",self,"_on_action_placed")
-	game_state.connect("Server_placed",self,"_on_action_placed")
-	game_state.connect("High_placed",self,"_on_action_placed")
-	game_state.connect("Medium_placed",self,"_on_action_placed")
-	game_state.connect("Low_placed",self,"_on_action_placed")
+	GameState.connect("Computer_1_placed",self,"_on_action_placed")
+	GameState.connect("Computer_2_placed",self,"_on_action_placed")
+	GameState.connect("Server_placed",self,"_on_action_placed")
+	GameState.connect("High_placed",self,"_on_action_placed")
+	GameState.connect("Medium_placed",self,"_on_action_placed")
+	GameState.connect("Low_placed",self,"_on_action_placed")
 # make action 5 - 8 buttons grey and disabled
 	timer = get_tree().get_root().get_node("Node2D/Power_Timer")
 	if self.name == "Low" or self.name == "High" or self.name == "Medium":
@@ -39,13 +38,12 @@ func _pressed():
 		tex = mouse_cursor
 	Input.set_custom_mouse_cursor(tex)
 	
-	
 	emit_signal("action_pressed", self.get_name())
 
 func _process(delta):
 # monitor timer
 	var t = int(timer.time_left)
-	if t == GameState.power_time / 3:
+	if t < GameState.power_time / 4:
 		if self.get_name() == "High":
 			self.set_disabled(false)
 			self.set_visible(true)
@@ -55,7 +53,7 @@ func _process(delta):
 		elif self.get_name() == "Low":
 			self.set_disabled(true)
 			self.set_visible(false)
-	if t == GameState.power_time / 2:
+	if t < GameState.power_time / 3 and t > GameState.power_time / 4:
 		if self.get_name() == "High":
 			self.set_disabled(true)
 			self.set_visible(false)
@@ -65,7 +63,7 @@ func _process(delta):
 		elif self.get_name() == "Low":
 			self.set_disabled(true)
 			self.set_visible(false)
-	if t == GameState.power_time - 10 :
+	if t < GameState.power_time / 2 and t > GameState.power_time / 3:
 		if self.get_name() == "High":
 			self.set_disabled(true)
 			self.set_visible(false)
@@ -76,7 +74,7 @@ func _process(delta):
 			self.set_disabled(false)
 			self.set_visible(true)
 
-# If timer is stopped:
+	# If timer is stopped:
 	if timer.is_stopped():
 		if self.name == "Low" or self.name == "High" or self.name == "Medium":
 			self.set_disabled(true)

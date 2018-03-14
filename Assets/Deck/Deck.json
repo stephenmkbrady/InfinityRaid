@@ -8,8 +8,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc" : "Special ability: adds Temple unit",
 			"seconday" : "computer",
-			"attack" : "2",
-			"defense" : "2"
+			"attack" : 100,
+			"defense" : 100
 		},
 	"2":
 		{
@@ -19,8 +19,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"Special ability: adds Purifier effect",
 			"seconday" : "daemon",
-			"attack":2,
-			"defense":2
+			"attack" : 100,
+			"defense" : 100
 		},
 	"3":{
 			"type":"computer",
@@ -29,8 +29,8 @@
 			"tile":"res://Assets/Deck/Hex_Chrischan.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"seconday" : "daemon",
-			"attack":2,
-			"defense":2
+			"attack" : 100,
+			"defense" : 100
 		}
 	},
 	"Medium_deck" : { 
@@ -41,8 +41,8 @@
 			"desc" : "... and a real hero",
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"attack":2,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		},
 	"2":
 		{
@@ -51,8 +51,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":3,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		},
 	"3":{
 			"type":"computer",
@@ -60,8 +60,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":2,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		},
 	"4":{
 			"type":"computer",
@@ -69,8 +69,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":2,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		},
 	"5":{
 			"type":"computer",
@@ -78,8 +78,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":2,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		},
 	"6":{
 			"type":"computer",
@@ -87,8 +87,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
-			"attack":2,
-			"defense":2
+			"attack" : 60,
+			"defense" : 60
 		}
 	},
 	"Low_deck" : {
@@ -99,8 +99,8 @@
 			"desc" : "... he does it for free",
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		},
 		
 	"2":
@@ -110,8 +110,8 @@
 			"desc":"REEEEEEE",
 			"tile":"res://Assets/Deck/Hex_Sperg.png",
 			"image":"res://Assets/Deck/Dialog_Sperg.png",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		},
 	"3":{
 			"type":"computer",
@@ -119,8 +119,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... cries out as it strikes you",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		},
 	"4":{
 			"type":"computer",
@@ -128,8 +128,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... is not your personal army",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		},
 	"5":{
 			"type":"computer",
@@ -137,8 +137,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"... is a fag",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		},
 	"6":{
 			"type":"computer",
@@ -146,8 +146,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"description":"Stop sending me mail!",
-			"attack":3,
-			"defense":2
+			"attack" : 20,
+			"defense" : 20
 		}
 	},
 	"Special_deck" : {
@@ -179,23 +179,23 @@
 			"name" : "Linux_box",
 			"tile":"res://Assets/hex_computer_1.png",
 			"desc" : "",
-			"attack" : 5,
-			"defense" : 5
+			"attack" : 50,
+			"defense" : 100
 	},
 	"Computer_2_card" : { 
 			"type" : "computer",
 			"name" : "Linux_box_2",
 			"tile":"res://Assets/hex_computer_2.png",
 			"desc" : "",
-			"attack" : 5,
-			"defense" : 5
+			"attack" : 50,
+			"defense" : 50
 	},
 	"Server_card" : { 
 			"type" : "computer",
 			"name" : "Server",
 			"tile":"res://Assets/hex_server.png",
 			"desc" : "",
-			"attack" : 10,
-			"defense" : 5
+			"attack" : 100,
+			"defense" : 100
 	} 
 }

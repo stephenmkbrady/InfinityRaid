@@ -19,7 +19,7 @@
 [ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=17]
 [ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=18]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" index="0"]
 
 _sections_unfolded = [ "Z Index" ]
 
@@ -70,7 +70,7 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", 
 
 [node name="Position2D" type="Position2D" parent="." index="2"]
 
-position = Vector2( 81.6159, 22.212 )
+position = Vector2( 81.6159, 12.212 )
 scale = Vector2( 0.93506, 1 )
 _sections_unfolded = [ "Z Index" ]
 
@@ -277,8 +277,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 559.0
+margin_left = 89.0
+margin_top = 570.0
 margin_right = 1022.0
 margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )

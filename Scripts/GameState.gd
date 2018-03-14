@@ -33,6 +33,7 @@ var background_video
 var timer
 var board_timer
 var progress_bar
+
 signal Computer_1_placed()
 signal Computer_2_placed()
 signal Server_placed()
@@ -42,12 +43,16 @@ signal Low_placed()
 
 func _ready():
 	randomize()
+	
 	decks = {}
 	var file = File.new()
 	file.open("res://Assets/Deck/Deck.json", file.READ)
 	var text = file.get_as_text()
 	decks = JSON.parse(text).result
 	file.close()
+	
+	if power_time < 60:
+		power_time = 60
 	
 	high_deck = decks["High_deck"]
 	medium_deck = decks["Medium_deck"]
@@ -59,6 +64,7 @@ func _ready():
 func _process(delta):
 	if timer != null:
 		progress_bar.set_value(power_time - int(timer.time_left))
+		get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_time_left())+"[/center]")
 	if background_video != null and not background_video.is_playing():
 		background_video.play()
 
@@ -73,33 +79,33 @@ func get_player_marker(name):
 	
 func get_strength_indicator(atk, def):
 	var indicator
-	if def >= 3:
+	if int(def) >= 80:
 		indicator = green_indicator.instance()
-		if atk >=3:
+		if int(atk) >=80:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_3.png"))
-		elif atk == 2:
+		elif int(atk) <= 60 and int(atk) > 20:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
-		elif atk == 1:
+		elif int(atk) <= 20 and int(def) > 0:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
 		else:
 			return null
-	elif def == 2:
+	elif int(def) <= 60 and int(def) > 20:
 		indicator = yellow_indicator.instance()
-		if atk >=3:
+		if int(atk) >=80:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_3.png"))
-		elif atk == 2:
+		elif int(atk) <= 60 and int(atk) > 20:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_2.png"))
-		elif atk == 1:
+		elif int(atk) <= 20 and int(def) > 0:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_1.png"))
 		else:
 			return null
-	elif def == 1:
+	elif int(def) <= 20 and int(def) > 0:
 		indicator = red_indicator.instance()
-		if atk >=3:
+		if int(atk) >=80:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_3.png"))
-		elif atk == 2:
+		elif int(atk) <= 60 and int(atk) > 20:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_2.png"))
-		elif atk == 1:
+		elif int(atk) <= 20 and int(def) > 0:
 			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_1.png"))
 		else:
 			return null
@@ -108,36 +114,31 @@ func get_strength_indicator(atk, def):
 func _on_player_name_changed ( new_name ):
 	player_name = new_name
 
-remote func _draw_card( deck, r_id ):
+remote func draw_card( deck, r_id ):
 	if (get_tree().is_network_server()):
 		var r = str(randi() % deck.size() + 1)
 		if deck.has(r):
 			if r_id != 1:
-				print("remote_on_card_drawn")
 				rpc_id(r_id, "remote_on_card_drawn", deck[r])
 			else:
 				emit_signal("card_drawn", deck[r])
-			deck.erase(r)
 		else:
-			print("implement empty deck condition")
 			emit_signal("deck_empty")
 	else:
-		rpc_id(1,'_draw_card', deck, r_id)
+		rpc_id(1,'draw_card', deck, r_id)
+
+remote func remove_card(deck, r):
+	deck.erase(r)
 
 func _on_card_drawn(card):
-	print("card: ", card["tile"])
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
 		dialog.get_child(0).set_texture(load(card["image"]))
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
 		
 remote func remote_on_card_drawn(card):
-	print("card_remote: ", card["tile"])
-	if card.has("image"):
-		var dialog = load("res://Scene/Dialog.tscn").instance()
-		dialog.get_child(0).set_texture(load(card["image"]))
-		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
-		emit_signal("card_drawn", card)
+	_on_card_drawn(card)
+	emit_signal("card_drawn", card)
 
 remote func pre_start_game():
 	# Change scene
@@ -274,54 +275,59 @@ func _on_server_pressed( arg1 ):
 	_set_hex_pickable(true)
 
 func _on_high_pressed( arg1 ):
-	_draw_card(high_deck, get_tree().get_network_unique_id())
+	draw_card(high_deck, get_tree().get_network_unique_id())
 	timer.stop()
 
 func _on_medium_pressed( arg1 ):
-	_draw_card(medium_deck, get_tree().get_network_unique_id())
+	draw_card(medium_deck, get_tree().get_network_unique_id())
 	timer.stop()
 	
 func _on_low_pressed( arg1 ):
-	_draw_card(low_deck, get_tree().get_network_unique_id())
+	draw_card(low_deck, get_tree().get_network_unique_id())
 	timer.stop()
 
 func _on_computer_1_placed(arg1):
 	emit_signal("Computer_1_placed")
-	power_time = power_time - 15
+	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_computer_2_placed(arg1):
 	emit_signal("Computer_2_placed")
-	power_time = power_time - 15
+	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
-
 func _on_server_placed(arg1):
 	emit_signal("Server_placed")
-	power_time = power_time - 30
+	power_time = power_time - 28
 	timer.stop()
 	timer.set_wait_time(power_time)
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_high_placed(arg1):
 	emit_signal("High_placed")
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_medium_placed(arg1):
 	emit_signal("Medium_placed")
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_low_placed(arg1):
 	emit_signal("Low_placed")
+	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 

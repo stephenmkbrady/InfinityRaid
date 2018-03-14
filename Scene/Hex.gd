@@ -12,7 +12,7 @@ signal hex_defense_changed()
 signal hex_card_changed()
 signal hex_owner_changed()
 
-var DEBUG = true
+var DEBUG = false
 var action
 var card = null
 
@@ -34,8 +34,6 @@ func _ready():
 		}
 	tile_effect = load("res://Scene/node_effect.tscn")
 	snd_drop_action = get_tree().get_root().get_node("Node2D/audio/drop_action")
-	
-	#hex_contents["tile_tex"] = self.get_parent().get_texture() 
 
 	# Subscribe hex instance to the action buttons
 	for node in self.get_tree().get_root().get_node("Node2D/ActionButtons").get_children():
