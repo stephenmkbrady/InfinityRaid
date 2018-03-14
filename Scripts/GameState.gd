@@ -75,7 +75,7 @@ func get_player_name():
 	return player_name
 
 func get_player_marker(name):
-	return load("res://Assets/hex_player_"+name+".png")
+	return load("res://Assets/hex_player_"+str(name)+".png")
 	
 func get_strength_indicator(atk, def):
 	var indicator
