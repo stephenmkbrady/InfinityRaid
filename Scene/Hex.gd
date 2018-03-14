@@ -159,11 +159,12 @@ func attack_hex_enemies(positions):
 		#If enemy hex is defeated immediately
 		if int(hex_contents["hex_attack"]) >= int(enemy["hex_defense"]):
 			enemy_instance.set_hex_owner(GameState.player_name)
-			enemy_instance.set_hex_contents(null)
-			enemy_instance.set_hex_indicator(0,0)
 			enemy_instance.rpc("set_hex_owner",GameState.player_name)
-			enemy_instance.rpc("set_hex_contents",null)
-			enemy_instance.rpc("set_hex_indicator", 0, 0 )
+			_kill_hex(enemy_instance)
+			#enemy_instance.set_hex_contents(null)
+			#enemy_instance.set_hex_indicator(0,0)
+			#enemy_instance.rpc("set_hex_contents",null)
+			#enemy_instance.rpc("set_hex_indicator", 0, 0 )
 			
 		# If enemy defense stronger than hex's attack, drop enem's def but enemy attacks back
 		elif int(hex_contents["hex_attack"]) < int(enemy["hex_defense"]):
@@ -173,18 +174,26 @@ func attack_hex_enemies(positions):
 			# Enemy attack back and is hex is immediately defeated
 			if int(hex_contents["hex_defense"]) <= int(enemy["hex_attack"]):
 				for p in GameState.players:
-					set_hex_owner(p)
-				set_hex_contents(null)
-				set_hex_indicator(0,0)
-				rpc("set_hex_owner",GameState.player_name)
-				rpc("set_hex_contents",null)
-				rpc("set_hex_indicator", 0, 0 )
+					print("set_hex_owner: ", GameState.players[p])
+					set_hex_owner(GameState.players[p])
+					rpc("set_hex_owner", GameState.players[p])
+				_kill_hex(self)
+				#set_hex_contents(null)
+				#set_hex_indicator(0,0)
+				#rpc("set_hex_contents",null)
+				#rpc("set_hex_indicator", 0, 0 )
 			# Enemy attack back and does damage
 			elif int(enemy["hex_attack"]) < int(hex_contents["hex_defense"]):
 				hex_contents["hex_defense"] = hex_contents["hex_defense"] - enemy["hex_attack"]
 				set_hex_indicator(null, hex_contents["hex_defense"])
 				rpc("set_hex_indicator", null, hex_contents["hex_defense"]) 
 
+func _kill_hex(hex_instance):
+	hex_instance.set_hex_contents(null)
+	hex_instance.set_hex_indicator(0,0)
+	hex_instance.rpc("set_hex_contents",null)
+	hex_instance.rpc("set_hex_indicator", 0, 0 )
+	
 func hex_enemy_data( location_in_parent ):
 	#Returns hex_data if enemy or not allocated to hex asking, or returns null if not the enemy of the hex asking or if hex doesn't exist
 	if(location_in_parent >= 0 and location_in_parent < GameState.board_cell_count and self.get_parent().get_parent().get_parent().get_child(location_in_parent) != null):

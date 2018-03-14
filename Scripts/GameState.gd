@@ -181,6 +181,7 @@ remote func ready_to_start(id):
 func begin_game():
 	assert(get_tree().is_network_server())
 	for p in GameState.players:
+		print("player: ", GameState.players[p])
 		rpc_id(p, "pre_start_game")
 	pre_start_game()
 
