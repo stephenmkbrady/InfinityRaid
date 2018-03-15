@@ -1,23 +1,22 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Assets/audio/select_action.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Assets/audio/drop_piece_on_board.ogg" type="AudioStream" id=2]
-[ext_resource path="res://Assets/video/background2.webm" type="VideoStream" id=3]
-[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=4]
-[ext_resource path="res://Assets/progressbar.png" type="Texture" id=5]
-[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=6]
-[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=7]
-[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=8]
-[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=9]
-[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=10]
-[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=11]
-[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=12]
-[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=13]
-[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=14]
-[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=15]
-[ext_resource path="res://Assets/hex_server.png" type="Texture" id=16]
-[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=17]
-[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=18]
+[ext_resource path="res://Assets/progressbar.png" type="Texture" id=3]
+[ext_resource path="res://Assets/video/background2.webm" type="VideoStream" id=4]
+[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=5]
+[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=6]
+[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=7]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=8]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=9]
+[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=10]
+[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=11]
+[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=12]
+[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=13]
+[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=14]
+[ext_resource path="res://Assets/hex_server.png" type="Texture" id=15]
+[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=16]
+[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=17]
 
 [node name="Node2D" type="Node2D" index="0"]
 
@@ -43,7 +42,41 @@ autoplay = false
 mix_target = 0
 bus = "Master"
 
-[node name="VideoPlayer" type="VideoPlayer" parent="." index="1"]
+[node name="TextureProgress" type="TextureProgress" parent="." index="1"]
+
+show_behind_parent = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 341.0
+margin_right = 367.0
+margin_bottom = 737.0
+rect_scale = Vector2( 0.2, 0.2 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 30.0
+step = 1.0
+page = 0.0
+value = 0.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 3 )
+texture_over = null
+texture_progress = ExtResource( 3 )
+fill_mode = 3
+radial_initial_angle = 45.0
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Grow Direction", "Margin", "Radial Fill", "Rect", "Textures", "Theme", "Visibility" ]
+
+[node name="VideoPlayer" type="VideoPlayer" parent="." index="2"]
 
 anchor_left = 1.0
 anchor_top = 1.0
@@ -59,7 +92,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 audio_track = 0
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )
 volume_db = 0.0
 autoplay = true
 paused = false
@@ -68,45 +101,11 @@ buffering_msec = 500
 bus = "Master"
 _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "Size Flags", "Visibility" ]
 
-[node name="Position2D" type="Position2D" parent="." index="2"]
+[node name="Position2D" type="Position2D" parent="." index="3"]
 
 position = Vector2( 81.6159, 12.212 )
 scale = Vector2( 0.93506, 1 )
 _sections_unfolded = [ "Z Index" ]
-
-[node name="TextureProgress" type="TextureProgress" parent="." index="3"]
-
-show_behind_parent = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = 289.0
-margin_right = 367.0
-margin_bottom = 685.0
-rect_scale = Vector2( 0.2, 0.2 )
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
-max_value = 30.0
-step = 1.0
-page = 0.0
-value = 0.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 4 )
-texture_over = null
-texture_progress = ExtResource( 5 )
-fill_mode = 3
-radial_initial_angle = 45.0
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Grow Direction", "Margin", "Radial Fill", "Rect", "Textures", "Theme", "Visibility" ]
 
 [node name="ActionButtons" type="Node2D" parent="." index="4"]
 
@@ -133,9 +132,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 6 )
-texture_disabled = ExtResource( 7 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 5 )
+texture_disabled = ExtResource( 6 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures" ]
 
 [node name="Medium" type="TextureButton" parent="ActionButtons" index="1"]
@@ -159,9 +158,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 9 )
-texture_disabled = ExtResource( 7 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 8 )
+texture_disabled = ExtResource( 6 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="Low" type="TextureButton" parent="ActionButtons" index="2"]
@@ -185,9 +184,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 10 )
-texture_disabled = ExtResource( 11 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 9 )
+texture_disabled = ExtResource( 10 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Textures" ]
 
 [node name="Computer_1" type="TextureButton" parent="ActionButtons" index="3"]
@@ -211,10 +210,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 12 )
-texture_hover = ExtResource( 13 )
-texture_disabled = ExtResource( 11 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+texture_disabled = ExtResource( 10 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="Computer_2" type="TextureButton" parent="ActionButtons" index="4"]
@@ -238,10 +237,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
-texture_disabled = ExtResource( 11 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 13 )
+texture_hover = ExtResource( 14 )
+texture_disabled = ExtResource( 10 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="Server" type="TextureButton" parent="ActionButtons" index="5"]
@@ -265,10 +264,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 16 )
-texture_hover = ExtResource( 17 )
-texture_disabled = ExtResource( 11 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 15 )
+texture_hover = ExtResource( 16 )
+texture_disabled = ExtResource( 10 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="InfoText" type="RichTextLabel" parent="." index="5"]
@@ -323,7 +322,7 @@ position = Vector2( 231.157, 223.102 )
 
 position = Vector2( 36.5255, 559.192 )
 scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 18 )
+texture = ExtResource( 17 )
 _sections_unfolded = [ "Material", "Region", "Transform", "Visibility" ]
 
 

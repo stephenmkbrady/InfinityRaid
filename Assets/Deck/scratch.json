@@ -1,0 +1,39 @@
+	"1":{
+			"type":"daemon",
+			"effects":{
+				"type":"unit",
+				"value": 10,
+				"duration":10,
+				"target":"local"
+			},
+			"name":"Magical realm of the gypsy",
+			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
+			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"desc":"Consumes enemy unit, remove enemy computer of your choice"
+		},
+	"2":{
+			"type":"daemon",
+			"effects":{
+				"type":"timer",
+				"value": 10,
+				"duration":10,
+				"target":"remote"
+			},
+			"name":"Magical realm of the gypsy",
+			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
+			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"desc":"Consumes enemy unit, remove enemy computer of your choice"
+		},
+	"3":{
+			"type":"daemon",
+			"effects":{
+				"type":"computers",
+				"value": 10,
+				"duration":10,
+				"target":"remote"
+			},
+			"name":"Magical realm of the gypsy",
+			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
+			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"desc":"Consumes enemy unit, remove enemy computer of your choice"
+		}

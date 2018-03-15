@@ -161,10 +161,6 @@ func attack_hex_enemies(positions):
 			enemy_instance.set_hex_owner(GameState.player_name)
 			enemy_instance.rpc("set_hex_owner",GameState.player_name)
 			_kill_hex(enemy_instance)
-			#enemy_instance.set_hex_contents(null)
-			#enemy_instance.set_hex_indicator(0,0)
-			#enemy_instance.rpc("set_hex_contents",null)
-			#enemy_instance.rpc("set_hex_indicator", 0, 0 )
 			
 		# If enemy defense stronger than hex's attack, drop enem's def but enemy attacks back
 		elif int(hex_contents["hex_attack"]) < int(enemy["hex_defense"]):
@@ -178,10 +174,7 @@ func attack_hex_enemies(positions):
 					set_hex_owner(GameState.players[p])
 					rpc("set_hex_owner", GameState.players[p])
 				_kill_hex(self)
-				#set_hex_contents(null)
-				#set_hex_indicator(0,0)
-				#rpc("set_hex_contents",null)
-				#rpc("set_hex_indicator", 0, 0 )
+
 			# Enemy attack back and does damage
 			elif int(enemy["hex_attack"]) < int(hex_contents["hex_defense"]):
 				hex_contents["hex_defense"] = hex_contents["hex_defense"] - enemy["hex_attack"]
@@ -189,10 +182,19 @@ func attack_hex_enemies(positions):
 				rpc("set_hex_indicator", null, hex_contents["hex_defense"]) 
 
 func _kill_hex(hex_instance):
+	if hex_instance.get_hex_contents()["hex_card"] != null:
+		print("Hex killed: ", hex_instance.get_hex_contents())
+		if hex_instance.get_hex_contents()["hex_card"]["name"] == "Computer_1" or hex_instance.get_hex_contents()["hex_card"]["name"] == "Computer_2":
+			rpc("set_power_time", 12)
+		elif hex_instance.get_hex_contents()["hex_card"]["name"] == "Server":
+			rpc("set_power_time", 28)
 	hex_instance.set_hex_contents(null)
 	hex_instance.set_hex_indicator(0,0)
 	hex_instance.rpc("set_hex_contents",null)
 	hex_instance.rpc("set_hex_indicator", 0, 0 )
+
+remote func set_power_time(t):
+	GameState.power_time = GameState.power_time + t
 	
 func hex_enemy_data( location_in_parent ):
 	#Returns hex_data if enemy or not allocated to hex asking, or returns null if not the enemy of the hex asking or if hex doesn't exist

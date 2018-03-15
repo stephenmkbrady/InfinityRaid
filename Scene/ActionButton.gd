@@ -43,7 +43,7 @@ func _pressed():
 func _process(delta):
 # monitor timer
 	var t = int(timer.time_left)
-	if t < GameState.power_time / 4:
+	if t < GameState.power_time / 4 or t == 0:
 		if self.get_name() == "High":
 			self.set_disabled(false)
 			self.set_visible(true)
@@ -63,7 +63,7 @@ func _process(delta):
 		elif self.get_name() == "Low":
 			self.set_disabled(true)
 			self.set_visible(false)
-	if t < GameState.power_time / 2 and t > GameState.power_time / 3:
+	if t < GameState.power_time - 5 and t > GameState.power_time / 3:
 		if self.get_name() == "High":
 			self.set_disabled(true)
 			self.set_visible(false)

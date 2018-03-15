@@ -23,6 +23,7 @@ var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
 var red_indicator = load("res://Scene/StatusIndicator.tscn")
 var p_marker
 var card
+var active_effects = []
 
 signal card_drawn()
 signal deck_empty()
@@ -60,13 +61,29 @@ func _ready():
 	computer_1_card = decks["Computer_1_card"]
 	computer_2_card = decks["Computer_2_card"]
 	server_card = decks["Server_card"]
-
+	
 func _process(delta):
 	if timer != null:
 		progress_bar.set_value(power_time - int(timer.time_left))
-		get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_time_left())+"[/center]")
 	if background_video != null and not background_video.is_playing():
 		background_video.play()
+	
+	# Process any effects applied to player
+	for e in active_effects:
+		if e.has("effect_duration") and e["effect_duration"].get_time_left() == 0:
+			print(get_children())
+			print( e.name)
+			get_node(e["name"]).queue_free()
+			# If the effect is a timer effect then undo it
+			if e["card"]["effects"]["type"] == "timer":
+				power_time = power_time + e["card"]["effects"]["value"]
+			elif e["card"]["effects"]["type"] == "unit":
+				pass
+			active_effects.remove(active_effects.find(e))
+
+	#print(get_children())
+	#if get_tree().get_root().get_node("Node2D/InfoText")  != null:
+	#print(str(power_time))
 
 func get_player_list():
 	return players.values()
@@ -134,8 +151,9 @@ func _on_card_drawn(card):
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
 		dialog.get_child(0).set_texture(load(card["image"]))
+		dialog.get_node("Sprite").get_node("Area2D").set_card(card)
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
-		
+
 remote func remote_on_card_drawn(card):
 	_on_card_drawn(card)
 	emit_signal("card_drawn", card)
@@ -287,12 +305,73 @@ func _on_low_pressed( arg1 ):
 	draw_card(low_deck, get_tree().get_network_unique_id())
 	timer.stop()
 
+func _on_effect_placed(r_id, r_card):
+	# If effect called locally
+	if r_id == get_tree().get_network_unique_id():
+		set_info(" local " + r_card["name"] +" : "+ r_card["type"])
+		rpc("set_info", r_card["name"] +" : "+ r_card["type"])
+		print("CARD EFFECTS: ", r_card["effects"])
+		var active_effect = {}
+		if r_card["effects"].has("duration"):
+			active_effect.card = r_card
+			active_effect.effect_duration = get_timer(int(r_card["effects"]["duration"]), true)
+			active_effect.name = "effect_duration_" + str(active_effect.effect_duration.get_instance_id())
+			print("Effect name: ", active_effect.name)
+			active_effect.effect_duration.set_name(active_effect.name)
+			add_child(active_effect.effect_duration)
+			
+		if r_card["effects"]["type"] == "timer":
+			if r_card["effects"]["operator"] == "-":
+				if power_time - r_card["effects"]["value"] > 0:
+					power_time = power_time - r_card["effects"]["value"]
+				else:
+					power_time = 10
+			elif r_card["effects"]["operator"] == "+":
+				power_time = power_time + r_card["effects"]["value"]
+			timer.stop()
+			timer.set_wait_time(power_time)
+			
+			active_effects.append(active_effect)
+			
+		# effect for drawing/removing a specific unit card
+		elif r_card["effects"]["type"] == "unit":
+			pass
+		# effect for adding/removing computers or server
+		elif r_card["effects"]["type"] == "computers":
+			pass
+		
+		#if r_card["effects"]["target"] == "local":
+		#elif r_card["effects"]["target"] == "remote":
+		#elif r_card["effects"]["target"] == "all":
+
+		#print(r_card["effects"]["type"])
+		#print(r_card["effects"]["value"])
+		#print(r_card["effects"]["duration"])
+		#print(r_card["effects"]["affect"])
+	else:
+		# If effect called remotely
+		set_info(" local " + r_card["name"] +" : "+ r_card["type"])
+		rpc("set_info", r_card["name"] +" : "+ r_card["type"])
+	timer.start()
+
+# Return a started timer
+func get_timer(wait_time, one_shot = false):
+	var t = Timer.new()
+	t.set_wait_time(wait_time)
+	if one_shot:
+		t.set_one_shot(true)
+	t.start()
+	return t
+
+remote func set_info(text):
+	if get_tree().get_root().get_node("Node2D/InfoText") :
+		get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+ text +"[/center]")
+
 func _on_computer_1_placed(arg1):
 	emit_signal("Computer_1_placed")
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
@@ -301,7 +380,6 @@ func _on_computer_2_placed(arg1):
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
@@ -310,25 +388,21 @@ func _on_server_placed(arg1):
 	power_time = power_time - 28
 	timer.stop()
 	timer.set_wait_time(power_time)
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_high_placed(arg1):
 	emit_signal("High_placed")
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_medium_placed(arg1):
 	emit_signal("Medium_placed")
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_low_placed(arg1):
 	emit_signal("Low_placed")
-	#get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+str(timer.get_wait_time())+"[/center]")
 	_set_hex_pickable(false)
 	timer.start()
 
