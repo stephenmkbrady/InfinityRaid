@@ -38,7 +38,8 @@ func _ready():
 	# Subscribe hex instance to the action buttons
 	for node in self.get_tree().get_root().get_node("Node2D/ActionButtons").get_children():
 		node.connect("action_pressed",self,"_on_action_pressed")
-
+	self.get_tree().get_root().get_node("Node2D/HandPosition/hand").connect("action_pressed",self,"_on_action_pressed")
+	self.get_tree().get_root().get_node("Node2D/HandPosition/hand").connect("card_drawn", self, "_on_card_drawn")
 	# Subscribe to root node to know when another hex instance has updated
 	GameState.connect("Computer_1_placed",self,"_on_computer_1_placed")
 	GameState.connect("Computer_2_placed",self,"_on_computer_2_placed")
@@ -54,8 +55,8 @@ func _ready():
 func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
-			if DEBUG:
-				print("Action placing: ", action)
+			#if DEBUG:
+			print("Action placing: ", action)
 			# If the hex is owned by current player or not owned then it's ok to place a piece
 			if hex_contents["hex_owner"] == GameState.player_name or hex_contents["hex_owner"] == null:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center][/center]") # Clear the info text

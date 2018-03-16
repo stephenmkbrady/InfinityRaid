@@ -1,0 +1,192 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scene/hand.gd" type="Script" id=1]
+[ext_resource path="res://Assets/hex_empty.png" type="Texture" id=2]
+
+[node name="hand" type="Node2D"]
+
+script = ExtResource( 1 )
+
+[node name="0" type="TextureButton" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -27.0
+margin_top = -30.0
+margin_right = 333.0
+margin_bottom = 366.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="1" type="TextureButton" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -1.0
+margin_top = 14.0
+margin_right = 359.0
+margin_bottom = 410.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="2" type="TextureButton" parent="." index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -27.0
+margin_top = 57.0
+margin_right = 333.0
+margin_bottom = 453.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="3" type="TextureButton" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -1.0
+margin_top = 101.0
+margin_right = 359.0
+margin_bottom = 497.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="4" type="TextureButton" parent="." index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -27.0
+margin_top = 144.0
+margin_right = 333.0
+margin_bottom = 540.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Hint", "Rect", "Textures" ]
+
+[node name="5" type="TextureButton" parent="." index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -1.0
+margin_top = 188.0
+margin_right = 359.0
+margin_bottom = 584.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="6" type="TextureButton" parent="." index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -27.0
+margin_top = 231.0
+margin_right = 333.0
+margin_bottom = 627.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+disabled = true
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_disabled = ExtResource( 2 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[connection signal="pressed" from="0" to="." method="_on_0_pressed"]
+
+[connection signal="pressed" from="1" to="." method="_on_1_pressed"]
+
+[connection signal="pressed" from="2" to="." method="_on_2_pressed"]
+
+[connection signal="pressed" from="3" to="." method="_on_3_pressed"]
+
+[connection signal="pressed" from="4" to="." method="_on_4_pressed"]
+
+[connection signal="pressed" from="5" to="." method="_on_5_pressed"]
+
+[connection signal="pressed" from="6" to="." method="_on_6_pressed"]
+
+

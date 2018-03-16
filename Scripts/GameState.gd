@@ -21,6 +21,11 @@ var board_cell_count = board_height * board_length
 var green_indicator = load("res://Scene/StatusIndicator.tscn")
 var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
 var red_indicator = load("res://Scene/StatusIndicator.tscn")
+
+var hand = load("res://Scene/hand.tscn")
+var hand_pos
+var hand_node
+
 var p_marker
 var card
 var active_effects = []
@@ -32,7 +37,7 @@ signal game_error(what)
 
 var background_video 
 var timer
-var board_timer
+#var board_timer
 var progress_bar
 
 signal Computer_1_placed()
@@ -82,8 +87,8 @@ func _process(delta):
 			active_effects.remove(active_effects.find(e))
 
 	#print(get_children())
-	#if get_tree().get_root().get_node("Node2D/InfoText")  != null:
-	#print(str(power_time))
+	if timer != null:
+		set_info(str(timer.get_time_left()))
 
 func get_player_list():
 	return players.values()
@@ -148,11 +153,16 @@ remote func remove_card(deck, r):
 	deck.erase(r)
 
 func _on_card_drawn(card):
+	if card["type"] == "computer":
+		hand_node.add_card(card)
+		for n in hand_node.get_children():
+			print("hand: ", n)
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
-		dialog.get_child(0).set_texture(load(card["image"]))
+		#dialog.get_child(0).set_texture(load(card["image"]))
 		dialog.get_node("Sprite").get_node("Area2D").set_card(card)
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
+
 
 remote func remote_on_card_drawn(card):
 	_on_card_drawn(card)
@@ -169,6 +179,7 @@ remote func pre_start_game():
 	get_tree().get_root().get_node("Node2D/player_logo").set_texture(load("res://Assets/player_"+ player_name +"_logo.png"))
 	_connect_to_action_buttons()
 	_setup_and_start_timer()
+	
 	_generate_map(board_length, board_height)
 
 	get_tree().get_root().get_node("/root/GameState").connect("card_drawn",self, "_on_card_drawn")
@@ -212,6 +223,10 @@ func end_game():
 	get_tree().set_network_peer(null) # End networking
 
 func _generate_map(board_width, board_height):
+	hand_pos = self.get_tree().get_root().get_node("Node2D/HandPosition")
+	hand_node = hand.instance()
+	hand_pos.add_child(hand_node)
+	
 	var ref_pos = self.get_tree().get_root().get_node("Node2D/Position2D").get_global_transform()
 	var tile_width = 77
 	var tile_height = 58
@@ -280,9 +295,9 @@ func _setup_and_start_timer():
 	timer = self.get_tree().get_root().get_node("Node2D/Power_Timer")
 	timer.set_wait_time(power_time)
 	timer.start()
-	board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
-	board_timer.set_wait_time(board_update_time)
-	board_timer.start()
+	#board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
+	#board_timer.set_wait_time(board_update_time)
+	#board_timer.start()
 
 func _on_computer_1_pressed( arg1 ):
 	_set_hex_pickable(true)
@@ -306,53 +321,61 @@ func _on_low_pressed( arg1 ):
 	timer.stop()
 
 func _on_effect_placed(r_id, r_card):
-	# If effect called locally
-	if r_id == get_tree().get_network_unique_id():
-		set_info(" local " + r_card["name"] +" : "+ r_card["type"])
-		rpc("set_info", r_card["name"] +" : "+ r_card["type"])
-		print("CARD EFFECTS: ", r_card["effects"])
-		var active_effect = {}
-		if r_card["effects"].has("duration"):
-			active_effect.card = r_card
-			active_effect.effect_duration = get_timer(int(r_card["effects"]["duration"]), true)
-			active_effect.name = "effect_duration_" + str(active_effect.effect_duration.get_instance_id())
-			print("Effect name: ", active_effect.name)
-			active_effect.effect_duration.set_name(active_effect.name)
-			add_child(active_effect.effect_duration)
-			
-		if r_card["effects"]["type"] == "timer":
-			if r_card["effects"]["operator"] == "-":
-				if power_time - r_card["effects"]["value"] > 0:
-					power_time = power_time - r_card["effects"]["value"]
-				else:
-					power_time = 10
-			elif r_card["effects"]["operator"] == "+":
-				power_time = power_time + r_card["effects"]["value"]
-			timer.stop()
-			timer.set_wait_time(power_time)
-			
-			active_effects.append(active_effect)
-			
-		# effect for drawing/removing a specific unit card
-		elif r_card["effects"]["type"] == "unit":
-			pass
-		# effect for adding/removing computers or server
-		elif r_card["effects"]["type"] == "computers":
-			pass
-		
-		#if r_card["effects"]["target"] == "local":
-		#elif r_card["effects"]["target"] == "remote":
-		#elif r_card["effects"]["target"] == "all":
-
-		#print(r_card["effects"]["type"])
-		#print(r_card["effects"]["value"])
-		#print(r_card["effects"]["duration"])
-		#print(r_card["effects"]["affect"])
-	else:
-		# If effect called remotely
-		set_info(" local " + r_card["name"] +" : "+ r_card["type"])
-		rpc("set_info", r_card["name"] +" : "+ r_card["type"])
+	set_info(" local " + r_card["name"] +" : "+ r_card["type"])
+	rpc("set_info", r_card["name"] +" : "+ r_card["type"])
+	
+	if r_card["effects"]["target"] == "local":
+		set_effect(r_id, r_card)
+	elif r_card["effects"]["target"] == "remote":
+		rpc("add_effect", r_id, r_card)
+	elif r_card["effects"]["target"] == "all":
+		set_effect(r_id, r_card)
+		rpc("add_effect", r_id, r_card)
 	timer.start()
+
+remote func set_effect(r_id, r_card):
+	var active_effect = {}
+	if r_card["effects"].has("duration"):
+		# Add card, duration timer and name of the node to the effect object. 
+		# Node name and effect name are the same for finding and deletion of node later
+		active_effect.card = r_card
+		active_effect.effect_duration = get_timer(int(r_card["effects"]["duration"]), true)
+		active_effect.name = "effect_duration_" + str(active_effect.effect_duration.get_instance_id())
+		active_effect.effect_duration.set_name(active_effect.name)
+		add_child(active_effect.effect_duration)
+	
+	if r_card["effects"]["type"] == "timer":
+		if r_card["effects"]["operator"] == "-":
+			if power_time - r_card["effects"]["value"] > 0:
+				power_time = power_time - r_card["effects"]["value"]
+			else:
+				power_time = 10
+		elif r_card["effects"]["operator"] == "+":
+			power_time = power_time + r_card["effects"]["value"]
+		timer.stop()
+		timer.set_wait_time(power_time)
+		timer.start()
+		
+	# effect for drawing/removing a specific unit card
+	elif r_card["effects"]["type"] == "unit":
+		if r_card["effects"]["operator"] == "-":
+			pass
+		elif r_card["effects"]["operator"] == "+":
+			get_card(r_card["effects"]["value"])
+	# effect for adding/removing computers or server
+	elif r_card["effects"]["type"] == "computers":
+		pass
+	
+	active_effects.append(active_effect)
+
+# Return a card 
+func get_card(card_name):
+	for d in decks:
+		if not d.ends_with("card"):
+			for card in decks[d]:
+				if card_name == decks[d][card]["name"]:
+					return(decks[d][card])
+	return null
 
 # Return a started timer
 func get_timer(wait_time, one_shot = false):

@@ -9,7 +9,8 @@
 			"desc" : "Special ability: adds Temple unit",
 			"seconday" : "computer",
 			"attack" : 100,
-			"defense" : 100
+			"defense" : 100,
+			"level":"High"
 		},
 	"2":
 		{
@@ -20,7 +21,8 @@
 			"desc":"Special ability: adds Purifier effect",
 			"seconday" : "daemon",
 			"attack" : 100,
-			"defense" : 100
+			"defense" : 100,
+			"level":"High"
 		},
 	"3":{
 			"type":"computer",
@@ -30,7 +32,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"seconday" : "daemon",
 			"attack" : 100,
-			"defense" : 100
+			"defense" : 100,
+			"level":"High"
 		}
 	},
 	"Medium_deck" : { 
@@ -42,7 +45,8 @@
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"2":
 		{
@@ -52,7 +56,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"3":{
 			"type":"computer",
@@ -61,7 +66,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"4":{
 			"type":"computer",
@@ -70,7 +76,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"5":{
 			"type":"computer",
@@ -79,7 +86,8 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"6":{
 			"type":"computer",
@@ -88,26 +96,41 @@
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"desc":"",
 			"attack" : 60,
-			"defense" : 60
+			"defense" : 60,
+			"level":"Medium"
 		},
 	"7":
 		{
 			"type":"daemon",
+			"effects":{
+				"type":"timer",
+				"value": 20,
+				"duration":10,
+				"operator":"-",
+				"target":"remote"
+			},
 			"name":"Academics, please respond!?",
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Reduces attack on all computers to 0 for 2 turns"
+			"desc":"Reduces attack on all computers to 0 for 2 turns",
+			"level":"Medium"
 		},
 	"8":{
 			"type":"daemon",
+			"effects":{
+				"type":"timer",
+				"value": 20,
+				"duration":10,
+				"operator":"-",
+				"target":"remote"
+			},
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
 			"name":"This is ribrary!",
-			"desc":""
-		}
-	},
-	"Low_deck" : {
-	"1":{
+			"desc":"",
+			"level":"Medium"
+		},
+	"9":{
 			"type":"daemon",
 			"effects":{
 				"type":"timer",
@@ -119,7 +142,26 @@
 			"name":"Magical realm of the gypsy",
 			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
 			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Consumes enemy unit, remove enemy computer of your choice"
+			"desc":"Consumes enemy unit, remove enemy computer of your choice",
+			"level":"Medium"
+		},
+	},
+	"Low_deck" : {
+
+	"1":{
+			"type":"daemon",
+			"effects":{
+				"type":"unit",
+				"value": "rosechu",
+				"duration":10,
+				"operator":"+",
+				"target":"local"
+			},
+			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
+			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name":"This is ribrary!",
+			"desc":"",
+			"level":"Low"
 		}
 	},
 	"Computer_1_card" : { 

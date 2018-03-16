@@ -1,6 +1,6 @@
 extends TextureButton
 
-signal action_pressed
+signal action_pressed()
 
 var timer
 var snd_select_action
@@ -19,28 +19,35 @@ func _ready():
 	GameState.connect("Low_placed",self,"_on_action_placed")
 # make action 5 - 8 buttons grey and disabled
 	timer = get_tree().get_root().get_node("Node2D/Power_Timer")
-	if self.name == "Low" or self.name == "High" or self.name == "Medium":
-		self.set_disabled(true)
-		if self.name == "High" or self.name == "Medium":
-			self.set_visible(false)
+#	if self.name == "Low" or self.name == "High" or self.name == "Medium":
+#		self.set_disabled(true)
+#		if self.name == "High" or self.name == "Medium":
+#			self.set_visible(false)
 		
 func _pressed():
-	self.set_disabled(true)
+	
 	snd_select_action.play()
 	var tex
 	if self.get_name() == "Computer_1":
+		self.set_disabled(true)
 		tex = load("res://Assets/hex_computer_1_mouse.png")
 	elif self.get_name() == "Computer_2":
+		self.set_disabled(true)
 		tex = load("res://Assets/hex_computer_2_mouse.png")
 	elif self.get_name() == "Server":
+		self.set_disabled(true)
 		tex = load("res://Assets/hex_server_mouse.png")
 	else:
 		tex = mouse_cursor
+		
 	Input.set_custom_mouse_cursor(tex)
 	
 	emit_signal("action_pressed", self.get_name())
 
 func _process(delta):
+	pass
+
+func timer_based_process():
 # monitor timer
 	var t = int(timer.time_left)
 	if t < GameState.power_time / 4 or t == 0:
