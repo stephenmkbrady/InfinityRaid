@@ -24,6 +24,7 @@ NetCode="*res://Scripts/NetCode.gd"
 
 [display]
 
+window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
 [rendering]

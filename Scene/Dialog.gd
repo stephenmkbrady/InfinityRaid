@@ -5,7 +5,7 @@ signal effect_placed()
 func _ready():
 	self.connect("input_event",self,"_on_Area2D_input_event")
 	self.connect("effect_placed", get_tree().get_root().get_node("GameState"), "_on_effect_placed")
-	get_parent().set_texture(load(card["image"]))
+	#get_parent().set_texture(load(card["image"]))
 	#GameState.connect("card_drawn", self, "_on_card_drawn")
 
 func _on_Area2D_input_event(viewport, event, shape_idx):

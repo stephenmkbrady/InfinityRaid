@@ -32,15 +32,28 @@ func set_hand(arr):
 	hand = arr
 func get_hand():
 	return hand
+
 func refresh_hand():
 	var i = 0
+	# Reset the texture button and remove the block indicators
 	for n in get_children():
-		n.set_disabled(true)
-		n.set_normal_texture(default_tex)
+		if n.get_name() != "Label" or n.get_name().find("Label") == -1:
+			n.get_child(0).set_disabled(true)
+			n.get_child(0).set_normal_texture(default_tex)
+			for c in n.get_child(0).get_children():
+				if c.get_name() == "indicator" or c.get_name().find("indicator") != -1:
+					c.queue_free()
+
 	for c in hand:
-		get_node(str(i)).set_normal_texture(load(c.tile))
-		if get_node(str(i)).is_disabled():
-			get_node(str(i)).set_disabled(false)
+		get_node(str(i)).get_node(str(i)).set_normal_texture(load(c.tile))
+		var indicator = load("res://Scene/StatusIndicator.tscn").instance()
+		indicator.get_node("def").set_text(str(c["attack"]))
+		indicator.get_node("atk").set_text(str(c["defense"]))
+		indicator.set_scale(Vector2(6.6,6.6))
+		indicator.translate(Vector2(180,180))
+		get_node(str(i)).get_node(str(i)).add_child(indicator)
+		if get_node(str(i)).get_node(str(i)).is_disabled():
+			get_node(str(i)).get_node(str(i)).set_disabled(false)
 		i = i + 1
 				
 				

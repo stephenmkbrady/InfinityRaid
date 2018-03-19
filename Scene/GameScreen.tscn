@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Assets/audio/select_action.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Assets/audio/drop_piece_on_board.ogg" type="AudioStream" id=2]
@@ -6,20 +6,27 @@
 [ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=4]
 [ext_resource path="res://Assets/progressbar.png" type="Texture" id=5]
 [ext_resource path="res://Assets/button_action_high.png" type="Texture" id=6]
-[ext_resource path="res://Assets/button_action_disabled.png" type="Texture" id=7]
-[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=8]
-[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=9]
-[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=10]
-[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=11]
-[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=12]
-[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=13]
-[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=14]
-[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=15]
-[ext_resource path="res://Assets/hex_server.png" type="Texture" id=16]
-[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=17]
-[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=18]
+[ext_resource path="res://Assets/button_action_high_hover.png" type="Texture" id=7]
+[ext_resource path="res://Assets/button_action_high_disabled.png" type="Texture" id=8]
+[ext_resource path="res://Assets/button_action_2_click_mask.png" type="BitMap" id=9]
+[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=10]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=11]
+[ext_resource path="res://Assets/button_action_medium_hover.png" type="Texture" id=12]
+[ext_resource path="res://Assets/button_action_medium_disabled.png" type="Texture" id=13]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=14]
+[ext_resource path="res://Assets/button_action_low_hover.png" type="Texture" id=15]
+[ext_resource path="res://Assets/button_action_low_disabled.png" type="Texture" id=16]
+[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=17]
+[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=18]
+[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=19]
+[ext_resource path="res://Assets/action_button_click_mask.png" type="BitMap" id=20]
+[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=21]
+[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=22]
+[ext_resource path="res://Assets/hex_server.png" type="Texture" id=23]
+[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=24]
+[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=25]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 _sections_unfolded = [ "Z Index" ]
 
@@ -75,10 +82,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = 291.0
-margin_right = 367.0
-margin_bottom = 687.0
+margin_left = 23.0
+margin_top = 269.0
+margin_right = 383.0
+margin_bottom = 665.0
 rect_scale = Vector2( 0.2, 0.2 )
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
@@ -104,7 +111,7 @@ _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "M
 
 [node name="Position2D" type="Position2D" parent="." index="3"]
 
-position = Vector2( 100.616, 11.212 )
+position = Vector2( 95.616, 17.212 )
 scale = Vector2( 0.93506, 1 )
 _sections_unfolded = [ "Z Index" ]
 
@@ -116,10 +123,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 194.0
-margin_right = 364.0
-margin_bottom = 590.0
+margin_left = 8.0
+margin_top = 275.0
+margin_right = 368.0
+margin_bottom = 671.0
 rect_scale = Vector2( 0.15, 0.15 )
 rect_pivot_offset = Vector2( 0, 0 )
 focus_mode = 2
@@ -132,8 +139,10 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 6 )
-texture_disabled = ExtResource( 7 )
-script = ExtResource( 8 )
+texture_hover = ExtResource( 7 )
+texture_disabled = ExtResource( 8 )
+texture_click_mask = ExtResource( 9 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures", "Visibility" ]
 
 [node name="Medium" type="TextureButton" parent="ActionButtons" index="1"]
@@ -142,62 +151,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 253.0
-margin_right = 364.0
-margin_bottom = 649.0
-rect_scale = Vector2( 0.15, 0.15 )
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 9 )
-texture_disabled = ExtResource( 7 )
-script = ExtResource( 8 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="Low" type="TextureButton" parent="ActionButtons" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 312.0
-margin_right = 364.0
-margin_bottom = 708.0
-rect_scale = Vector2( 0.15, 0.15 )
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 10 )
-texture_disabled = ExtResource( 7 )
-script = ExtResource( 8 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="Computer_1" type="TextureButton" parent="ActionButtons" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 74.0
-margin_right = 371.0
-margin_bottom = 479.0
+margin_left = 8.0
+margin_top = 318.0
+margin_right = 368.0
+margin_bottom = 714.0
 rect_scale = Vector2( 0.15, 0.15 )
 rect_pivot_offset = Vector2( 0, 0 )
 focus_mode = 2
@@ -212,19 +169,20 @@ group = null
 texture_normal = ExtResource( 11 )
 texture_hover = ExtResource( 12 )
 texture_disabled = ExtResource( 13 )
-script = ExtResource( 8 )
-_sections_unfolded = [ "Rect", "Textures" ]
+texture_click_mask = ExtResource( 9 )
+script = ExtResource( 10 )
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
-[node name="Computer_2" type="TextureButton" parent="ActionButtons" index="4"]
+[node name="Low" type="TextureButton" parent="ActionButtons" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 134.0
-margin_right = 404.0
-margin_bottom = 536.0
+margin_left = 8.0
+margin_top = 361.0
+margin_right = 368.0
+margin_bottom = 757.0
 rect_scale = Vector2( 0.15, 0.15 )
 rect_pivot_offset = Vector2( 0, 0 )
 focus_mode = 2
@@ -238,8 +196,65 @@ shortcut = null
 group = null
 texture_normal = ExtResource( 14 )
 texture_hover = ExtResource( 15 )
-texture_disabled = ExtResource( 13 )
-script = ExtResource( 8 )
+texture_disabled = ExtResource( 16 )
+texture_click_mask = ExtResource( 9 )
+script = ExtResource( 10 )
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
+[node name="Computer_1" type="TextureButton" parent="ActionButtons" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_top = 74.0
+margin_right = 368.0
+margin_bottom = 479.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 17 )
+texture_hover = ExtResource( 18 )
+texture_disabled = ExtResource( 19 )
+texture_click_mask = ExtResource( 20 )
+script = ExtResource( 10 )
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="Computer_2" type="TextureButton" parent="ActionButtons" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_top = 134.0
+margin_right = 368.0
+margin_bottom = 536.0
+rect_scale = Vector2( 0.15, 0.15 )
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 21 )
+texture_hover = ExtResource( 22 )
+texture_disabled = ExtResource( 19 )
+texture_click_mask = ExtResource( 20 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="Server" type="TextureButton" parent="ActionButtons" index="5"]
@@ -248,9 +263,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
+margin_left = 8.0
 margin_top = 14.0
-margin_right = 373.0
+margin_right = 368.0
 margin_bottom = 418.0
 rect_scale = Vector2( 0.15, 0.15 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -263,10 +278,11 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 16 )
-texture_hover = ExtResource( 17 )
-texture_disabled = ExtResource( 13 )
-script = ExtResource( 8 )
+texture_normal = ExtResource( 23 )
+texture_hover = ExtResource( 24 )
+texture_disabled = ExtResource( 19 )
+texture_click_mask = ExtResource( 20 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="InfoText" type="RichTextLabel" parent="." index="5"]
@@ -315,25 +331,47 @@ _sections_unfolded = [ "Pause" ]
 
 [node name="DialogPosition" type="Position2D" parent="." index="8"]
 
-position = Vector2( 231.157, 223.102 )
+position = Vector2( 275.516, 26.9789 )
 _sections_unfolded = [ "Z Index" ]
 
 [node name="player_logo" type="Sprite" parent="." index="9"]
 
 position = Vector2( 36.5255, 559.192 )
 scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 18 )
+texture = ExtResource( 25 )
 _sections_unfolded = [ "Material", "Region", "Transform", "Visibility", "Z Index" ]
 
 [node name="EffectsPosition" type="Position2D" parent="." index="10"]
 
-position = Vector2( 971.223, 36.8902 )
+position = Vector2( 794.331, 23.8902 )
 _sections_unfolded = [ "Z Index" ]
 
 [node name="HandPosition" type="Position2D" parent="." index="11"]
 
-position = Vector2( 93, 54 )
+position = Vector2( 109, 69 )
 z_index = 10
 _sections_unfolded = [ "Z Index" ]
+
+[node name="Label" type="Label" parent="." index="12"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1.0
+margin_top = 423.0
+margin_right = 67.0
+margin_bottom = 437.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0.0546875, 1, 0, 1 )
+text = "PROGRAM"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
 

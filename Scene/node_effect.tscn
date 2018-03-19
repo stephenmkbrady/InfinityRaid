@@ -68,7 +68,7 @@ animations = [ {
 "speed": 18.0
 } ]
 
-[node name="effect" type="Node2D" index="0"]
+[node name="effect" type="Node2D"]
 
 show_behind_parent = true
 light_mask = 3
@@ -87,14 +87,14 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="spark" type="AnimatedSprite" parent="." index="1"]
 
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 2 )
 animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="death" type="AnimatedSprite" parent="." index="2"]
 
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 3 )
 animation = "default"
 _sections_unfolded = [ "Transform" ]

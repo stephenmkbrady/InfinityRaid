@@ -113,9 +113,15 @@ remote func set_hex_indicator( atk_value, def_value ):
 		if c.get_name() == "indicator" or c.get_name().find("indicator") != -1:
 			self.get_parent().get_parent().get_node(c.get_name()).queue_free()
 	
-	var indicator = GameState.get_strength_indicator(hex_contents["hex_attack"], hex_contents["hex_defense"])
-	if indicator != null:
+	#var indicator = GameState.get_strength_indicator(hex_contents["hex_attack"], hex_contents["hex_defense"])
+	var indicator = load("res://Scene/StatusIndicator.tscn").instance()
+	if hex_contents["hex_defense"] > 0:
+		indicator.get_node("def").set_text(str(hex_contents["hex_attack"]))
+	if hex_contents["hex_attack"] > 0:
+		indicator.get_node("atk").set_text(str(hex_contents["hex_defense"]))
 		self.get_parent().get_parent().add_child(indicator)
+	#if indicator != null:
+		#self.get_parent().get_parent().add_child(indicator)
 
 remote func set_hex_contents(card):
 	hex_contents["hex_card"] = card

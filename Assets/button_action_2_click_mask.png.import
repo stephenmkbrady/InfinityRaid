@@ -1,0 +1,18 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/button_action_2_click_mask.png-ef5a3fb1ef2d3e683d7525eae9892df2.res"
+
+[deps]
+
+source_file="res://Assets/button_action_2_click_mask.png"
+source_md5="a6a824f9d7241668b75e4abe6aefaebf"
+
+dest_files=[ "res://.import/button_action_2_click_mask.png-ef5a3fb1ef2d3e683d7525eae9892df2.res" ]
+dest_md5="d9d04403b9589aee17487f74dd4ae8e5"
+
+[params]
+
+create_from=1
+threshold=0.5

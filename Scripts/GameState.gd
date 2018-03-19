@@ -15,7 +15,7 @@ var players = {}
 
 var board_update_time = 5
 var power_time = 90 
-var board_height = 10
+var board_height = 12
 var board_length = 12
 var board_cell_count = board_height * board_length
 var green_indicator = load("res://Scene/StatusIndicator.tscn")
@@ -25,6 +25,10 @@ var red_indicator = load("res://Scene/StatusIndicator.tscn")
 var hand = load("res://Scene/hand.tscn")
 var hand_pos
 var hand_node
+
+var active_effects_scene = load("res://Scene/ActiveEffects.tscn")
+var active_effects_pos
+var active_effects_node
 
 var p_marker
 var card
@@ -89,6 +93,7 @@ func _process(delta):
 	#print(get_children())
 	if timer != null:
 		set_info(str(timer.get_time_left()))
+		active_effects_node.set_active_effects()
 
 func get_player_list():
 	return players.values()
@@ -98,40 +103,6 @@ func get_player_name():
 
 func get_player_marker(name):
 	return load("res://Assets/hex_player_"+str(name)+".png")
-	
-func get_strength_indicator(atk, def):
-	var indicator
-	if int(def) >= 80:
-		indicator = green_indicator.instance()
-		if int(atk) >=80:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_3.png"))
-		elif int(atk) <= 60 and int(atk) > 20:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_2.png"))
-		elif int(atk) <= 20 and int(def) > 0:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_green_1.png"))
-		else:
-			return null
-	elif int(def) <= 60 and int(def) > 20:
-		indicator = yellow_indicator.instance()
-		if int(atk) >=80:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_3.png"))
-		elif int(atk) <= 60 and int(atk) > 20:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_2.png"))
-		elif int(atk) <= 20 and int(def) > 0:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_yellow_1.png"))
-		else:
-			return null
-	elif int(def) <= 20 and int(def) > 0:
-		indicator = red_indicator.instance()
-		if int(atk) >=80:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_3.png"))
-		elif int(atk) <= 60 and int(atk) > 20:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_2.png"))
-		elif int(atk) <= 20 and int(def) > 0:
-			indicator.get_child(0).set_texture(load("res://Assets/hex_barcode_red_1.png"))
-		else:
-			return null
-	return indicator
 
 func _on_player_name_changed ( new_name ):
 	player_name = new_name
@@ -160,7 +131,7 @@ func _on_card_drawn(card):
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
 		#dialog.get_child(0).set_texture(load(card["image"]))
-		dialog.get_node("Sprite").get_node("Area2D").set_card(card)
+		dialog.get_node("dialog_base").get_node("Area2D").set_card(card)
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
 
 
@@ -227,9 +198,13 @@ func _generate_map(board_width, board_height):
 	hand_node = hand.instance()
 	hand_pos.add_child(hand_node)
 	
+	active_effects_pos = self.get_tree().get_root().get_node("Node2D/EffectsPosition")
+	active_effects_node = active_effects_scene.instance()
+	active_effects_pos.add_child(active_effects_node)
+	
 	var ref_pos = self.get_tree().get_root().get_node("Node2D/Position2D").get_global_transform()
-	var tile_width = 77
-	var tile_height = 58
+	var tile_width = 56
+	var tile_height = 44
 	var tile = load("res://Scene/Hex.tscn")
 	var p1_marker = load("res://Assets/hex_player_1.png")
 	var p2_marker = load("res://Assets/hex_player_2.png")
