@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_Laughing_man.png-2ae33f8a42ecc244be77d72eada64ee6.stex"
+path="res://.import/Hex_OP.png-2013b98ffca090461f114a7b44ac3d75.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_Laughing_man.png"
-source_md5="5246e2b2f44f9af63b5a2e0383b60cea"
+source_file="res://Assets/Deck/Hex_OP.png"
+source_md5="6daa7ade55da45f2040405f138cd296c"
 
-dest_files=[ "res://.import/Dialog_Laughing_man.png-2ae33f8a42ecc244be77d72eada64ee6.stex" ]
-dest_md5="e4bc67f50c6a6210f3e77da358294b7e"
+dest_files=[ "res://.import/Hex_OP.png-2013b98ffca090461f114a7b44ac3d75.stex" ]
+dest_md5="97c88ce2425bc61dac7f6aad472db5a3"
 
 [params]
 

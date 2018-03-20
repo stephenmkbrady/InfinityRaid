@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_Fake_News.png-8d25007779b2bbff1f53f950666030ae.stex"
+path="res://.import/Hex_Knights_Of_Eastern_Calculus.png-d567c2dbd518ed12fe956540fa9a13c0.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_Fake_News.png"
-source_md5="dc68be9f6cbb79969a6188ef4433505b"
+source_file="res://Assets/Deck/Hex_Knights_Of_Eastern_Calculus.png"
+source_md5="3c73dc3e838e843fc74155837a464c71"
 
-dest_files=[ "res://.import/Dialog_Fake_News.png-8d25007779b2bbff1f53f950666030ae.stex" ]
-dest_md5="84605ac147b9a409e80b3d45888eb739"
+dest_files=[ "res://.import/Hex_Knights_Of_Eastern_Calculus.png-d567c2dbd518ed12fe956540fa9a13c0.stex" ]
+dest_md5="3bff4f3f8a8920517c19fe01d9071882"
 
 [params]
 

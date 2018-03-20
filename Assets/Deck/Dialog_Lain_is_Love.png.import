@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hex_knights_of_eastern_calculus.png-0a6e9cbe7d332baa4c30ac7c2821be93.stex"
+path="res://.import/Dialog_Lain_is_Love.png-fa9c6cfe50650608aa2326a50e3af061.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Hex_knights_of_eastern_calculus.png"
-source_md5="467a068bdb81fe290dcc8ae28a3ea431"
+source_file="res://Assets/Deck/Dialog_Lain_is_Love.png"
+source_md5="0fcf602a04adc5d82010044dcfd5a595"
 
-dest_files=[ "res://.import/Hex_knights_of_eastern_calculus.png-0a6e9cbe7d332baa4c30ac7c2821be93.stex" ]
-dest_md5="a22e5ad071fc99ff066c72be00224afe"
+dest_files=[ "res://.import/Dialog_Lain_is_Love.png-fa9c6cfe50650608aa2326a50e3af061.stex" ]
+dest_md5="ee672608b73b1f3580ee145988a43f36"
 
 [params]
 

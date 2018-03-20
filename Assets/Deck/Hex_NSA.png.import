@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_Face_to_bloodshed.png-258a7df2d8cb179a4753c6a971d46335.stex"
+path="res://.import/Hex_NSA.png-02282df20509acb74dd0b9bd08174f32.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_Face_to_bloodshed.png"
-source_md5="13450c705835c3160e5b5e9ef46216ec"
+source_file="res://Assets/Deck/Hex_NSA.png"
+source_md5="2b4324669e3a3bcc73e48981069a6b5f"
 
-dest_files=[ "res://.import/Dialog_Face_to_bloodshed.png-258a7df2d8cb179a4753c6a971d46335.stex" ]
-dest_md5="ca0f49b5c0e73190840f565dd53f0588"
+dest_files=[ "res://.import/Hex_NSA.png-02282df20509acb74dd0b9bd08174f32.stex" ]
+dest_md5="d2562e119638b9489666a31ea7a167bc"
 
 [params]
 

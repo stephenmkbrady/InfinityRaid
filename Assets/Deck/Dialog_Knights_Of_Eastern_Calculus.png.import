@@ -2,14 +2,14 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_knights_of_eastern_calculus.png-b3a0bbe8814cb1b10faac9fb6517a969.stex"
+path="res://.import/Dialog_Knights_Of_Eastern_Calculus.png-418bc3adb8857989fb47293ce3f27ffc.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_knights_of_eastern_calculus.png"
+source_file="res://Assets/Deck/Dialog_Knights_Of_Eastern_Calculus.png"
 source_md5="9f2f13c6b6d2189f552275edd828ec1c"
 
-dest_files=[ "res://.import/Dialog_knights_of_eastern_calculus.png-b3a0bbe8814cb1b10faac9fb6517a969.stex" ]
+dest_files=[ "res://.import/Dialog_Knights_Of_Eastern_Calculus.png-418bc3adb8857989fb47293ce3f27ffc.stex" ]
 dest_md5="b9f35b90b7efc47837444e9305fe5325"
 
 [params]

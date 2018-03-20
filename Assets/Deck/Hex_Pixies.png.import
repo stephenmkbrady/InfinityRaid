@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hex_fugged.png-ca0c9d49442ec9a9015fd11cdee757c7.stex"
+path="res://.import/Hex_Pixies.png-107adc50a86c3ff99b5b520c10383675.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Hex_fugged.png"
-source_md5="ceb6231ed929fdb0e04beedfdf841e3d"
+source_file="res://Assets/Deck/Hex_Pixies.png"
+source_md5="2918e07d29d4116b0af0b416b5d222ca"
 
-dest_files=[ "res://.import/Hex_fugged.png-ca0c9d49442ec9a9015fd11cdee757c7.stex" ]
-dest_md5="1c62dedd6f7dd02e54e66ac38da940dd"
+dest_files=[ "res://.import/Hex_Pixies.png-107adc50a86c3ff99b5b520c10383675.stex" ]
+dest_md5="21eae1a5bc79f36fe2024be7e68f939c"
 
 [params]
 

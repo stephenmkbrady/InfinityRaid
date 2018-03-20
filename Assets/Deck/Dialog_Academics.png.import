@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_Face_horseshoe_theory.png-80df541dbab72a8f2b8c4c9756ce4850.stex"
+path="res://.import/Dialog_Academics.png-e3df355ee882bed915db4d1c0856b7dd.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_Face_horseshoe_theory.png"
-source_md5="2618261268519865c0caa8377ffc8b11"
+source_file="res://Assets/Deck/Dialog_Academics.png"
+source_md5="d0516cd211167fd730273e76dde5476d"
 
-dest_files=[ "res://.import/Dialog_Face_horseshoe_theory.png-80df541dbab72a8f2b8c4c9756ce4850.stex" ]
-dest_md5="46af8157a4a8d996920c8c4cad46949a"
+dest_files=[ "res://.import/Dialog_Academics.png-e3df355ee882bed915db4d1c0856b7dd.stex" ]
+dest_md5="7976c8096aa36a0f8848dd00f9394b9c"
 
 [params]
 

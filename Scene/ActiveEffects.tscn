@@ -5,7 +5,7 @@
 [ext_resource path="res://Assets/Deck/Dialog_Lain.png" type="Texture" id=3]
 [ext_resource path="res://Assets/dialog_front.png" type="Texture" id=4]
 
-[node name="effects" type="Node2D" index="0"]
+[node name="effects" type="Node2D"]
 
 script = ExtResource( 1 )
 

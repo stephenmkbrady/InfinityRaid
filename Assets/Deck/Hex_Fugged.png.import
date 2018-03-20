@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dialog_Men_in_black.png-5bf997b5d69164263879b4e4f809664f.stex"
+path="res://.import/Hex_Fugged.png-264a22e2817424765aa9e268aa4b76b6.stex"
 
 [deps]
 
-source_file="res://Assets/Deck/Dialog_Men_in_black.png"
-source_md5="18b1a51f2092799cf3726d340f1887ce"
+source_file="res://Assets/Deck/Hex_Fugged.png"
+source_md5="ceb6231ed929fdb0e04beedfdf841e3d"
 
-dest_files=[ "res://.import/Dialog_Men_in_black.png-5bf997b5d69164263879b4e4f809664f.stex" ]
-dest_md5="19d11eec2254515d007b4849edcbba51"
+dest_files=[ "res://.import/Hex_Fugged.png-264a22e2817424765aa9e268aa4b76b6.stex" ]
+dest_md5="1c62dedd6f7dd02e54e66ac38da940dd"
 
 [params]
 

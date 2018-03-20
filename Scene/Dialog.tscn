@@ -26,7 +26,7 @@ _sections_unfolded = [ "Region", "Transform", "Z Index" ]
 
 [node name="Area2D" type="Area2D" parent="dialog_base" index="0"]
 
-scale = Vector2( 1, 1 )
+editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0

@@ -3,67 +3,88 @@
 	"1":
 		{
 			"type" : "computer",
-			"name" : "Prophet Terry Davis",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name" : "Prophet King Terry Davis",
+			"tile":"res://Assets/Deck/Hex_King_Terry.png",
+			"image":"res://Assets/Deck/Dialog_King_Terry.png",
 			"desc" : "Special ability: adds Temple unit",
 			"seconday" : "computer",
 			"attack" : 100,
 			"defense" : 100,
 			"level":"High"
 		},
-	"2":
-		{
+	"2":{
+			"name":"Laughing Man",
 			"type":"computer",
-			"name":"The Supreme Gentleman",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"Special ability: adds Purifier effect",
-			"seconday" : "daemon",
+			"tile":"res://Assets/Deck/Hex_Laughing_Man.png",
+			"image":"res://Assets/Deck/Dialog_Laughing_Man.png",
+			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"High"
+			"level":"Medium"
 		},
 	"3":{
+			"name":"Man In Black",
 			"type":"computer",
-			"name":"chrischan",
-			"desc":"Special ability: adds Rosechu 2 turns later via cwcville daemon",
-			"tile":"res://Assets/Deck/Hex_Chrischan.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"seconday" : "daemon",
+			"tile":"res://Assets/Deck/Hex_Men_In_Black.png",
+			"image":"res://Assets/Deck/Dialog_Men_In_Black.png",
+			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"High"
+			"level":"Medium"
+		},
+	"4":{
+			"name":"NSA",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_NSA.png",
+			"image":"res://Assets/Deck/Dialog_NSA.png",
+			"desc":"",
+			"attack" : 100,
+			"defense" : 100,
+			"level":"Medium"
+		},
+	"5":{
+			"type" : "computer",
+			"name" : "CIA",
+			"desc" : "Glow in the dark",
+			"tile":"res://Assets/Deck/Hex_CIA.png",
+			"image":"res://Assets/Deck/Dialog_CIA.png",
+			"attack" : 60,
+			"defense" : 60,
+			"level":"Medium"
 		}
 	},
 	"Medium_deck" : { 
 	"1":
 		{
 			"type" : "computer",
-			"name" : "a real human bean",
-			"desc" : "... and a real hero",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name" : "CIA",
+			"desc" : "Glow in the dark",
+			"tile":"res://Assets/Deck/Hex_CIA.png",
+			"image":"res://Assets/Deck/Dialog_CIA.png",
 			"attack" : 60,
 			"defense" : 60,
 			"level":"Medium"
 		},
 	"2":
 		{
-			"type":"computer",
-			"name":"foreign hordes",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"type":"daemon",
+			"name":"Face to bloodshed",
+			"image":"res://Assets/Deck/Dialog_Face_To_Bloodshed.png",
 			"desc":"",
-			"attack" : 60,
-			"defense" : 60,
+			"effects":{
+				"type":"timer",
+				"value": 20,
+				"duration":10,
+				"operator":"-",
+				"target":"local"
+			},
 			"level":"Medium"
 		},
 	"3":{
 			"type":"computer",
-			"name":"Lolcow",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name":"Fake Network News",
+			"tile":"res://Assets/Deck/Hex_Fake_Network_News.png",
+			"image":"res://Assets/Deck/Dialog_Fake_Network_News.png",
 			"desc":"",
 			"attack" : 60,
 			"defense" : 60,
@@ -81,22 +102,27 @@
 		},
 	"5":{
 			"type":"computer",
-			"name":"trolls",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name":"Fugged",
+			"tile":"res://Assets/Deck/Hex_Fugged.png",
+			"image":"res://Assets/Deck/Dialog_Fugged.png",
 			"desc":"",
 			"attack" : 60,
 			"defense" : 60,
 			"level":"Medium"
 		},
 	"6":{
-			"type":"computer",
-			"name":"rosechu",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"desc":"",
-			"attack" : 60,
-			"defense" : 60,
+			"name":"Horseshow Theory",
+			"type":"daemon",
+			"effects":{
+				"type":"timer",
+				"value": 20,
+				"duration":10,
+				"operator":"-",
+				"target":"remote"
+			},
+			"tile":"res://Assets/Deck/Hex_horseshoe.png",
+			"image":"res://Assets/Deck/Dialog_Horseshoe_Theory.png",
+			"desc":"Reduces attack on all computers to 0 for 2 turns",
 			"level":"Medium"
 		},
 	"7":
@@ -110,24 +136,18 @@
 				"target":"remote"
 			},
 			"name":"Academics, please respond!?",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"image":"res://Assets/Deck/Dialog_Academics.png",
 			"desc":"Reduces attack on all computers to 0 for 2 turns",
 			"level":"Medium"
 		},
 	"8":{
-			"type":"daemon",
-			"effects":{
-				"type":"timer",
-				"value": 20,
-				"duration":10,
-				"operator":"-",
-				"target":"remote"
-			},
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"name":"This is ribrary!",
+			"name":"Knights of Eastern Calculus",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_Knights_Of_Eastern_Calculus.png",
+			"image":"res://Assets/Deck/Dialog_Knights_Of_Eastern_Calculus.png",
 			"desc":"",
+			"attack" : 100,
+			"defense" : 100,
 			"level":"Medium"
 		},
 	"9":{
@@ -139,15 +159,23 @@
 				"operator":"-",
 				"target":"remote"
 			},
-			"name":"Magical realm of the gypsy",
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
+			"name":"Lain is love",
+			"image":"res://Assets/Deck/Dialog_Lain_is_Love.png",
 			"desc":"Consumes enemy unit, remove enemy computer of your choice",
+			"level":"Medium"
+		},
+	"10":{
+			"name":"Lain",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_Lain.png",
+			"image":"res://Assets/Deck/Dialog_Lain.png",
+			"desc":"",
+			"attack" : 100,
+			"defense" : 100,
 			"level":"Medium"
 		},
 	},
 	"Low_deck" : {
-
 	"1":{
 			"type":"daemon",
 			"effects":{
@@ -157,12 +185,41 @@
 				"operator":"+",
 				"target":"local"
 			},
-			"tile":"res://Assets/Deck/Hex_Temple_OS.png",
-			"image":"res://Assets/Deck/Dialog_Temple_OS.png",
-			"name":"This is ribrary!",
+			"image":"res://Assets/Deck/Dialog_Leak_digger.png",
+			"name":"Leaks",
 			"desc":"",
 			"level":"Low"
-		}
+		},
+	"2":{
+			"name":"In heaven everything will be fine",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_Pixies.png",
+			"image":"res://Assets/Deck/Dialog_Pixies.png",
+			"desc":"",
+			"attack" : 100,
+			"defense" : 100,
+			"level":"Medium"
+		},
+	"3":{
+			"name":"Sperg",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_Sperg.png",
+			"image":"res://Assets/Deck/Dialog_Sperg.png",
+			"attack" : 100,
+			"defense" : 100,
+			"desc":"",
+			"level":"Medium"
+		},
+	"4":{
+			"name":"(you)",
+			"type":"computer",
+			"tile":"res://Assets/Deck/Hex_(you).png",
+			"image":"res://Assets/Deck/Dialog_(you).png",
+			"desc":"",
+			"attack" : 100,
+			"defense" : 100,
+			"level":"Medium"
+		},
 	},
 	"Computer_1_card" : { 
 			"type" : "computer",
