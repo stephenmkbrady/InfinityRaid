@@ -18,9 +18,6 @@ var power_time = 90
 var board_height = 12
 var board_length = 12
 var board_cell_count = board_height * board_length
-var green_indicator = load("res://Scene/StatusIndicator.tscn")
-var yellow_indicator = load("res://Scene/StatusIndicator.tscn")
-var red_indicator = load("res://Scene/StatusIndicator.tscn")
 
 var hand = load("res://Scene/hand.tscn")
 var hand_pos
@@ -30,6 +27,10 @@ var active_effects_scene = load("res://Scene/ActiveEffects.tscn")
 var active_effects_pos
 var active_effects_node
 
+var particle_scene = load("res://Scene/Particle.tscn")
+var particle_pos 
+var particle_node
+var particle_pos_target = Vector2(0,0)
 var p_marker
 var card
 var active_effects = []
@@ -41,9 +42,9 @@ signal game_error(what)
 
 var background_video 
 var timer
-#var board_timer
 var progress_bar
-
+var score_bar
+var score = 0
 signal Computer_1_placed()
 signal Computer_2_placed()
 signal Server_placed()
@@ -80,20 +81,19 @@ func _process(delta):
 	# Process any effects applied to player
 	for e in active_effects:
 		if e.has("effect_duration") and e["effect_duration"].get_time_left() == 0:
-			print(get_children())
-			print( e.name)
 			get_node(e["name"]).queue_free()
-			# If the effect is a timer effect then undo it
 			if e["card"]["effects"]["type"] == "timer":
 				power_time = power_time + e["card"]["effects"]["value"]
+				timer.set_wait_time(power_time)
+				progress_bar.set_max(power_time)
 			elif e["card"]["effects"]["type"] == "unit":
 				pass
 			active_effects.remove(active_effects.find(e))
 
-	#print(get_children())
 	if timer != null:
-		set_info(str(timer.get_time_left()))
+		set_info(str(timer.wait_time) + " : "+ str(timer.get_time_left()))
 		active_effects_node.set_active_effects()
+		update_locations(delta)
 
 func get_player_list():
 	return players.values()
@@ -109,6 +109,7 @@ func _on_player_name_changed ( new_name ):
 
 remote func draw_card( deck, r_id ):
 	if (get_tree().is_network_server()):
+		randomize()
 		var r = str(randi() % deck.size() + 1)
 		if deck.has(r):
 			if r_id != 1:
@@ -130,13 +131,11 @@ func _on_card_drawn(card):
 			print("hand: ", n)
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
-		#dialog.get_child(0).set_texture(load(card["image"]))
 		dialog.get_node("dialog_base").get_node("Area2D").set_card(card)
 		get_tree().get_root().get_node("Node2D/DialogPosition").add_child(dialog)
 
 
 remote func remote_on_card_drawn(card):
-	_on_card_drawn(card)
 	emit_signal("card_drawn", card)
 
 remote func pre_start_game():
@@ -144,8 +143,9 @@ remote func pre_start_game():
 	var world = load("res://Scene/GameScreen.tscn").instance()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("lobby").hide()
-
 	progress_bar = get_tree().get_root().get_node("Node2D/TextureProgress")
+	score_bar = get_tree().get_root().get_node("Node2D/score_bar")
+	#score_bar.set_max(1600)
 	background_video = get_tree().get_root().get_node("Node2D/VideoPlayer")
 	get_tree().get_root().get_node("Node2D/player_logo").set_texture(load("res://Assets/player_"+ player_name +"_logo.png"))
 	_connect_to_action_buttons()
@@ -201,6 +201,11 @@ func _generate_map(board_width, board_height):
 	active_effects_pos = self.get_tree().get_root().get_node("Node2D/EffectsPosition")
 	active_effects_node = active_effects_scene.instance()
 	active_effects_pos.add_child(active_effects_node)
+	
+	particle_pos = self.get_tree().get_root().get_node("Node2D/particle")
+	particle_pos_target = particle_pos.get_global_transform().get_origin()
+	particle_node = particle_scene.instance()
+	particle_pos.add_child(particle_node)
 	
 	var ref_pos = self.get_tree().get_root().get_node("Node2D/Position2D").get_global_transform()
 	var tile_width = 56
@@ -269,10 +274,8 @@ func _connect_to_action_buttons():
 func _setup_and_start_timer():
 	timer = self.get_tree().get_root().get_node("Node2D/Power_Timer")
 	timer.set_wait_time(power_time)
+	progress_bar.set_max(power_time)
 	timer.start()
-	#board_timer = get_tree().get_root().get_node("Node2D/Board_Update_Timer")
-	#board_timer.set_wait_time(board_update_time)
-	#board_timer.start()
 
 func _on_computer_1_pressed( arg1 ):
 	_set_hex_pickable(true)
@@ -285,15 +288,15 @@ func _on_server_pressed( arg1 ):
 
 func _on_high_pressed( arg1 ):
 	draw_card(high_deck, get_tree().get_network_unique_id())
-	timer.stop()
+	#timer.stop()
 
 func _on_medium_pressed( arg1 ):
 	draw_card(medium_deck, get_tree().get_network_unique_id())
-	timer.stop()
+	#timer.stop()
 	
 func _on_low_pressed( arg1 ):
 	draw_card(low_deck, get_tree().get_network_unique_id())
-	timer.stop()
+	#timer.stop()
 
 func _on_effect_placed(r_id, r_card):
 	set_info(" local " + r_card["name"] +" : "+ r_card["type"])
@@ -302,11 +305,10 @@ func _on_effect_placed(r_id, r_card):
 	if r_card["effects"]["target"] == "local":
 		set_effect(r_id, r_card)
 	elif r_card["effects"]["target"] == "remote":
-		rpc("add_effect", r_id, r_card)
+		rpc("set_effect", r_id, r_card)
 	elif r_card["effects"]["target"] == "all":
 		set_effect(r_id, r_card)
-		rpc("add_effect", r_id, r_card)
-	timer.start()
+		rpc("set_effect", r_id, r_card)
 
 remote func set_effect(r_id, r_card):
 	var active_effect = {}
@@ -329,28 +331,49 @@ remote func set_effect(r_id, r_card):
 			power_time = power_time + r_card["effects"]["value"]
 		timer.stop()
 		timer.set_wait_time(power_time)
+		progress_bar.set_max(power_time)
 		timer.start()
 		
 	# effect for drawing/removing a specific unit card
 	elif r_card["effects"]["type"] == "unit":
 		if r_card["effects"]["operator"] == "-":
-			pass
+			remove_card_in_play(get_card(r_card["effects"]["value"]))
 		elif r_card["effects"]["operator"] == "+":
-			get_card(r_card["effects"]["value"])
+			print("secondary card: ", str(get_card(r_card["effects"]["value"])))
+			emit_signal("card_drawn", get_card(r_card["effects"]["value"]))
 	# effect for adding/removing computers or server
 	elif r_card["effects"]["type"] == "computers":
 		pass
 	
 	active_effects.append(active_effect)
 
-# Return a card 
+# Find and remove all cards matching
+func remove_card_in_play(r_card):
+	var i = 0
+	for c in hand_node.get_hand():
+		if c["name"] == r_card["name"]:
+			hand_node.remove_from_hand(i)
+		i = i + 1
+	
+	i = 0
+	for c in self.get_tree().get_root().get_node("Node2D/Position2D").get_children():
+		var hex_contents = c.get_child(0).get_child(0).get_hex_contents()
+		if hex_contents.has("hex_card") and hex_contents["hex_card"] != null:
+			if hex_contents["hex_card"]["name"] == r_card["name"]:
+				c.get_child(0).get_child(0).kill_hex(self.get_tree().get_root().get_node('Node2D/Position2D').get_child(i).get_node("Sprite/Area2D"))
+		i = i + 1
+	
+# Return a card from the decks using the name
 func get_card(card_name):
+	var c = null
 	for d in decks:
 		if not d.ends_with("card"):
 			for card in decks[d]:
+				print("card)) ",card_name," : ", decks[d][card]["name"])
 				if card_name == decks[d][card]["name"]:
-					return(decks[d][card])
-	return null
+					print("found card: ", card, " : ", decks[d][card]["name"])
+					c = decks[d][card]
+	return(c)
 
 # Return a started timer
 func get_timer(wait_time, one_shot = false):
@@ -367,42 +390,80 @@ remote func set_info(text):
 
 func _on_computer_1_placed(arg1):
 	emit_signal("Computer_1_placed")
+	update_score(10)
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
+	progress_bar.set_max(power_time)
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_computer_2_placed(arg1):
 	emit_signal("Computer_2_placed")
+	update_score(10)
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
+	progress_bar.set_max(power_time)
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_server_placed(arg1):
 	emit_signal("Server_placed")
+	update_score(20)
 	power_time = power_time - 28
 	timer.stop()
 	timer.set_wait_time(power_time)
+	progress_bar.set_max(power_time)
 	_set_hex_pickable(false)
 	timer.start()
 
 func _on_high_placed(arg1):
 	emit_signal("High_placed")
+	update_score(20)
 	_set_hex_pickable(false)
-	timer.start()
+	if timer.is_stopped():
+		timer.start()
 
 func _on_medium_placed(arg1):
 	emit_signal("Medium_placed")
+	update_score(20)
 	_set_hex_pickable(false)
-	timer.start()
-
+	if timer.is_stopped():
+		timer.start()
+		
 func _on_low_placed(arg1):
 	emit_signal("Low_placed")
+	update_score(20)
 	_set_hex_pickable(false)
-	timer.start()
+	if timer.is_stopped():
+		timer.start()
+
+func update_score(val):
+	score = score + val
+	print("score: ",str(score), " - ",str(particle_pos_target.x + score))
+	particle_pos_target = particle_pos_target + Vector2(score, 0)
+	
+func update_locations(delta):
+	var speed = 80
+	if int(particle_pos.get_global_transform().get_origin().x) != int(particle_pos_target.x):
+		particle_node.get_child(0).set_emitting(true)
+		print("pos: ", str(particle_pos.get_global_transform().get_origin().x), " : ", str(particle_pos_target.x))
+		
+		if int(particle_pos.get_global_transform().get_origin().x) < int(particle_pos_target.x):
+			print("+set: ", str(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0) ))
+			#particle_pos.translate(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0 ))
+			score_bar.set_size(score_bar.get_size() + Vector2(speed*33*delta,0))
+		elif int(particle_pos.get_global_transform().get_origin().x) > int(particle_pos_target.x):
+			print("+set: ", str(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0) ))
+			#particle_pos.translate(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0 ))
+			#particle_pos.move_local_x(-speed * delta)
+			score_bar.set_size(score_bar.get_size() + Vector2(-speed*33*delta,0))
+		else:
+			pass
+	else:
+		pass
+		particle_node.get_child(0).set_emitting(false)
 
 func _set_hex_pickable( arg ):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():
