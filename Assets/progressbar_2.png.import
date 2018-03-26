@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/progressbar_under.png-14efff81b348cb4ba7389ae739c93324.stex"
+path="res://.import/progressbar_2.png-83890c46fc93dbd8021d047745e8f5d3.stex"
 
 [deps]
 
-source_file="res://Assets/progressbar_under.png"
-source_md5="615ddd1e722df499270562af84da34e7"
+source_file="res://Assets/progressbar_2.png"
+source_md5="4db55beabda2af5ec928dc06d899324f"
 
-dest_files=[ "res://.import/progressbar_under.png-14efff81b348cb4ba7389ae739c93324.stex" ]
-dest_md5="7c0543ab9508991bf77f2f7073292721"
+dest_files=[ "res://.import/progressbar_2.png-83890c46fc93dbd8021d047745e8f5d3.stex" ]
+dest_md5="f4c946b13105caf8d82b8d75a8e379ea"
 
 [params]
 

@@ -83,28 +83,28 @@ visible = false
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 1 )
 animation = "default"
-_sections_unfolded = [ "Transform", "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="spark" type="AnimatedSprite" parent="." index="1"]
 
 scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 2 )
 animation = "default"
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="death" type="AnimatedSprite" parent="." index="2"]
 
 scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 3 )
 animation = "default"
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Sprite2" type="Sprite" parent="." index="3"]
 
 visible = false
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 38 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [connection signal="animation_finished" from="pulse" to="." method="_on_pulse_animation_finished"]
 

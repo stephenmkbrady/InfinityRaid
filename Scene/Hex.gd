@@ -12,7 +12,7 @@ signal hex_defense_changed()
 signal hex_card_changed()
 signal hex_owner_changed()
 
-var DEBUG = false
+var DEBUG = true
 var action
 var card = null
 
@@ -56,7 +56,7 @@ func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if event.action_match(event):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
 			#if DEBUG:
-			print("Action placing: ", action)
+			GameState.set_debug_info(str("Action placing: ", action))
 			# If the hex is owned by current player or not owned then it's ok to place a piece
 			if hex_contents["hex_owner"] == GameState.player_name or hex_contents["hex_owner"] == null:
 				get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center][/center]") # Clear the info text
@@ -82,28 +82,28 @@ func _on_card_drawn(arg):
 
 remote func set_hex_owner(name):
 	if DEBUG:
-		print(get_parent().get_parent().get_position_in_parent(), " previous hex_contents['hex_owner']", hex_contents['hex_owner'])
+		GameState.set_debug_info(str(get_parent().get_parent().get_position_in_parent(), " previous hex_contents['hex_owner']", hex_contents['hex_owner']))
 	hex_contents["hex_owner"] = name
 	if DEBUG:
-		print(get_parent().get_parent().get_position_in_parent(), " hex_contents['hex_owner'] = ", hex_contents["hex_owner"])
+		GameState.set_debug_info(str(get_parent().get_parent().get_position_in_parent(), " hex_contents['hex_owner'] = ", hex_contents["hex_owner"]))
 	# Create player marker node
 	var player_marker = load("res://Scene/player_marker.tscn").instance()
 	player_marker.get_node("Sprite").set_texture(GameState.get_player_marker( name ))
 	# Remove existing player_marker
 	for c in get_parent().get_parent().get_children():
 		if DEBUG:
-			print(get_parent().get_parent().get_position_in_parent(), " looking for player_marker: ", c.get_name())
+			GameState.set_debug_info(str(get_parent().get_parent().get_position_in_parent(), " looking for player_marker: ", c.get_name()))
 		# Network layer mangles node names by changing name to something like @name@123
 		if c.get_name() == "player_marker" or c.get_name().find("player_marker") != -1:
 			if DEBUG:
-				print(get_parent().get_parent().get_position_in_parent(), " PLAYER_MARKER FOUND")
-				print("REMOVING: ",get_parent().get_parent().get_node(c.get_name()).get_name())
+				GameState.set_debug_info(str(get_parent().get_parent().get_position_in_parent(), " PLAYER_MARKER FOUND"))
+				GameState.set_debug_info(str("REMOVING: ",get_parent().get_parent().get_node(c.get_name()).get_name()))
 			get_parent().get_parent().get_node(c.get_name()).queue_free()
 	self.get_parent().get_parent().add_child(player_marker)
 
 remote func set_hex_indicator( atk_value, def_value ):
 	if DEBUG:
-		print("hex_contents['hex_attack'] = ", atk_value, " hex_contents['hex_defense'] = ", def_value)
+		GameState.set_debug_info(str("hex_contents['hex_attack'] = ", atk_value, " hex_contents['hex_defense'] = ", def_value))
 	if atk_value != null:
 		hex_contents["hex_attack"] = atk_value
 	if def_value != null:
@@ -126,7 +126,7 @@ remote func set_hex_indicator( atk_value, def_value ):
 remote func set_hex_contents(card):
 	hex_contents["hex_card"] = card
 	if DEBUG:
-		print("hex_contents['hex_card'] = ", card)
+		GameState.set_debug_info(str("hex_contents['hex_card'] = ", card))
 	if card != null:
 		#var player = GameState.player_name
 		self.get_parent().set_texture(load(card.tile))
@@ -167,7 +167,7 @@ func attack_hex_enemies(positions):
 		if int(hex_contents["hex_attack"]) >= int(enemy["hex_defense"]):
 			enemy_instance.set_hex_owner(GameState.player_name)
 			enemy_instance.rpc("set_hex_owner",GameState.player_name)
-			_kill_hex(enemy_instance)
+			kill_hex(enemy_instance)
 			
 		# If enemy defense stronger than hex's attack, drop enem's def but enemy attacks back
 		elif int(hex_contents["hex_attack"]) < int(enemy["hex_defense"]):
@@ -177,10 +177,11 @@ func attack_hex_enemies(positions):
 			# Enemy attack back and is hex is immediately defeated
 			if int(hex_contents["hex_defense"]) <= int(enemy["hex_attack"]):
 				for p in GameState.players:
-					print("set_hex_owner: ", GameState.players[p])
+					
+					GameState.set_debug_info(str("set_hex_owner: ", GameState.players[p]))
 					set_hex_owner(GameState.players[p])
 					rpc("set_hex_owner", GameState.players[p])
-				_kill_hex(self)
+				kill_hex(self)
 
 			# Enemy attack back and does damage
 			elif int(enemy["hex_attack"]) < int(hex_contents["hex_defense"]):
@@ -188,9 +189,9 @@ func attack_hex_enemies(positions):
 				set_hex_indicator(null, hex_contents["hex_defense"])
 				rpc("set_hex_indicator", null, hex_contents["hex_defense"]) 
 
-func _kill_hex(hex_instance):
+func kill_hex(hex_instance):
 	if hex_instance.get_hex_contents()["hex_card"] != null:
-		print("Hex killed: ", hex_instance.get_hex_contents())
+		GameState.set_debug_info(str("Hex killed: ", hex_instance.get_hex_contents()))
 		if hex_instance.get_hex_contents()["hex_card"]["name"] == "Computer_1" or hex_instance.get_hex_contents()["hex_card"]["name"] == "Computer_2":
 			rpc("set_power_time", 12)
 		elif hex_instance.get_hex_contents()["hex_card"]["name"] == "Server":

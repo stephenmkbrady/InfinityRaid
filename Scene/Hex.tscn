@@ -16,7 +16,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 scale = Vector2( 0.15, 0.15 )
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Area2D" type="Area2D" parent="Sprite" index="0"]
 
@@ -28,12 +28,13 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 2 )
-_sections_unfolded = [ "Pickable" ]
+_sections_unfolded = [ "Material", "Pickable" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D" index="0"]
 
 position = Vector2( -0.159369, 0.962896 )
 scale = Vector2( 19.7129, 18.4839 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Material" ]
 
 

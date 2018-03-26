@@ -17,6 +17,7 @@ var board_update_time = 5
 var power_time = 90 
 var board_height = 12
 var board_length = 12
+var max_score_val = 600
 var board_cell_count = board_height * board_length
 
 var hand = load("res://Scene/hand.tscn")
@@ -31,6 +32,7 @@ var particle_scene = load("res://Scene/Particle.tscn")
 var particle_pos 
 var particle_node
 var particle_pos_target = Vector2(0,0)
+var particle_pos_default = Vector2(0,0)
 var p_marker
 var card
 var active_effects = []
@@ -45,6 +47,8 @@ var timer
 var progress_bar
 var score_bar
 var score = 0
+var max_score = 700
+var prev_score = 0
 signal Computer_1_placed()
 signal Computer_2_placed()
 signal Server_placed()
@@ -91,7 +95,7 @@ func _process(delta):
 			active_effects.remove(active_effects.find(e))
 
 	if timer != null:
-		set_info(str(timer.wait_time) + " : "+ str(timer.get_time_left()))
+		set_info(str(score) + " : "+ str(timer.wait_time) + " : "+ str(timer.get_time_left()))
 		active_effects_node.set_active_effects()
 		update_locations(delta)
 
@@ -127,8 +131,6 @@ remote func remove_card(deck, r):
 func _on_card_drawn(card):
 	if card["type"] == "computer":
 		hand_node.add_card(card)
-		for n in hand_node.get_children():
-			print("hand: ", n)
 	if card.has("image"):
 		var dialog = load("res://Scene/Dialog.tscn").instance()
 		dialog.get_node("dialog_base").get_node("Area2D").set_card(card)
@@ -145,7 +147,8 @@ remote func pre_start_game():
 	get_tree().get_root().get_node("lobby").hide()
 	progress_bar = get_tree().get_root().get_node("Node2D/TextureProgress")
 	score_bar = get_tree().get_root().get_node("Node2D/score_bar")
-	#score_bar.set_max(1600)
+	score_bar.hide()
+	
 	background_video = get_tree().get_root().get_node("Node2D/VideoPlayer")
 	get_tree().get_root().get_node("Node2D/player_logo").set_texture(load("res://Assets/player_"+ player_name +"_logo.png"))
 	_connect_to_action_buttons()
@@ -163,7 +166,6 @@ remote func pre_start_game():
 		post_start_game()
 
 remote func post_start_game():
-	print("post_start_game")
 	get_tree().set_pause(false) # Unpause and unleash the game!
 
 var players_ready = []
@@ -181,7 +183,6 @@ remote func ready_to_start(id):
 func begin_game():
 	assert(get_tree().is_network_server())
 	for p in GameState.players:
-		print("player: ", GameState.players[p])
 		rpc_id(p, "pre_start_game")
 	pre_start_game()
 
@@ -203,8 +204,10 @@ func _generate_map(board_width, board_height):
 	active_effects_pos.add_child(active_effects_node)
 	
 	particle_pos = self.get_tree().get_root().get_node("Node2D/particle")
-	particle_pos_target = particle_pos.get_global_transform().get_origin()
+	particle_pos_target = Vector2(score_bar.get_global_transform().get_origin().x + (score_bar.get_global_rect().size.x * score_bar.get_scale().x), 0)
+	particle_pos_default = Vector2(score_bar.get_global_transform().get_origin().x + (score_bar.get_global_rect().size.x * score_bar.get_scale().x), 0)
 	particle_node = particle_scene.instance()
+	particle_node.get_node("Sprite").hide()
 	particle_pos.add_child(particle_node)
 	
 	var ref_pos = self.get_tree().get_root().get_node("Node2D/Position2D").get_global_transform()
@@ -369,9 +372,9 @@ func get_card(card_name):
 	for d in decks:
 		if not d.ends_with("card"):
 			for card in decks[d]:
-				print("card)) ",card_name," : ", decks[d][card]["name"])
+				set_debug_info(str("card: ",card_name," : ", decks[d][card]["name"]))
 				if card_name == decks[d][card]["name"]:
-					print("found card: ", card, " : ", decks[d][card]["name"])
+					set_debug_info(str("found card: ", card, " : ", decks[d][card]["name"]))
 					c = decks[d][card]
 	return(c)
 
@@ -387,10 +390,13 @@ func get_timer(wait_time, one_shot = false):
 remote func set_info(text):
 	if get_tree().get_root().get_node("Node2D/InfoText") :
 		get_tree().get_root().get_node("Node2D/InfoText").set_bbcode("[center]"+ text +"[/center]")
+func set_debug_info(text):
+	if get_tree().get_root().get_node("Node2D/DebugText") :
+		get_tree().get_root().get_node("Node2D/DebugText").append_bbcode("\n"+text)
 
 func _on_computer_1_placed(arg1):
 	emit_signal("Computer_1_placed")
-	update_score(10)
+	update_score(200)
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -400,7 +406,7 @@ func _on_computer_1_placed(arg1):
 
 func _on_computer_2_placed(arg1):
 	emit_signal("Computer_2_placed")
-	update_score(10)
+	update_score(-700)
 	power_time = power_time - 12
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -410,7 +416,7 @@ func _on_computer_2_placed(arg1):
 
 func _on_server_placed(arg1):
 	emit_signal("Server_placed")
-	update_score(20)
+	update_score(700)
 	power_time = power_time - 28
 	timer.stop()
 	timer.set_wait_time(power_time)
@@ -427,43 +433,55 @@ func _on_high_placed(arg1):
 
 func _on_medium_placed(arg1):
 	emit_signal("Medium_placed")
-	update_score(20)
+	update_score(400)
 	_set_hex_pickable(false)
 	if timer.is_stopped():
 		timer.start()
 		
 func _on_low_placed(arg1):
 	emit_signal("Low_placed")
-	update_score(20)
+	update_score(200)
 	_set_hex_pickable(false)
 	if timer.is_stopped():
 		timer.start()
 
 func update_score(val):
+
 	score = score + val
-	print("score: ",str(score), " - ",str(particle_pos_target.x + score))
-	particle_pos_target = particle_pos_target + Vector2(score, 0)
+	set_debug_info(str("score: ",str(score), " : ",str(particle_pos_target + Vector2(score, 0)))) #*  score_bar.get_scale().x
+	particle_pos_target = particle_pos_default + Vector2(score, 0) #* score_bar.get_scale().x
 	
 func update_locations(delta):
-	var speed = 80
-	if int(particle_pos.get_global_transform().get_origin().x) != int(particle_pos_target.x):
-		particle_node.get_child(0).set_emitting(true)
-		print("pos: ", str(particle_pos.get_global_transform().get_origin().x), " : ", str(particle_pos_target.x))
-		
-		if int(particle_pos.get_global_transform().get_origin().x) < int(particle_pos_target.x):
-			print("+set: ", str(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0) ))
-			#particle_pos.translate(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0 ))
-			score_bar.set_size(score_bar.get_size() + Vector2(speed*33*delta,0))
-		elif int(particle_pos.get_global_transform().get_origin().x) > int(particle_pos_target.x):
-			print("+set: ", str(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0) ))
-			#particle_pos.translate(score_bar.get_global_transform().get_origin() + Vector2(score_bar.get_size().x * score_bar.get_scale().x, 0 ))
-			#particle_pos.move_local_x(-speed * delta)
-			score_bar.set_size(score_bar.get_size() + Vector2(-speed*33*delta,0))
+	var speed = 1000
+	var score_bar_position = score_bar.get_global_transform().get_origin()
+	var score_bar_minimum_position = score_bar_position + Vector2(900 * score_bar.get_scale().x,0)
+	var score_bar_length = Vector2(score_bar.get_global_rect().size.x * score_bar.get_scale().x,0)
+	var end_of_bar = int(score_bar_position.x) + int(score_bar_length.x)
+	var max_end_of_bar = Vector2((score_bar_position.x), 0) + Vector2(max_score_val, 0)
+	
+	if end_of_bar != int(particle_pos_target.x):
+		set_debug_info(" sb_pos: " + str(score_bar_position) + " sb_min_pos: " + str(score_bar_minimum_position) + " sb_length: " + str(score_bar_length) + " sb_end_pos: " + str(end_of_bar) + " target_pos: " + str(particle_pos_target) + " max_sb_pos: " + str(max_end_of_bar))
+		if not score_bar.is_visible_in_tree():
+			score_bar.show()
+			particle_node.get_node("Sprite").show()
+			particle_node.get_node("Particles2D").set_emitting(true)
+		set_debug_info(str("score: ",str(score), " target: ",str(particle_pos_target)))
+
+		#Grow the bar if it's less than the target and less than max_size
+		if end_of_bar < int(particle_pos_target.x) and end_of_bar <= int(max_end_of_bar.x):
+			set_debug_info(str("+set: ", str(  end_of_bar), " - ",str((int(particle_pos_target.x)))))
+			particle_pos.get_child(0).set_transform( Transform2D(0, score_bar_length ))
+			score_bar.set_size(score_bar.get_size() + Vector2(speed*delta,0))
+		elif end_of_bar > int(particle_pos_target.x):
+			if int(particle_pos_target.x) < int(score_bar_minimum_position.x):
+				particle_pos_target = score_bar_minimum_position
+			set_debug_info(str("-set: ", str(  end_of_bar), " - ",str((int(particle_pos_target.x)))))
+			particle_pos.get_child(0).set_transform( Transform2D(0, score_bar_length ))
+			score_bar.set_size(score_bar.get_size() - Vector2(speed*delta,0))
 		else:
 			pass
 	else:
-		pass
-		particle_node.get_child(0).set_emitting(false)
+		particle_node.get_node("Particles2D").set_emitting(false)
 
 func _set_hex_pickable( arg ):
 	for c in get_tree().get_root().get_node("Node2D/Position2D").get_children():

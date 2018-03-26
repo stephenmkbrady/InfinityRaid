@@ -10,11 +10,11 @@
 custom_solver_bias = 0.0
 extents = Vector2( 84.4393, 34.0088 )
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 position = Vector2( 369.001, 37.0004 )
 z_index = 12
-_sections_unfolded = [ "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="dialog_base" type="Sprite" parent="." index="0"]
 
@@ -22,11 +22,10 @@ position = Vector2( -171.767, 233.016 )
 scale = Vector2( 0.8, 0.8 )
 z_index = 10
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Region", "Transform", "Z Index" ]
+_sections_unfolded = [ "Material", "Region", "Transform", "Z Index" ]
 
 [node name="Area2D" type="Area2D" parent="dialog_base" index="0"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -35,24 +34,25 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 2 )
+_sections_unfolded = [ "Material" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dialog_base/Area2D" index="0"]
 
-position = Vector2( -4.16052, -4.20323 )
-scale = Vector2( 3.02674, 9.65668 )
+position = Vector2( -2.02466, 16.2357 )
+scale = Vector2( 3.57551, 11.0761 )
 shape = SubResource( 1 )
-_sections_unfolded = [ "Transform", "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="image" type="Sprite" parent="dialog_base" index="1"]
 
 position = Vector2( 3.94574, -0.228821 )
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="dialog_front" type="Sprite" parent="dialog_base" index="2"]
 
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Label" type="Label" parent="dialog_base" index="3"]
 
@@ -81,6 +81,6 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_fonts" ]
+_sections_unfolded = [ "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Rect", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_fonts" ]
 
 

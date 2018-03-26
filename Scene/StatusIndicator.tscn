@@ -5,14 +5,14 @@
 [node name="indicator" type="Node2D"]
 
 z_index = 7
-_sections_unfolded = [ "Transform", "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 visible = false
 scale = Vector2( 0.15, 0.15 )
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="def" type="Label" parent="." index="1"]
 
@@ -36,7 +36,7 @@ text = "100"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+_sections_unfolded = [ "Material" ]
 
 [node name="atk" type="Label" parent="." index="2"]
 
@@ -60,6 +60,6 @@ text = "100"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants" ]
+_sections_unfolded = [ "Material", "custom_colors", "custom_constants" ]
 
 

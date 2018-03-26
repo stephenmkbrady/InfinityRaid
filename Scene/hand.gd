@@ -17,16 +17,14 @@ func add_card(card):
 		hand.append(card)
 		refresh_hand()
 	else:
-		print("hand is full")
+		GameState.set_debug_info(str("hand is full"))
 	
-		
 func remove_from_hand(idx):
-	print(hand)
+	GameState.set_debug_info(str(hand))
 	hand.remove(idx)
 	refresh_hand()
-	print(hand)
+	GameState.set_debug_info(str(hand))
 func find_in_hand(item):
-	#for i in get_children():
 	pass
 func set_hand(arr):
 	hand = arr
@@ -45,15 +43,16 @@ func refresh_hand():
 					c.queue_free()
 
 	for c in hand:
-		get_node(str(i)).get_node(str(i)).set_normal_texture(load(c.tile))
-		var indicator = load("res://Scene/StatusIndicator.tscn").instance()
-		indicator.get_node("def").set_text(str(c["attack"]))
-		indicator.get_node("atk").set_text(str(c["defense"]))
-		indicator.set_scale(Vector2(6.6,6.6))
-		indicator.translate(Vector2(180,180))
-		get_node(str(i)).get_node(str(i)).add_child(indicator)
-		if get_node(str(i)).get_node(str(i)).is_disabled():
-			get_node(str(i)).get_node(str(i)).set_disabled(false)
+		if i <= 6:
+			get_node(str(i)).get_node(str(i)).set_normal_texture(load(c.tile))
+			var indicator = load("res://Scene/StatusIndicator.tscn").instance()
+			indicator.get_node("def").set_text(str(c["attack"]))
+			indicator.get_node("atk").set_text(str(c["defense"]))
+			indicator.set_scale(Vector2(6.6,6.6))
+			indicator.translate(Vector2(180,180))
+			get_node(str(i)).get_node(str(i)).add_child(indicator)
+			if get_node(str(i)).get_node(str(i)).is_disabled():
+				get_node(str(i)).get_node(str(i)).set_disabled(false)
 		i = i + 1
 				
 				
@@ -76,7 +75,6 @@ func _on_6_pressed():
 	set_cursor_enable_hex_tiles(6)
 
 func set_cursor_enable_hex_tiles(num):
-	print("dealing: ", hand[num].name)
 	emit_signal("card_drawn", hand[num])
 	emit_signal("action_pressed", hand[num].level)
 	Input.set_custom_mouse_cursor(load("res://Assets/hex_action_mouse.png"))

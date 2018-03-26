@@ -1,0 +1,197 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/score_header.png" type="Texture" id=1]
+[ext_resource path="res://Assets/particle.png" type="Texture" id=2]
+[ext_resource path="res://Assets/particle_normal.png" type="Texture" id=3]
+[ext_resource path="res://Scene/score_bar_light.gd" type="Script" id=4]
+
+[sub_resource type="ParticlesMaterial" id=1]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 20.0
+flag_align_y = true
+flag_rotate_y = true
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 9, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.44
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 1.0
+scale = 0.15
+scale_random = 0.0
+color = Color( 1, 1, 1, 1 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angle", "Angular Velocity", "Animation", "Damping", "Emission Shape", "Flags", "Gravity", "Initial Velocity", "Radial Accel", "Scale", "Spread", "Tangential Accel", "Trail" ]
+
+[sub_resource type="Curve2D" id=2]
+
+bake_interval = 6.0
+_data = {
+"points": PoolVector2Array( 21.8771, 8.36116, 15.0201, 0.788789, -25.6603, -12.7002, 0, 0, -9.46918, -0.631031, -13.8629, -11.0823, 0, 0, 0, 0, -25.4214, -10.2383 )
+}
+
+[sub_resource type="Curve2D" id=3]
+
+bake_interval = 6.0
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -762.313, -18.8093, 0, 0, 0, 0, -718.741, -7.64802, 0, 0, 0, 0, -685.687, -19.6679, 0, 0, 0, 0, -644.047, -6.57483, 0, 0, 0, 0, -622.582, -18.8093, 0, 0, 0, 0, -589.957, -6.78947, 0, 0, 0, 0, -569.352, -20.9557, 0, 0, 0, 0, -550.034, -6.78947, 0, 0, 0, 0, -520.843, -18.8093, 0, 0, 0, 0, -508.394, -7.64803, 0, 0, 0, 0, -487.788, -19.6679, 0, 0, 0, 0, -465.68, -8.29195, 0, 0, 0, 0, -449.582, -20.5264, 0, 0, 0, 0, -427.904, -8.29195, 0, 0, 0, 0, -412.02, -19.024, 0, 0, 0, 0, -395.493, -7.86267, 0, 0, 0, 0, -376.605, -20.5264, 0, 0, 0, 0, -358.36, -8.72123, 0, 0, 0, 0, -331.101, -18.38, 0, 0, 0, 0, -311.784, -6.57483, 0, 0, 0, 0, -288.602, -21.1704, 0, 0, 0, 0, -267.997, -9.79443, 0, 0, 0, 0, -240.952, -20.0972, 0, 0, 0, 0, -228.074, -9.57979, 0, 0, 0, 0, -198.453, -20.5264, 0, 0, 0, 0, -186.434, -7.86266, 0, 0, 0, 0, -157.886, -20.9557, 0, 0, 0, 0, -145.867, -9.79443, 0, 0, 0, 0, -127.837, -22.0289, 0, 0, 0, 0, -109.592, -9.1505, 0, 0, 0, 0, -79.1135, -19.2386, 0, 0, 0, 0, -66.6644, -7.0041, 0, 0, 0, 0, -48.2053, -20.0972, 0, 0, 0, 0, -29.317, -10.0091, 0, 0, 0, 0, -16.4386, -21.1704, 0, 0, 0, 0, -13.8629, -11.0823 )
+}
+
+[node name="Particle" type="Node2D"]
+
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+visible = false
+light_mask = 2
+position = Vector2( -2.99999, 3 )
+scale = Vector2( 0.06, 0.06 )
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="Particles2D" type="Particles2D" parent="." index="1"]
+
+light_mask = 2
+position = Vector2( -21.7347, 1.23797 )
+scale = Vector2( 0.413245, 0.391909 )
+emitting = true
+amount = 50
+lifetime = 0.6
+one_shot = false
+preprocess = 0.0
+speed_scale = 0.4
+explosiveness = 0.0
+randomness = 1.0
+fixed_fps = 0
+fract_delta = false
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = false
+draw_order = 0
+process_material = SubResource( 1 )
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Drawing", "Material", "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Path2D" type="Path2D" parent="." index="2"]
+
+position = Vector2( 23.8798, 9.3383 )
+scale = Vector2( 0.872199, 0.902629 )
+curve = SubResource( 2 )
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" index="0"]
+
+position = Vector2( -16.7737, -11.9797 )
+offset = 103.458
+h_offset = 0.0
+v_offset = 0.0
+rotate = false
+cubic_interp = true
+loop = true
+lookahead = 4.0
+script = ExtResource( 4 )
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="Light2D" type="Light2D" parent="Path2D/PathFollow2D" index="0"]
+
+light_mask = 2
+position = Vector2( -7.3795, -3.74902 )
+scale = Vector2( 0.413245, 0.391909 )
+enabled = true
+editor_only = false
+texture = ExtResource( 1 )
+offset = Vector2( 1, 1 )
+texture_scale = 0.25
+color = Color( 0, 0.839844, 0.0721741, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Material", "Visibility" ]
+
+[node name="Path2D2" type="Path2D" parent="." index="3"]
+
+position = Vector2( -7.71283, 13.1182 )
+curve = SubResource( 3 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D2" index="0"]
+
+position = Vector2( -762.313, -18.8093 )
+rotation = 3.10696
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = false
+cubic_interp = true
+loop = true
+lookahead = 4.0
+script = ExtResource( 4 )
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
+
+[node name="Light2D" type="Light2D" parent="Path2D2/PathFollow2D" index="0"]
+
+light_mask = 3
+position = Vector2( 1.61505, -3.43735 )
+rotation = 3.14159
+scale = Vector2( 0.413245, 0.391909 )
+enabled = true
+editor_only = false
+texture = ExtResource( 1 )
+offset = Vector2( 1, 1 )
+texture_scale = 0.25
+color = Color( 0, 0.839844, 0.0721741, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+

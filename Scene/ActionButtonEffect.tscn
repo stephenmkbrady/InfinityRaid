@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://ActionButtonEffect.gd" type="Script" id=1]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=2]
+[ext_resource path="res://Assets/button_action_medium_disabled.png" type="Texture" id=3]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=4]
+[ext_resource path="res://Assets/button_action_low_disabled.png" type="Texture" id=5]
+[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=6]
+[ext_resource path="res://Assets/button_action_high_disabled.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ null, ExtResource( 2 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ null, ExtResource( 4 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+
+animations = [ {
+"frames": [ null, ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="effect" type="Node2D"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="yellow" type="AnimatedSprite" parent="." index="0"]
+
+position = Vector2( 182, 198 )
+frames = SubResource( 1 )
+animation = "default"
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="red" type="AnimatedSprite" parent="." index="1"]
+
+position = Vector2( 182, 198 )
+frames = SubResource( 2 )
+animation = "default"
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="green" type="AnimatedSprite" parent="." index="2"]
+
+position = Vector2( 182, 198 )
+frames = SubResource( 3 )
+animation = "default"
+_sections_unfolded = [ "Material", "Transform" ]
+
+[connection signal="animation_finished" from="yellow" to="." method="_on_yellow_animation_finished"]
+
+[connection signal="animation_finished" from="red" to="." method="_on_red_animation_finished"]
+
+[connection signal="animation_finished" from="green" to="." method="_on_green_animation_finished"]
+
+

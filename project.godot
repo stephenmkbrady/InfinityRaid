@@ -8,6 +8,8 @@
 
 config_version=3
 
+=false
+
 [application]
 
 config/name="InfiniNet"
@@ -22,10 +24,18 @@ global="*res://Scripts/global.gd"
 GameState="*res://Scripts/GameState.gd"
 NetCode="*res://Scripts/NetCode.gd"
 
+[debug]
+
+settings/gdscript/max_call_stack=16048
+
 [display]
 
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
+
+[output]
+
+=false
 
 [rendering]
 

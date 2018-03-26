@@ -14,14 +14,14 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
-func set_active_effects( ):
-	
-	for e in get_children():
-		e.set_visible(false)
-		
-	var i = 0
-	for e in GameState.active_effects:
-		if i <= 9:
-			get_node(str(i)).set_visible(true)
-			get_node(str(i)).get_node("image").set_texture(load(e["card"]["image"]))
-		i = i + 1
+
+func _on_yellow_animation_finished():
+	self.queue_free()
+
+
+func _on_red_animation_finished():
+	self.queue_free()
+
+
+func _on_green_animation_finished():
+	self.queue_free()

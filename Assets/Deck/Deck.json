@@ -20,7 +20,7 @@
 			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"Medium"
+			"level":"High"
 		},
 	"3":{
 			"name":"Man In Black",
@@ -30,7 +30,7 @@
 			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"Medium"
+			"level":"High"
 		},
 	"4":{
 			"name":"NSA",
@@ -40,7 +40,7 @@
 			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"Medium"
+			"level":"High"
 		},
 	"5":{
 			"type" : "computer",
@@ -50,7 +50,7 @@
 			"image":"res://Assets/Deck/Dialog_CIA.png",
 			"attack" : 60,
 			"defense" : 60,
-			"level":"Medium"
+			"level":"High"
 		}
 	},
 	"Medium_deck" : { 
@@ -118,7 +118,7 @@
 				"value": 20,
 				"duration":10,
 				"operator":"-",
-				"target":"remote"
+				"target":"local"
 			},
 			"tile":"res://Assets/Deck/Hex_horseshoe.png",
 			"image":"res://Assets/Deck/Dialog_Horseshoe_Theory.png",
@@ -133,7 +133,7 @@
 				"value": 20,
 				"duration":10,
 				"operator":"-",
-				"target":"remote"
+				"target":"local"
 			},
 			"name":"Academics, please respond!?",
 			"image":"res://Assets/Deck/Dialog_Academics.png",
@@ -180,10 +180,10 @@
 			"type":"daemon",
 			"effects":{
 				"type":"unit",
-				"value": "rosechu",
+				"value": "Lain",
 				"duration":10,
-				"operator":"+",
-				"target":"local"
+				"operator":"-",
+				"target":"remote"
 			},
 			"image":"res://Assets/Deck/Dialog_Leak_digger.png",
 			"name":"Leaks",
@@ -208,7 +208,7 @@
 			"attack" : 100,
 			"defense" : 100,
 			"desc":"",
-			"level":"Medium"
+			"level":"Low"
 		},
 	"4":{
 			"name":"(you)",
@@ -218,7 +218,7 @@
 			"desc":"",
 			"attack" : 100,
 			"defense" : 100,
-			"level":"Medium"
+			"level":"Low"
 		},
 	},
 	"Computer_1_card" : { 

@@ -10,8 +10,6 @@ script = ExtResource( 1 )
 
 [node name="0" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
-
 [node name="0" type="TextureButton" parent="0" index="0"]
 
 anchor_left = 0.0
@@ -35,7 +33,7 @@ shortcut = null
 group = null
 texture_disabled = ExtResource( 2 )
 texture_click_mask = ExtResource( 3 )
-_sections_unfolded = [ "Rect", "Textures" ]
+_sections_unfolded = [ "Material", "Rect", "Textures" ]
 
 [node name="1" type="Node2D" parent="." index="1"]
 
@@ -185,6 +183,7 @@ _sections_unfolded = [ "Rect", "Textures" ]
 [node name="6" type="Node2D" parent="." index="6"]
 
 editor/display_folded = true
+_sections_unfolded = [ "Material" ]
 
 [node name="6" type="TextureButton" parent="6" index="0"]
 

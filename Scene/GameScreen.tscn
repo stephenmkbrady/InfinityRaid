@@ -1,32 +1,35 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Assets/audio/select_action.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Assets/audio/drop_piece_on_board.ogg" type="AudioStream" id=2]
 [ext_resource path="res://Assets/video/background2.webm" type="VideoStream" id=3]
-[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=4]
-[ext_resource path="res://Assets/progressbar.png" type="Texture" id=5]
-[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=6]
-[ext_resource path="res://Assets/button_action_high_hover.png" type="Texture" id=7]
-[ext_resource path="res://Assets/button_action_high_disabled.png" type="Texture" id=8]
-[ext_resource path="res://Assets/button_action_2_click_mask.png" type="BitMap" id=9]
-[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=10]
-[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=11]
-[ext_resource path="res://Assets/button_action_medium_hover.png" type="Texture" id=12]
-[ext_resource path="res://Assets/button_action_medium_disabled.png" type="Texture" id=13]
-[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=14]
-[ext_resource path="res://Assets/button_action_low_hover.png" type="Texture" id=15]
-[ext_resource path="res://Assets/button_action_low_disabled.png" type="Texture" id=16]
-[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=17]
-[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=18]
-[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=19]
-[ext_resource path="res://Assets/action_button_click_mask.png" type="BitMap" id=20]
-[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=21]
-[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=22]
-[ext_resource path="res://Assets/hex_server.png" type="Texture" id=23]
-[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=24]
-[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=25]
+[ext_resource path="res://Assets/score_patch9.png" type="Texture" id=4]
+[ext_resource path="res://Assets/progressbar_under.png" type="Texture" id=5]
+[ext_resource path="res://Assets/progressbar.png" type="Texture" id=6]
+[ext_resource path="res://Assets/button_action_high.png" type="Texture" id=7]
+[ext_resource path="res://Assets/button_action_high_hover.png" type="Texture" id=8]
+[ext_resource path="res://Assets/button_action_high_disabled.png" type="Texture" id=9]
+[ext_resource path="res://Assets/button_action_2_click_mask.png" type="BitMap" id=10]
+[ext_resource path="res://Scene/ActionButton.gd" type="Script" id=11]
+[ext_resource path="res://Assets/button_action_medium.png" type="Texture" id=12]
+[ext_resource path="res://Assets/button_action_medium_hover.png" type="Texture" id=13]
+[ext_resource path="res://Assets/button_action_medium_disabled.png" type="Texture" id=14]
+[ext_resource path="res://Assets/button_action_low.png" type="Texture" id=15]
+[ext_resource path="res://Assets/button_action_low_hover.png" type="Texture" id=16]
+[ext_resource path="res://Assets/button_action_low_disabled.png" type="Texture" id=17]
+[ext_resource path="res://Assets/hex_computer_1.png" type="Texture" id=18]
+[ext_resource path="res://Assets/hex_computer_1_hover.png" type="Texture" id=19]
+[ext_resource path="res://Assets/hex_action_empty.png" type="Texture" id=20]
+[ext_resource path="res://Assets/action_button_click_mask.png" type="BitMap" id=21]
+[ext_resource path="res://Assets/hex_computer_2.png" type="Texture" id=22]
+[ext_resource path="res://Assets/hex_computer_2_hover.png" type="Texture" id=23]
+[ext_resource path="res://Assets/hex_server.png" type="Texture" id=24]
+[ext_resource path="res://Assets/hex_server_hover.png" type="Texture" id=25]
+[ext_resource path="res://Assets/player_1_logo.png" type="Texture" id=26]
+[ext_resource path="res://Assets/ruler.png" type="Texture" id=27]
+[ext_resource path="res://Assets/arrow.png" type="Texture" id=28]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" index="0"]
 
 _sections_unfolded = [ "Z Index" ]
 
@@ -52,6 +55,7 @@ bus = "Master"
 
 [node name="VideoPlayer" type="VideoPlayer" parent="." index="1"]
 
+light_mask = 2
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -73,49 +77,106 @@ paused = false
 expand = true
 buffering_msec = 500
 bus = "Master"
-_sections_unfolded = [ "Anchor", "Focus", "Material", "Mouse", "Rect", "Size Flags", "Visibility" ]
+_sections_unfolded = [ "Material", "Visibility" ]
 
-[node name="TextureProgress" type="TextureProgress" parent="." index="2"]
+[node name="DebugText" type="RichTextLabel" parent="." index="2"]
 
-show_behind_parent = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 23.0
-margin_top = 269.0
-margin_right = 383.0
-margin_bottom = 665.0
-rect_scale = Vector2( 0.2, 0.2 )
+margin_left = 697.0
+margin_top = 116.0
+margin_right = 1023.0
+margin_bottom = 528.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_colors/default_color = Color( 0.10614, 0.367188, 0, 1 )
+bbcode_enabled = true
+bbcode_text = ""
+visible_characters = -1
+percent_visible = 1.0
+meta_underlined = true
+tab_size = 4
+text = ""
+scroll_active = false
+scroll_following = true
+selection_enabled = false
+override_selected_font_color = false
+_sections_unfolded = [ "Material", "Mouse", "custom_colors" ]
+
+[node name="score_bar" type="NinePatchRect" parent="." index="3"]
+
+light_mask = 3
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 157.0
+margin_top = 5.0
+margin_right = 1057.0
+margin_bottom = 905.0
+rect_scale = Vector2( 0.03, 0.03 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 450, 450 )
+patch_margin_left = 450
+patch_margin_top = 450
+patch_margin_right = 450
+patch_margin_bottom = 450
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+_sections_unfolded = [ "Axis Stretch", "Hint", "Material", "Rect", "Size Flags", "Visibility" ]
+
+[node name="Position2D" type="Position2D" parent="." index="4"]
+
+position = Vector2( 99.616, 32.212 )
+scale = Vector2( 0.93506, 1 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="TextureProgress" type="TextureProgress" parent="." index="5"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 61.0
+margin_top = 291.0
+margin_right = 421.0
+margin_bottom = 1479.0
+rect_scale = Vector2( 0.05, 0.108 )
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 min_value = 0.0
-max_value = 30.0
+max_value = 90.0
 step = 1.0
 page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 4 )
+texture_under = ExtResource( 5 )
 texture_over = null
-texture_progress = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
 fill_mode = 3
 radial_initial_angle = 45.0
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
-_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Radial Fill", "Rect", "Size Flags", "Textures", "Theme", "Visibility" ]
+_sections_unfolded = [ "Focus", "Hint", "Margin", "Material", "Mouse", "Rect", "Size Flags", "Textures", "Theme", "Visibility" ]
 
-[node name="Position2D" type="Position2D" parent="." index="3"]
-
-position = Vector2( 95.616, 17.212 )
-scale = Vector2( 0.93506, 1 )
-_sections_unfolded = [ "Z Index" ]
-
-[node name="ActionButtons" type="Node2D" parent="." index="4"]
+[node name="ActionButtons" type="Node2D" parent="." index="6"]
 
 [node name="High" type="TextureButton" parent="ActionButtons" index="0"]
 
@@ -138,12 +199,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 6 )
-texture_hover = ExtResource( 7 )
-texture_disabled = ExtResource( 8 )
-texture_click_mask = ExtResource( 9 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Focus", "Mouse", "Rect", "Textures", "Visibility" ]
+texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 8 )
+texture_disabled = ExtResource( 9 )
+texture_click_mask = ExtResource( 10 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Focus", "Material", "Mouse", "Rect", "Textures", "Visibility" ]
 
 [node name="Medium" type="TextureButton" parent="ActionButtons" index="1"]
 
@@ -166,12 +227,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 11 )
-texture_hover = ExtResource( 12 )
-texture_disabled = ExtResource( 13 )
-texture_click_mask = ExtResource( 9 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+texture_normal = ExtResource( 12 )
+texture_hover = ExtResource( 13 )
+texture_disabled = ExtResource( 14 )
+texture_click_mask = ExtResource( 10 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Material", "Rect", "Textures", "Visibility" ]
 
 [node name="Low" type="TextureButton" parent="ActionButtons" index="2"]
 
@@ -194,12 +255,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 14 )
-texture_hover = ExtResource( 15 )
-texture_disabled = ExtResource( 16 )
-texture_click_mask = ExtResource( 9 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+texture_normal = ExtResource( 15 )
+texture_hover = ExtResource( 16 )
+texture_disabled = ExtResource( 17 )
+texture_click_mask = ExtResource( 10 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Material", "Rect", "Textures", "Visibility" ]
 
 [node name="Computer_1" type="TextureButton" parent="ActionButtons" index="3"]
 
@@ -222,12 +283,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 17 )
-texture_hover = ExtResource( 18 )
-texture_disabled = ExtResource( 19 )
-texture_click_mask = ExtResource( 20 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures" ]
+texture_normal = ExtResource( 18 )
+texture_hover = ExtResource( 19 )
+texture_disabled = ExtResource( 20 )
+texture_click_mask = ExtResource( 21 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Material", "Rect", "Textures" ]
 
 [node name="Computer_2" type="TextureButton" parent="ActionButtons" index="4"]
 
@@ -250,15 +311,16 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 21 )
-texture_hover = ExtResource( 22 )
-texture_disabled = ExtResource( 19 )
-texture_click_mask = ExtResource( 20 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures" ]
+texture_normal = ExtResource( 22 )
+texture_hover = ExtResource( 23 )
+texture_disabled = ExtResource( 20 )
+texture_click_mask = ExtResource( 21 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Material", "Rect", "Textures" ]
 
 [node name="Server" type="TextureButton" parent="ActionButtons" index="5"]
 
+light_mask = 2
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -278,14 +340,14 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 23 )
-texture_hover = ExtResource( 24 )
-texture_disabled = ExtResource( 19 )
-texture_click_mask = ExtResource( 20 )
-script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures" ]
+texture_normal = ExtResource( 24 )
+texture_hover = ExtResource( 25 )
+texture_disabled = ExtResource( 20 )
+texture_click_mask = ExtResource( 21 )
+script = ExtResource( 11 )
+_sections_unfolded = [ "Material", "Textures", "Visibility" ]
 
-[node name="InfoText" type="RichTextLabel" parent="." index="5"]
+[node name="InfoText" type="RichTextLabel" parent="." index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -301,6 +363,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+custom_colors/default_color = Color( 0, 0.976562, 0.038147, 1 )
 bbcode_enabled = true
 bbcode_text = ""
 visible_characters = -1
@@ -312,47 +375,39 @@ scroll_active = true
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = false
-_sections_unfolded = [ "BBCode" ]
+_sections_unfolded = [ "BBCode", "Material", "custom_colors" ]
 
-[node name="Power_Timer" type="Timer" parent="." index="6"]
+[node name="Power_Timer" type="Timer" parent="." index="8"]
 
 process_mode = 1
 wait_time = 90.0
 one_shot = false
 autostart = false
 
-[node name="Board_Update_Timer" type="Timer" parent="." index="7"]
-
-process_mode = 1
-wait_time = 5.0
-one_shot = false
-autostart = false
-_sections_unfolded = [ "Pause" ]
-
-[node name="DialogPosition" type="Position2D" parent="." index="8"]
+[node name="DialogPosition" type="Position2D" parent="." index="9"]
 
 position = Vector2( 275.516, 26.9789 )
-_sections_unfolded = [ "Z Index" ]
+_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="player_logo" type="Sprite" parent="." index="9"]
+[node name="player_logo" type="Sprite" parent="." index="10"]
 
 position = Vector2( 36.5255, 559.192 )
 scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 _sections_unfolded = [ "Material", "Region", "Transform", "Visibility", "Z Index" ]
 
-[node name="EffectsPosition" type="Position2D" parent="." index="10"]
+[node name="EffectsPosition" type="Position2D" parent="." index="11"]
 
 position = Vector2( 794.331, 23.8902 )
-_sections_unfolded = [ "Z Index" ]
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
-[node name="HandPosition" type="Position2D" parent="." index="11"]
+[node name="HandPosition" type="Position2D" parent="." index="12"]
 
 position = Vector2( 109, 69 )
 z_index = 10
 _sections_unfolded = [ "Z Index" ]
 
-[node name="Label" type="Label" parent="." index="12"]
+[node name="Label" type="Label" parent="." index="13"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -373,5 +428,42 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="particle" type="Position2D" parent="." index="14"]
+
+position = Vector2( 170, 16 )
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="ruler_low" type="Sprite" parent="." index="15"]
+
+position = Vector2( 67.7289, 400.553 )
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ruler_medium" type="Sprite" parent="." index="16"]
+
+position = Vector2( 67.7203, 357.447 )
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ruler_high" type="Sprite" parent="." index="17"]
+
+position = Vector2( 67.7203, 314.447 )
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ruler_arrow" type="Node2D" parent="." index="18"]
+
+position = Vector2( 77.6754, 418.907 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ruler_arrow" type="Sprite" parent="ruler_arrow" index="0"]
+
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 28 )
+_sections_unfolded = [ "Transform" ]
 
 
